@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/src/webapi/PhotoSite.WebApi/obj/Debug/netcoreapp3.1
+/src/webapi/PhotoSite.WebApi/obj
+/.vs/PhotoSiteNetCore/v16
+/src/webapi/PhotoSite.WebApi/bin/Debug/netcoreapp3.1
+/src/webapi/.vs/WebApi/v16
+/src/webapi/.vs/WebApi/DesignTimeBuild
