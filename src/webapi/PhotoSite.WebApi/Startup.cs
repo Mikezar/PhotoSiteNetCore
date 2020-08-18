@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ namespace PhotoSite.WebApi
 
             services.AddControllers();
             services.AddHealthChecks();
+            services.AddAutoMapper(typeof(Startup));
             services.ConfigureSwagger(() => new OpenApiInfo
             {
                 Version = "v1",
