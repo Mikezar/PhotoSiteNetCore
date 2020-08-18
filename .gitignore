@@ -8,3 +8,5 @@
 /src/webapi/PhotoSite.WebApi/bin/Debug/netcoreapp3.1
 /src/webapi/.vs/WebApi/v16
 /src/webapi/.vs/WebApi/DesignTimeBuild
+/src/webapi/PhotoSite.WebApi/PhotoSite.WebApi.csproj.user
+/src/webapi/.vs/WebApi/config
