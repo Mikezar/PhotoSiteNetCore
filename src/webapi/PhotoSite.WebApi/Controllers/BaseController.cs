@@ -2,6 +2,9 @@
 
 namespace PhotoSite.WebApi.Controllers
 {
+    /// <summary>
+    /// BaseController
+    /// </summary>
     public class BaseController : Controller
     {
     }

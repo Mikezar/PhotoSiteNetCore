@@ -9,21 +9,42 @@ using PhotoSite.WebApi.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
+using PhotoSite.ApiService;
+using PhotoSite.Data;
 
 namespace PhotoSite.WebApi
 {
+    /// <summary>
+    /// Startup
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Startup
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configuration
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// Configure of Services
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             var path = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}");
+
+            services.Configure<DatabaseOptions>(Configuration.GetSection(nameof(DatabaseOptions)));
+
+            services.AddData();
+            services.AddApiServices();
 
             services.AddControllers();
             services.AddHealthChecks();
@@ -36,6 +57,9 @@ namespace PhotoSite.WebApi
             }, $"{path}.xml");
         }
 
+        /// <summary>
+        /// Configure
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -1,20 +1,31 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
 
 namespace PhotoSite.WebApi
 {
+    /// <summary>
+    /// Program
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Run();
         }
 
+        /// <summary>
+        /// CreateHostBuilder
+        /// </summary>
+        /// <param name="args">Arguments</param>
+        /// <returns></returns>
         public static IWebHost CreateHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, builder) =>
