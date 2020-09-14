@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PhotoSite.ApiService\PhotoSite.ApiService.csproj" />
     <ProjectReference Include="..\PhotoSite.Data\PhotoSite.Data.csproj" />
+    <ProjectReference Include="..\PhotoSite.Dto\PhotoSite.Dto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

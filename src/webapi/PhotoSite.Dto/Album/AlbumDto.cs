@@ -1,4 +1,4 @@
-﻿namespace PhotoSite.WebApi.Dto
+﻿namespace PhotoSite.Dto.Album
 {
     /// <summary>
     /// Album
@@ -13,7 +13,7 @@
         /// <summary>
         /// Identification of parent's album
         /// </summary>
-        public int ParentId { get; }
+        public int? ParentId { get; }
 
         /// <summary>
         /// Title by Russian
@@ -43,20 +43,20 @@
         /// <summary>
         /// View of Pattern
         /// </summary>
-        public int ViewPattern { get; }
+        public ushort ViewPattern { get; }
 
         /// <summary>
         /// ctor
         /// </summary>
         public AlbumDto(
             int id, 
-            int parentId, 
+            int? parentId, 
             string? titleRu, 
             string? titleEng, 
             string? descriptionRu, 
             string? descriptionEng, 
             string? coverPath, 
-            int viewPattern)
+            ushort viewPattern)
         {
             Id = id;
             ParentId = parentId;
