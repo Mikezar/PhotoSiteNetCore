@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PhotoSite.WebApi.Host</name>
+    </assembly>
+    <members>
+        <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
+            <summary>
+            Gallery
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.#ctor(AutoMapper.IMapper,PhotoSite.ApiService.Services.Interfaces.IAlbumService)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:PhotoSite.WebApi.Controllers.BaseController">
+            <summary>
+            BaseController
+            </summary>
+        </member>
+        <member name="T:PhotoSite.WebApi.Program">
+            <summary>
+            Program
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Program.Main(System.String[])">
+            <summary>
+            Main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            CreateHostBuilder
+            </summary>
+            <param name="args">Arguments</param>
+            <returns></returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Startup
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:PhotoSite.WebApi.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure of Services
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configure
+            </summary>
+        </member>
+    </members>
+</doc>

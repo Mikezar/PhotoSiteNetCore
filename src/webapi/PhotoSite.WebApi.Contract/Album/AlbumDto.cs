@@ -1,4 +1,4 @@
-﻿namespace PhotoSite.Dto.Album
+﻿namespace PhotoSite.WebApi.Album
 {
     /// <summary>
     /// Album

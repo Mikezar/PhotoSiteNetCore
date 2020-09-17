@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using PhotoSite.Data.Entities;
-using PhotoSite.Dto.Album;
+using PhotoSite.WebApi.Album;
 
 namespace PhotoSite.WebApi.Mappers
 {
@@ -8,8 +7,8 @@ namespace PhotoSite.WebApi.Mappers
     {
         public AlbumProfile()
         {
-            CreateMap<Album, AlbumDto>();
-            CreateMap<Album, AlbumSimpleDto>();
+            CreateMap<Data.Entities.Album, AlbumDto>();
+            CreateMap<Data.Entities.Album, AlbumSimpleDto>();
         }
     }
 }

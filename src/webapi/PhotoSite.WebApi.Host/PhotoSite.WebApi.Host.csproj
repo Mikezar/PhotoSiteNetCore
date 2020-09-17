@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <RootNamespace>PhotoSite.WebApi</RootNamespace>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>PhotoSite.WebApi.xml</DocumentationFile>
+    <DocumentationFile>PhotoSite.WebApi.Host.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
@@ -25,7 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PhotoSite.ApiService\PhotoSite.ApiService.csproj" />
     <ProjectReference Include="..\PhotoSite.Data\PhotoSite.Data.csproj" />
-    <ProjectReference Include="..\PhotoSite.Dto\PhotoSite.Dto.csproj" />
+    <ProjectReference Include="..\PhotoSite.WebApi.Contract\PhotoSite.WebApi.Contract.csproj" />
   </ItemGroup>
 
   <ItemGroup>
