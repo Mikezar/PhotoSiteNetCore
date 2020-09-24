@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using PhotoSite.ApiService;
+using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data;
 
 namespace PhotoSite.WebApi
@@ -42,6 +43,7 @@ namespace PhotoSite.WebApi
             var path = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}");
 
             services.Configure<DatabaseOptions>(Configuration.GetSection(nameof(DatabaseOptions)));
+            services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
 
             services.AddData();
             services.AddApiServices();

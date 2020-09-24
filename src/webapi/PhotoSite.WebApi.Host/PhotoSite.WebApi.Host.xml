@@ -4,6 +4,30 @@
         <name>PhotoSite.WebApi.Host</name>
     </assembly>
     <members>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.AdminController">
+            <summary>
+            Admin
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.#ctor(PhotoSite.ApiService.Services.Interfaces.IAdminService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Login(System.String,System.String)">
+            <summary>
+            Login
+            </summary>
+            <param name="login">Login</param>
+            <param name="password">Password</param>
+            <returns>Login state</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout(System.String)">
+            <summary>
+            Logout
+            </summary>
+            <param name="token">Token</param>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
             <summary>
             Gallery
