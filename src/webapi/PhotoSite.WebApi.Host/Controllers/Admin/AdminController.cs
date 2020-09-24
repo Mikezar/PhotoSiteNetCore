@@ -32,7 +32,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="login">Login</param>
         /// <param name="password">Password</param>
         /// <returns>Login state</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
         public LoginStateDto Login(string login, string password)
         {
             var result = _adminService.Login(login, password);
@@ -43,7 +43,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Logout
         /// </summary>
         /// <param name="token">Token</param>
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost]
         public void Logout(string token)
         {
             _adminService.Logout(token);
