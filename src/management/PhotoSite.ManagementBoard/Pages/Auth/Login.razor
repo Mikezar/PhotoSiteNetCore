@@ -1,0 +1,73 @@
+﻿@page "/login"
+
+@using PhotoSite.ManagementBoard.Services.Abstract
+@using PhotoSite.ManagementBoard.Models.Auth
+@using System.Threading
+
+@implements IDisposable
+
+@inject IAuthService AuthService
+@inject NavigationManager NavManager
+
+<div class="text-center login">
+    <EditForm class="form-signin" Model="login" OnValidSubmit="SignIn">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        @if (ShowErrorBox)
+        {
+            <div class="alert alert-danger" role="alert">
+                Произошла ошибка во время авторизации. Проверьте правильность введенных данных.
+            </div>
+        }
+
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username"  @bind-value="login.Username" required autofocus />
+
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" @bind-value="login.Password" required />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </EditForm>
+</div>
+
+@code {
+
+    private bool ShowErrorBox;
+    private Timer _timer;
+    private LoginModel login = new LoginModel();
+
+    protected override void OnInitialized()
+    {
+        _timer = new Timer(TimerCallBack, null, 5000, Timeout.Infinite);
+    }
+
+    private async Task SignIn()
+    {
+        var result = await AuthService.SignIn(login);
+
+        if (result)
+        {
+            NavManager.NavigateTo("/");
+        }
+        else
+        {
+            ShowErrorBox = true;
+            _timer.Change(5000, Timeout.Infinite);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_timer != null)
+        {
+            _timer.Dispose();
+        }
+    }
+
+    void TimerCallBack(object state)
+    {
+        ShowErrorBox = false;
+        _timer.Change(Timeout.Infinite, Timeout.Infinite);
+        InvokeAsync(StateHasChanged).Wait();
+    }
+}

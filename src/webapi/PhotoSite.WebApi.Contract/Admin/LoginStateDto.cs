@@ -10,10 +10,10 @@ namespace PhotoSite.WebApi.Admin
         [JsonPropertyName("token")]
         public string Token { get; }
 
-        public LoginStateDto(LoginStatusDto status, string token)
-        {
-            Status = status;
-            Token = token;
-        }
+        //public LoginStateDto(LoginStatusDto status, string token)
+        //{
+        //    Status = status;
+        //    Token = token;
+        //}
     }
 }

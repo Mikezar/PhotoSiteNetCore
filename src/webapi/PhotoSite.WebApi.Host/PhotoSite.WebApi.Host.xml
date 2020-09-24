@@ -14,19 +14,18 @@
             ctor
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Login(System.String,System.String)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Login(PhotoSite.WebApi.Admin.LoginDto)">
             <summary>
             Login
             </summary>
-            <param name="login">Login</param>
-            <param name="password">Password</param>
+            <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.LoginDto"/></param>
             <returns>Login state</returns>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout(System.String)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout(PhotoSite.WebApi.Admin.LogoutDto)">
             <summary>
             Logout
             </summary>
-            <param name="token">Token</param>
+            <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.LogoutDto"/></param>
         </member>
         <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
             <summary>

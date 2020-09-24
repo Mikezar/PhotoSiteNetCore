@@ -1,0 +1,15 @@
+﻿@page "/logout"
+
+@using PhotoSite.ManagementBoard.Services.Abstract
+
+@inject IAuthService AuthService
+@inject NavigationManager NavManager
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.SignOut();
+        NavManager.NavigateTo("/");
+    }
+}

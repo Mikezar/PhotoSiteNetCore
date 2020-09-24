@@ -21,7 +21,7 @@ namespace PhotoSite.ApiService
                 var serviceInterface = serviceType.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(t => t != typeof(IService));
                 if (serviceInterface == null)
                     throw new Exception($"Service '{serviceType.FullName}' not implemented specific interface");
-                services.TryAddSingleton(serviceInterface, serviceType);
+                services.TryAddScoped(serviceInterface, serviceType);
             }
         }
     }

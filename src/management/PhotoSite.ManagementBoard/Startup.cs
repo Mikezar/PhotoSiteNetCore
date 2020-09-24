@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhotoSite.ManagementBoard.Services.Abstract;
+using PhotoSite.ManagementBoard.Services.Implementation;
+using System;
 
 namespace PhotoSite.ManagementBoard
 {
@@ -19,6 +22,13 @@ namespace PhotoSite.ManagementBoard
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services
+                .AddScoped<IAuthService, AuthService>()
+            	.AddHttpClient<IHttpHandler, HttpHandler>(client =>
+                 {
+                     client.BaseAddress = Configuration.GetValue<Uri>("WebApiConfiguration:Uri");
+                 });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

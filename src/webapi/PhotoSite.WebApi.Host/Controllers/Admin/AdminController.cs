@@ -29,24 +29,23 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="login">Login</param>
-        /// <param name="password">Password</param>
+        /// <param name="dto"><see cref="LoginDto"/></param>
         /// <returns>Login state</returns>
-        [HttpPost]
-        public LoginStateDto Login(string login, string password)
+        [HttpPost("login")]
+        public LoginStateDto Login([FromBody]LoginDto dto)
         {
-            var result = _adminService.Login(login, password);
+            var result = _adminService.Login(dto.Login, dto.Password);
             return _mapper.Map<LoginStateDto>(result);
         }
 
         /// <summary>
         /// Logout
         /// </summary>
-        /// <param name="token">Token</param>
-        [HttpPost]
-        public void Logout(string token)
+        /// <param name="dto"><see cref="LogoutDto"/></param>
+        [HttpPost("logout")]
+        public void Logout([FromBody]LogoutDto dto)
         {
-            _adminService.Logout(token);
+            _adminService.Logout(dto.Token);
         }
     }
 }
