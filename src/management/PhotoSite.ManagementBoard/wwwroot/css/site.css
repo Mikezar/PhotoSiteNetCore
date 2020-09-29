@@ -1,7 +1,6 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    height: 100%;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -15,11 +14,12 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-/*app {
+app {
+    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
-}*/
+}
 
 .top-row {
     height: 3.5rem;
@@ -185,6 +185,8 @@ a, .btn-link {
 
 .login {
     height: 100%;
+    width: 100%;
+    position: fixed;
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
@@ -215,4 +217,5 @@ a, .btn-link {
 
     .form-signin .btn {
         margin-top: 10px;
-    }
+    }
+
