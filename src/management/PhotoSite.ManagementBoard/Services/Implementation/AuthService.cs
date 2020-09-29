@@ -11,9 +11,11 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
         private const string LogOutMethod = "/api/ad/logout";
 
         private readonly IHttpHandler _httpHandler;
+        private readonly SessionStorage _storage;
 
-        public AuthService(IHttpHandler httpHandler)
+        public AuthService(SessionStorage storage, IHttpHandler httpHandler)
         {
+            _storage = storage;
             _httpHandler = httpHandler;
         }
 
@@ -28,7 +30,7 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             if (response.IsSuccess &&
                 response.Result.Status == LoginStatusDto.Success)
             {
-                _httpHandler.Token = response.Result.Token;
+                _storage.Auth(response.Result.Token);
                 return true;
             }
 
@@ -38,11 +40,9 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
         public async Task SignOut()
         {
             await _httpHandler.PostAsync(LogOutMethod, 
-                new LogoutDto {
-                    Token = _httpHandler.Token 
-                });
+                new LogoutDto { Token = _storage.Token });
 
-            _httpHandler.Token = null;
+            _storage.Clean();
         }
     }
 }

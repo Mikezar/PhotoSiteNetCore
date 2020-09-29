@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,9 @@ namespace PhotoSite.ManagementBoard
             services.AddServerSideBlazor();
 
             services
+                .AddScoped<AuthenticationStateProvider, FormAuthenticationStateProvider>()
                 .AddScoped<IAuthService, AuthService>()
+                .AddSingleton<SessionStorage>()
             	.AddHttpClient<IHttpHandler, HttpHandler>(client =>
                  {
                      client.BaseAddress = Configuration.GetValue<Uri>("WebApiConfiguration:Uri");
