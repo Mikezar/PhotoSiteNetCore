@@ -10,17 +10,12 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
     internal sealed class HttpHandler : IHttpHandler
     {
         private readonly HttpClient _httpClient;
+        private readonly SessionStorage _storage;
 
-        public string Token { get; set; }
-
-        public HttpHandler(HttpClient httpClient)
+        public HttpHandler(SessionStorage storage, HttpClient httpClient)
         {
+            _storage = storage;
             _httpClient = httpClient;
-        }
-
-        public void SetAuthToken(string token)
-        {
-            Token = token;
         }
 
         public async Task<NoResultWrapper> PostAsync(string method, object model)
