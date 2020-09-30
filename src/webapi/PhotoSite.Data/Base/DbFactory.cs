@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace PhotoSite.Data.Base
 {
-    internal class DbFactory
+    public class DbFactory
     {
         private readonly string _connectionString;
         private MainDbContext? _readOnlyContext;

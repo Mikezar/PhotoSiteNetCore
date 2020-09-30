@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
+using PhotoSite.WebApi.Configuration;
 
 namespace PhotoSite.WebApi
 {
@@ -18,6 +19,8 @@ namespace PhotoSite.WebApi
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            HostConfigurator.SetupExceptionHandlers();
+
             CreateHostBuilder(args).Run();
         }
 

@@ -4,6 +4,16 @@
         <name>PhotoSite.WebApi.Host</name>
     </assembly>
     <members>
+        <member name="T:PhotoSite.WebApi.Configuration.HostConfigurator">
+            <summary>
+            Host configurator
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Configuration.HostConfigurator.SetupExceptionHandlers">
+            <summary>
+            Setup exception handlers
+            </summary>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.AdminController">
             <summary>
             Admin
@@ -26,6 +36,28 @@
             Logout
             </summary>
             <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.LogoutDto"/></param>
+        </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.SettingController">
+            <summary>
+            Admin
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.#ctor(PhotoSite.ApiService.Services.Interfaces.ISettingService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.GetSettings">
+            <summary>
+            Get settings
+            </summary>
+            <returns>Settings</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.SetSettings(PhotoSite.WebApi.Admin.SettingsDto)">
+            <summary>
+            Set settings
+            </summary>
+            <returns>Settings</returns>
         </member>
         <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
             <summary>

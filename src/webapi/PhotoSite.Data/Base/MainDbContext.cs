@@ -9,7 +9,7 @@ namespace PhotoSite.Data.Base
         public DbSet<Photo>? Photos { get; set; }
         public DbSet<PhotoToTag>? PhotoToTags { get; set; }
         public DbSet<Tag>? Tags { get; set; }
-        public DbSet<TextAttribute>? TextAttributes { get; set; }
+        public DbSet<SiteSettings>? SiteSettings { get; set; }
         public DbSet<Watermark>? Watermarks { get; set; }
 
         private readonly string _connectionString;

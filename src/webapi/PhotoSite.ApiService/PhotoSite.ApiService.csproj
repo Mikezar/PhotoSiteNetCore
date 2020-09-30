@@ -10,4 +10,8 @@
     <ProjectReference Include="..\PhotoSite.Shared\PhotoSite.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filtres\" />
+  </ItemGroup>
+
 </Project>
