@@ -10,6 +10,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 {
     public class AdminService : IAdminService
     {
+        private const string LoginDefault = "Default";
 
         private const string Salt = "04287032E7E04596BE279F083D42FDA5";
 
@@ -18,8 +19,8 @@ namespace PhotoSite.ApiService.Services.Implementations
         
         public AdminService(IOptionsSnapshot<LoginOptions> config)
         {
-            _login = config.Value.Login;
-            _passwordHash = config.Value.Password;
+            _login = config.Value.Login ?? LoginDefault;
+            _passwordHash = config.Value.Password ?? String.Empty;
         }
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="login">Login</param>
         /// <param name="password">Password</param>
         /// <returns>Login state</returns>
-        public LoginState Login(string login, string password)
+        public LoginState Login(string? login, string? password)
         {
-            if (login != _login)
+            if (login is null || password is null || login != _login)
                 return LoginState.GetErrorState(LoginStatus.InvalidPasswordOrLogin);
 
             var hashValue = GetPasswordHash(login, password);
@@ -49,9 +50,9 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// Logout
         /// </summary>
         /// <param name="token">Token</param>
-        public void Logout(string token)
+        public void Logout(string? token)
         {
-            if (AdminHelper.ValidateToken(token))
+            if (token != null && AdminHelper.ValidateToken(token))
                 AdminHelper.ResetToken();
         }
 

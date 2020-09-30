@@ -8,6 +8,6 @@ namespace PhotoSite.WebApi.Admin
         public LoginStatusDto Status { get; set; }
 
         [JsonPropertyName("token")]
-        public string Token { get; set; }
+        public string? Token { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace PhotoSite.WebApi.Admin
     public class LogoutDto
     {
         [JsonPropertyName("token")]
-        public string Token { get; set; }
+        public string? Token { get; set; }
     }
 }

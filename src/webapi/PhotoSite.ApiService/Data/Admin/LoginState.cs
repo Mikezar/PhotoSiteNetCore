@@ -4,9 +4,9 @@
     {
         public LoginStatus Status { get; }
 
-        public string Token { get; }
+        public string? Token { get; }
 
-        public LoginState(LoginStatus status, string token)
+        public LoginState(LoginStatus status, string? token)
         {
             Status = status;
             Token = token;
