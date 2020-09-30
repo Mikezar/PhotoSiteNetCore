@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhotoSite.Shared\PhotoSite.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Store\Db\" />
   </ItemGroup>
 
