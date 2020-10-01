@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.WebApi.Admin;
+using PhotoSite.WebApi.Options;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
@@ -14,14 +17,16 @@ namespace PhotoSite.WebApi.Controllers.Admin
     [ApiExplorerSettings(IgnoreApi = true)]
     public class AdminController : BaseController
     {
+        private readonly IOptionsMonitor<CustomTokenAuthOptions> _options;
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public AdminController(IAdminService adminService, IMapper mapper)
+        public AdminController(IOptionsMonitor<CustomTokenAuthOptions> options, IAdminService adminService, IMapper mapper)
         {
+            _options = options;
             _adminService = adminService;
             _mapper = mapper;
         }
@@ -41,11 +46,12 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <summary>
         /// Logout
         /// </summary>
-        /// <param name="dto"><see cref="LogoutDto"/></param>
         [HttpPost("logout")]
-        public void Logout([FromBody]LogoutDto dto)
+        [Authorize]
+        public void Logout()
         {
-            _adminService.Logout(dto.Token);
+            var token = Request.Headers[_options.CurrentValue.TokenHeaderName];
+            _adminService.Logout(token);
         }
     }
 }

@@ -1,20 +1,18 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhotoSite.Data.Entities
 {
     public class Photo : Entity
     {
+        [Key]
         public int Id { get; set; }
 
         public int AlbumId { get; set; }
 
-        public string? TitleRu { get; set; }
+        public string? Title { get; set; }
 
-        public string? TitleEng { get; set; }
-
-        public string? DescriptionRu { get; set; }
-
-        public string? DescriptionEng { get; set; }
+        public string? Description { get; set; }
 
         public string? PhotoPath { get; set; }
 

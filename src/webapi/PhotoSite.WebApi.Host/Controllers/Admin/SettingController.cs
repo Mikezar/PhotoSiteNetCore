@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Services.Interfaces;
@@ -8,7 +9,7 @@ using PhotoSite.WebApi.Admin;
 namespace PhotoSite.WebApi.Controllers.Admin
 {
     /// <summary>
-    /// Admin
+    /// Settings
     /// </summary>
     [Produces("application/json")]
     [Route("api/adj")]
@@ -33,6 +34,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpGet("getSetting")]
+        [Authorize]
         public async Task<SettingsDto> GetSettings()
         {
             var result = await _settingService.GetSettings();
@@ -44,6 +46,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpPost("setSetting")]
+        [Authorize]
         public async Task SetSettings([FromBody] SettingsDto settingsDto)
         {
             var settings = _mapper.Map<Settings>(settingsDto);

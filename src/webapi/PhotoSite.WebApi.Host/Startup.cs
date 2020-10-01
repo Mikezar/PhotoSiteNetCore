@@ -12,6 +12,8 @@ using System.Reflection;
 using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data;
+using PhotoSite.WebApi.Handlers;
+using PhotoSite.WebApi.Options;
 
 namespace PhotoSite.WebApi
 {
@@ -45,6 +47,14 @@ namespace PhotoSite.WebApi
             services.Configure<DatabaseOptions>(Configuration.GetSection(nameof(DatabaseOptions)));
             services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
 
+            services.AddAuthentication(CustomTokenAuthOptions.DefaultSchemeName)
+                .AddScheme<CustomTokenAuthOptions, CustomTokenAuthHandler>(
+                    CustomTokenAuthOptions.DefaultSchemeName,
+                    opts => {
+                        //     opts.TokenHeaderName = "X-Custom-Token-Header";
+                    }
+                );
+
             services.AddData();
             services.AddApiServices();
 
@@ -77,6 +87,10 @@ namespace PhotoSite.WebApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

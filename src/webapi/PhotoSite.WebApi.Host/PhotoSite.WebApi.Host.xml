@@ -19,7 +19,7 @@
             Admin
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.#ctor(PhotoSite.ApiService.Services.Interfaces.IAdminService,AutoMapper.IMapper)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{PhotoSite.WebApi.Options.CustomTokenAuthOptions},PhotoSite.ApiService.Services.Interfaces.IAdminService,AutoMapper.IMapper)">
             <summary>
             ctor
             </summary>
@@ -31,15 +31,14 @@
             <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.LoginDto"/></param>
             <returns>Login state</returns>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout(PhotoSite.WebApi.Admin.LogoutDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout">
             <summary>
             Logout
             </summary>
-            <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.LogoutDto"/></param>
         </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.SettingController">
             <summary>
-            Admin
+            Settings
             </summary>
         </member>
         <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.#ctor(PhotoSite.ApiService.Services.Interfaces.ISettingService,AutoMapper.IMapper)">
@@ -72,6 +71,41 @@
         <member name="T:PhotoSite.WebApi.Controllers.BaseController">
             <summary>
             BaseController
+            </summary>
+        </member>
+        <member name="T:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{PhotoSite.WebApi.Options.CustomTokenAuthOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder,Microsoft.AspNetCore.Authentication.ISystemClock)">
+            <summary>
+            ctor
+            </summary>
+            <param name="options"></param>
+            <param name="logger"></param>
+            <param name="encoder"></param>
+            <param name="clock"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler.HandleAuthenticateAsync">
+            <summary>
+            Handle authenticate async
+            </summary>
+            <returns>Authenticate result</returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Options.CustomTokenAuthOptions">
+            <summary>
+            Token auth options
+            </summary>
+        </member>
+        <member name="F:PhotoSite.WebApi.Options.CustomTokenAuthOptions.DefaultSchemeName">
+            <summary>
+            Default scheme name
+            </summary>
+        </member>
+        <member name="P:PhotoSite.WebApi.Options.CustomTokenAuthOptions.TokenHeaderName">
+            <summary>
+            Token header name
             </summary>
         </member>
         <member name="T:PhotoSite.WebApi.Program">

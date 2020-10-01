@@ -24,7 +24,7 @@ namespace PhotoSite.ApiService.Helpers
             _currentAdminToken = null;
         }
 
-        internal static bool ValidateToken(string token)
+        public static bool CheckToken(string token)
         {
             // TODO: Логирование!
             if (_currentAdminToken is null)

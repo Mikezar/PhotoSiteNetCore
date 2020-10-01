@@ -16,24 +16,14 @@
         public int? ParentId { get; }
 
         /// <summary>
-        /// Title by Russian
+        /// Title
         /// </summary>
-        public string? TitleRu { get; }
+        public string? Title { get; }
 
         /// <summary>
-        /// Title by English
+        /// Description
         /// </summary>
-        public string? TitleEng { get; }
-
-        /// <summary>
-        /// Description by Russian
-        /// </summary>
-        public string? DescriptionRu { get; }
-
-        /// <summary>
-        /// Description by English
-        /// </summary>
-        public string? DescriptionEng { get; }
+        public string? Description { get; }
 
         /// <summary>
         /// Path to cover
@@ -51,19 +41,15 @@
         public AlbumDto(
             int id, 
             int? parentId, 
-            string? titleRu, 
-            string? titleEng, 
-            string? descriptionRu, 
-            string? descriptionEng, 
+            string? title,
+            string? description,
             string? coverPath, 
             ushort viewPattern)
         {
             Id = id;
             ParentId = parentId;
-            TitleRu = titleRu;
-            TitleEng = titleEng;
-            DescriptionRu = descriptionRu;
-            DescriptionEng = descriptionEng;
+            Title = title;
+            Description = description;
             CoverPath = coverPath;
             ViewPattern = viewPattern;
         }

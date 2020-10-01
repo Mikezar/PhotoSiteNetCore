@@ -1,11 +1,13 @@
-﻿namespace PhotoSite.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoSite.Data.Entities
 {
     public class Tag : Entity
     {
+        [Key]
         public int Id { get; set; }
 
-        public string? TitleRu { get; set; }
+        public string? Title { get; set; }
 
-        public string? TitleEng { get; set; }
     }
 }

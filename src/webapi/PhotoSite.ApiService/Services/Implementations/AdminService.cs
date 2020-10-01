@@ -52,7 +52,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="token">Token</param>
         public void Logout(string? token)
         {
-            if (token != null && AdminHelper.ValidateToken(token))
+            if (token != null && AdminHelper.CheckToken(token))
                 AdminHelper.ResetToken();
         }
 

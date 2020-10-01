@@ -1,4 +1,6 @@
-﻿namespace PhotoSite.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoSite.Data.Entities
 {
     /// <summary>
     /// ALbum
@@ -8,6 +10,7 @@
         /// <summary>
         /// Identification
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -16,24 +19,14 @@
         public int ParentId { get; set; }
 
         /// <summary>
-        /// Title by Russian
+        /// Title
         /// </summary>
-        public string? TitleRu { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
-        /// Title by English
+        /// Description
         /// </summary>
-        public string? TitleEng { get; set; }
-
-        /// <summary>
-        /// Description by Russian
-        /// </summary>
-        public string? DescriptionRu { get; set; }
-
-        /// <summary>
-        /// Description by English
-        /// </summary>
-        public string? DescriptionEng { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Path to cover
