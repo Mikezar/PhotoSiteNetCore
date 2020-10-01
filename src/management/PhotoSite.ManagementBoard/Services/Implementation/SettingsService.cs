@@ -7,8 +7,7 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
 {
     internal sealed class SettingsService : ISettingsService
     {
-        private const string GetSettings = "api/adj/getSetting";
-        private const string SetSettings = "api/adj/setSetting";
+        private const string SettingsEndpoint = "api/adj/settings";
         private readonly IHttpHandler _handler;
 
         public SettingsService (IHttpHandler handler)
@@ -18,12 +17,12 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
 
         public async Task<ResultWrapper<SettingsDto>> GetAttributeSettings()
         {
-            return await _handler.GetAsync<SettingsDto>(GetSettings);
+            return await _handler.GetAsync<SettingsDto>(SettingsEndpoint);
         }
 
         public async Task<NoResultWrapper> SaveAttributeSettings(SettingsDto settings)
         {
-            return await _handler.PostAsync(SetSettings, settings);
+            return await _handler.PostAsync(SettingsEndpoint, settings);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get settings
         /// </summary>
         /// <returns>Settings</returns>
-        [HttpGet("setting")]
+        [HttpGet("settings")]
         [Authorize]
         public async Task<SettingsDto> GetSettings()
         {
@@ -45,7 +45,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Set settings
         /// </summary>
         /// <returns>Settings</returns>
-        [HttpPost("setting")]
+        [HttpPost("settings")]
         [Authorize]
         public async Task SetSettings([FromBody] SettingsDto settingsDto)
         {
