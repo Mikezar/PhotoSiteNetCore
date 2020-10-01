@@ -1,0 +1,119 @@
+﻿@using PhotoSite.ManagementBoard.Services.Abstract
+@using PhotoSite.WebApi.Admin
+@inject ISettingsService SettingsService
+
+<h3>Settings</h3>
+<hr />
+
+<ErrorBlock @ref="ErrorBlock" />
+
+@if (Settings != null)
+{
+    <EditForm Model="Settings" OnValidSubmit="Save">
+        <div class="card-group">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Watermark</h5>
+                    <div class="form-group row">
+                        <label for="watermark_font" class="col-sm-2 col-form-label">Font</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="watermark_font" @bind-value="Settings.WatermarkFont" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="watermark_font_size" class="col-sm-2 col-form-label">Size</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="watermark_font_size" @bind-value="Settings.WatermarkFontSize" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="watermark_text" class="col-sm-2 col-form-label">Text</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="watermark_text" @bind-value="Settings.WatermarkText" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Signature</h5>
+                    <div class="form-group row">
+                        <label for="signature_font" class="col-sm-2 col-form-label">Font</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="signature_font" @bind-value="Settings.SignatureFont" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="signature_font_size" class="col-sm-2 col-form-label">Size</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="signature_font_size" @bind-value="Settings.SignatureFontSize" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="signature_text" class="col-sm-2 col-form-label">Text</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="signature_text" @bind-value="Settings.SignatureText" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Stamp</h5>
+                    <div class="form-group row">
+                        <label for="stamp_font" class="col-sm-2 col-form-label">Font</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stamp_font" @bind-value="Settings.StampFont" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="stamp_font_size" class="col-sm-2 col-form-label">Size</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stamp_font_size" @bind-value="Settings.StampFontSize" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="stamp_text" class="col-sm-2 col-form-label">Text</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stamp_text" @bind-value="Settings.StampText" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="alpha" class="col-sm-1 col-form-label">Alpha</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="alpha" @bind-value="Settings.Alpha">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save settings</button>
+    </EditForm>
+}
+
+@code {
+
+    private SettingsDto Settings { get; set; }
+    private ErrorBlock ErrorBlock { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var result = await ErrorBlock.LoadAsync(() => SettingsService.GetAttributeSettings());
+
+            if (result.IsSuccess)
+            {
+                Settings = result.Result;
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task Save()
+    {
+        await ErrorBlock.LoadAsync(() => SettingsService.SaveAttributeSettings(Settings));
+    }
+}

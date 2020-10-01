@@ -1,0 +1,38 @@
+﻿@using PhotoSite.ManagementBoard.Models
+
+@if (ShowErrorBlock)
+{
+    <div class="alert alert-danger" role="alert">
+        An error occured during query execution.
+    </div>
+}
+
+@code {
+    private bool ShowErrorBlock { get; set; }
+
+    public async Task<ResultWrapper<TResult>> LoadAsync<TResult>(Func<Task<ResultWrapper<TResult>>> payloadFunc)
+    {
+        var result = await payloadFunc();
+
+        if (!result.IsSuccess)
+        {
+            ShowErrorBlock = true;
+            StateHasChanged();
+        }
+
+        return result;
+    }
+
+    public async Task<NoResultWrapper> LoadAsync(Func<Task<NoResultWrapper>> payloadFunc)
+    {
+        var result = await payloadFunc();
+
+        if (!result.IsSuccess)
+        {
+            ShowErrorBlock = true;
+            StateHasChanged();
+        }
+
+        return result;
+    }
+}

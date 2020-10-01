@@ -19,6 +19,12 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             _httpClient.DefaultRequestHeaders.Add("X-CUSTOM-TOKEN", _storage.Token);
         }
 
+        public async Task<ResultWrapper<TResult>> GetAsync<TResult>(string method)
+        {
+            var response = await _httpClient.GetAsync(method);
+            return await HandleResponse<TResult>(response);
+        }
+
         public async Task<NoResultWrapper> PostAsync(string method)
             => await PostAsync(method, null);
 

@@ -27,6 +27,7 @@ namespace PhotoSite.ManagementBoard
             services
                 .AddScoped<AuthenticationStateProvider, FormAuthenticationStateProvider>()
                 .AddScoped<IAuthService, AuthService>()
+                .AddScoped<ISettingsService, SettingsService>()
                 .AddSingleton<SessionStorage>()
             	.AddHttpClient<IHttpHandler, HttpHandler>(client =>
                  {
