@@ -39,9 +39,7 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
 
         public async Task SignOut()
         {
-            await _httpHandler.PostAsync(LogOutMethod, 
-                new LogoutDto { Token = _storage.Token });
-
+            await _httpHandler.PostAsync(LogOutMethod);
             _storage.Clean();
         }
     }

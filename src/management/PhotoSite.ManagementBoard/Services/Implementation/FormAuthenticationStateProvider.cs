@@ -7,6 +7,8 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
     internal sealed class FormAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly SessionStorage _storage;
+        private const string ClaimValue = "Admin";
+        private const string AuthType = "Form";
 
         public FormAuthenticationStateProvider(SessionStorage storage)
         {
@@ -26,9 +28,9 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
         private AuthenticationState CreateAuthorizedState()
         {
             var identity = new ClaimsIdentity(new[] {
-                    new Claim(ClaimTypes.Name, "Admin"),
-                    new Claim(ClaimTypes.Role, "Admin")
-            }, "Form");
+                    new Claim(ClaimTypes.Name, ClaimValue),
+                    new Claim(ClaimTypes.Role, ClaimValue)
+            }, AuthType);
 
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
