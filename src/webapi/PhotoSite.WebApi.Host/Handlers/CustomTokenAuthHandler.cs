@@ -38,12 +38,10 @@ namespace PhotoSite.WebApi.Handlers
             if (!AdminHelper.CheckToken(token))
                 return Task.FromResult(AuthenticateResult.Fail("incorrect UserToken"));
 
-            // get username from db or somewhere else accordining to this token
-            var username = "Username-From-Somewhere-By-Token";
+            var username = "Admin";
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, username),
                 new Claim(ClaimTypes.Name, username),
-                // add other claims/roles as you like
             };
             var id = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(id);
