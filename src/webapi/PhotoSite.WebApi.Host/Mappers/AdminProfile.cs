@@ -11,7 +11,7 @@ namespace PhotoSite.WebApi.Mappers
         {
             CreateMap<LoginState, LoginStateDto>();
             CreateMap<LoginStatus, LoginStatusDto>();
-            CreateMap<Settings, SettingsDto>();
+            CreateMap<Settings, SettingsDto>().ReverseMap();
         }
     }
 }
