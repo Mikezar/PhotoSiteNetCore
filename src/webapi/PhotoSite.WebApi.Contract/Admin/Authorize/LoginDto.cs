@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PhotoSite.WebApi.Admin.Login
+namespace PhotoSite.WebApi.Admin.Authorize
 {
     public class LoginDto
     {

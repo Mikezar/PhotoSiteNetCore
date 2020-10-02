@@ -2,7 +2,7 @@
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.WebApi.Admin;
-using PhotoSite.WebApi.Admin.Login;
+using PhotoSite.WebApi.Admin.Authorize;
 
 namespace PhotoSite.WebApi.Mappers
 {

@@ -24,11 +24,11 @@
             ctor
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Login(PhotoSite.WebApi.Admin.Login.LoginDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Login(PhotoSite.WebApi.Admin.Authorize.LoginDto)">
             <summary>
             Login
             </summary>
-            <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.Login.LoginDto"/></param>
+            <param name="dto"><see cref="T:PhotoSite.WebApi.Admin.Authorize.LoginDto"/></param>
             <returns>Login state</returns>
         </member>
         <member name="M:PhotoSite.WebApi.Controllers.Admin.AdminController.Logout">

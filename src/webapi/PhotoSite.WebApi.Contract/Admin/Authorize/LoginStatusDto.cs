@@ -1,4 +1,4 @@
-﻿namespace PhotoSite.WebApi.Admin.Login
+﻿namespace PhotoSite.WebApi.Admin.Authorize
 {
     public enum LoginStatusDto
     {
