@@ -15,6 +15,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     [Route("api/adj")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [Authorize]
     public class SettingController : BaseController
     {
         private readonly ISettingService _settingService;
@@ -34,7 +35,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpGet("settings")]
-        [Authorize]
         public async Task<SettingsDto> GetSettings()
         {
             var result = await _settingService.GetSettings();
@@ -46,7 +46,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpPost("settings")]
-        [Authorize]
         public async Task SetSettings([FromBody] SettingsDto settingsDto)
         {
             var settings = _mapper.Map<Settings>(settingsDto);

@@ -77,17 +77,18 @@ namespace PhotoSite.ApiService.Services.Implementations
         public async Task SaveSettings(Settings settings)
         {
             var context = _factory.GetWriteContext();
-            var fields = typeof(Settings).GetFields();
-            foreach (var field in fields)
+            var properties = typeof(Settings).GetProperties();
+            foreach (var property in properties)
             {
-                var setting = await context.SiteSettings.FirstOrDefaultAsync(t => t.Name == field.Name);
-                string? value = field.GetValue(settings)?.ToString();
+                var setting = await context.SiteSettings.FirstOrDefaultAsync(t => t.Name == property.Name);
+                string? value = property.GetValue(settings)?.ToString();
                 if (setting is null)
-                    await context.AddAsync(new SiteSettings() {Name = field.Name, Value = value});
+                    await context.AddAsync(new SiteSettings() {Name = property.Name, Value = value});
                 else
                     setting.Value = value;
             }
-            context.SaveChanges();
+
+            await context.SaveChangesAsync();
         }
     }
 }
