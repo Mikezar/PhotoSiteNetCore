@@ -1,6 +1,6 @@
 ﻿using PhotoSite.ManagementBoard.Models.Auth;
 using PhotoSite.ManagementBoard.Services.Abstract;
-using PhotoSite.WebApi.Admin;
+using PhotoSite.WebApi.Admin.Authorize;
 using System.Threading.Tasks;
 
 namespace PhotoSite.ManagementBoard.Services.Implementation

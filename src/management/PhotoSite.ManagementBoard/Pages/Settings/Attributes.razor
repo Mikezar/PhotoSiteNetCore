@@ -1,5 +1,7 @@
 ﻿@using PhotoSite.ManagementBoard.Services.Abstract
 @using PhotoSite.WebApi.Admin
+@using PhotoSite.ManagementBoard.Models
+  
 @inject ISettingsService SettingsService
 
 <h3>Settings</h3>
@@ -88,7 +90,10 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success">Save settings</button>
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-success">Save settings</button>
+            <button type="button" class="btn btn-info" @onclick="Reset">Reset settings</button>
+        </div>
     </EditForm>
 }
 
@@ -103,17 +108,29 @@
         {
             var result = await ErrorBlock.LoadAsync(() => SettingsService.GetAttributeSettings());
 
-            if (result.IsSuccess)
-            {
-                Settings = result.Result;
-            }
-
-            StateHasChanged();
+            UpdateState(result);
         }
     }
 
     private async Task Save()
     {
-        await ErrorBlock.LoadAsync(() => SettingsService.SaveAttributeSettings(Settings));
+        await ErrorBlock.LoadAsync(() => SettingsService.SaveAttributeSettings(Settings), showSuccess: true);
+    }
+
+    private async Task Reset()
+    {
+        var result = await ErrorBlock.LoadAsync(() => SettingsService.GetDefaultSettings());
+
+        UpdateState(result);
+    }
+
+    private void UpdateState(ResultWrapper<SettingsDto> result)
+    {
+        if (result.IsSuccess)
+        {
+            Settings = result.Result;
+        }
+
+        StateHasChanged();
     }
 }

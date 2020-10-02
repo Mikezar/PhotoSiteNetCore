@@ -7,31 +7,50 @@
     </div>
 }
 
+@if (ShowSuccessBlock)
+{
+    <div class="alert alert-success" role="alert">
+        Changes were successfully applied.
+    </div>
+}
+
+
 @code {
     private bool ShowErrorBlock { get; set; }
+    private bool ShowSuccessBlock { get; set; }
 
-    public async Task<ResultWrapper<TResult>> LoadAsync<TResult>(Func<Task<ResultWrapper<TResult>>> payloadFunc)
+    public async Task<ResultWrapper<TResult>> LoadAsync<TResult>(Func<Task<ResultWrapper<TResult>>> payloadFunc, bool showSuccess = false)
     {
         var result = await payloadFunc();
 
         if (!result.IsSuccess)
         {
             ShowErrorBlock = true;
-            StateHasChanged();
         }
+        else
+        {
+            ShowSuccessBlock = showSuccess;
+        }
+
+        StateHasChanged();
 
         return result;
     }
 
-    public async Task<NoResultWrapper> LoadAsync(Func<Task<NoResultWrapper>> payloadFunc)
+    public async Task<NoResultWrapper> LoadAsync(Func<Task<NoResultWrapper>> payloadFunc, bool showSuccess = false)
     {
         var result = await payloadFunc();
 
         if (!result.IsSuccess)
         {
             ShowErrorBlock = true;
-            StateHasChanged();
         }
+        else
+        {
+            ShowSuccessBlock = showSuccess;
+        }
+
+        StateHasChanged();
 
         return result;
     }
