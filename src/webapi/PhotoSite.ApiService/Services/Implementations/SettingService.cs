@@ -22,6 +22,23 @@ namespace PhotoSite.ApiService.Services.Implementations
             _factory = factory;
         }
 
+        /// <summary>
+        /// Get default settings
+        /// </summary>
+        /// <returns>Default settings</returns>
+        public Settings GetDefaultSettings()
+        {
+            var settings = new Settings();
+            var properties = typeof(Settings).GetProperties();
+            foreach (var property in properties)
+            {
+                AttributeCollection attributes = TypeDescriptor.GetProperties(settings)[property.Name].Attributes;
+                DefaultValueAttribute defAttribute = (DefaultValueAttribute)attributes[typeof(DefaultValueAttribute)];
+                property.SetValue(settings, defAttribute.Value);
+            }
+            return settings;
+        }
+
         public async Task<Settings> GetSettings()
         {
             var context = _factory.GetReadContext();
@@ -76,7 +93,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         public async Task SaveSettings(Settings settings)
         {
-            var context = _factory.GetWriteContext();
+            await using var context = _factory.GetWriteContext();
             var properties = typeof(Settings).GetProperties();
             foreach (var property in properties)
             {

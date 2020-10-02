@@ -31,6 +31,17 @@ namespace PhotoSite.WebApi.Controllers.Admin
         }
 
         /// <summary>
+        /// Get default settings
+        /// </summary>
+        /// <returns>Default settings</returns>
+        [HttpGet("default")]
+        public SettingsDto GetDefaultSettings()
+        {
+            var result = _settingService.GetDefaultSettings();
+            return _mapper.Map<SettingsDto>(result);
+        }
+
+        /// <summary>
         /// Get settings
         /// </summary>
         /// <returns>Settings</returns>

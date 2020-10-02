@@ -7,6 +7,12 @@ namespace PhotoSite.ApiService.Services.Interfaces
     public interface ISettingService : IService
     {
         /// <summary>
+        /// Get default settings
+        /// </summary>
+        /// <returns>Default settings</returns>
+        Settings GetDefaultSettings();
+
+        /// <summary>
         /// Get site's settings
         /// </summary>
         /// <returns>Settings</returns>
