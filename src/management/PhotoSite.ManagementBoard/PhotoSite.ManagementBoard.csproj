@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\webapi\PhotoSite.WebApi.Contract\PhotoSite.WebApi.Contract.csproj" />
   </ItemGroup>
 
