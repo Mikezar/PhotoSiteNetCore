@@ -64,6 +64,35 @@
             </summary>
             <returns>Settings</returns>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.TagController">
+            <summary>
+            Tags
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.#ctor(PhotoSite.ApiService.Services.Interfaces.ITagService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.GetAll">
+            <summary>
+            Get all tags
+            </summary>
+            <returns>All tags</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.Update(PhotoSite.WebApi.Photo.TagDto)">
+            <summary>
+            Update tag
+            </summary>
+            <param name="tag">Tag</param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.Create(PhotoSite.WebApi.Photo.TagTitleDto)">
+            <summary>
+            Create new tag
+            </summary>
+            <param name="tagTitle">Tag's title</param>
+            <returns>Identification new tag</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
             <summary>
             Gallery

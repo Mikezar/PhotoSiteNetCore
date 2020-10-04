@@ -17,6 +17,14 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         private readonly DbFactory _factory;
 
+        private Settings? _settings;
+
+        private static object _locker = new object();
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="factory"></param>
         public SettingService(DbFactory factory)
         {
             _factory = factory;
@@ -40,6 +48,18 @@ namespace PhotoSite.ApiService.Services.Implementations
         }
 
         public async Task<Settings> GetSettings()
+        {
+            if (_settings is null)
+            {
+                var settings = await LoadSettings();
+                lock (_locker)
+                    _settings = settings;
+            }
+            return _settings;
+        }
+
+
+        private async Task<Settings> LoadSettings()
         {
             var context = _factory.GetReadContext();
             var values = await context.SiteSettings.ToArrayAsync();
@@ -106,6 +126,9 @@ namespace PhotoSite.ApiService.Services.Implementations
             }
 
             await context.SaveChangesAsync();
+
+            lock (_locker)
+                _settings = settings;
         }
     }
 }
