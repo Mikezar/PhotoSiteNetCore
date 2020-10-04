@@ -93,6 +93,35 @@
             <param name="tagTitle">Tag's title</param>
             <returns>Identification new tag</returns>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.WatermarkController">
+            <summary>
+            Watermarks
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.#ctor(PhotoSite.ApiService.Services.Interfaces.IWatermarkService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.GetByPhotoId(PhotoSite.WebApi.Common.IdDto)">
+            <summary>
+            Get entity by photo's id
+            </summary>
+            <returns>All tags</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.Update(PhotoSite.WebApi.Photo.WatermarkDto)">
+            <summary>
+            Update entity
+            </summary>
+            <param name="watermark">Entity</param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.Create(PhotoSite.WebApi.Photo.WatermarkDto)">
+            <summary>
+            Create new entity
+            </summary>
+            <param name="watermark">Entity</param>
+            <returns>Identification new entity</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.AlbumController">
             <summary>
             Gallery

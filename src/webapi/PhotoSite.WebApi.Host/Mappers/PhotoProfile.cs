@@ -9,9 +9,11 @@ namespace PhotoSite.WebApi.Mappers
     {
         public PhotoProfile()
         {
+            CreateMap<Data.Entities.Watermark, WatermarkDto>().ReverseMap();
             CreateMap<Data.Entities.Tag, TagDto>().ReverseMap();
             CreateMap<IdResult, IdResultDto>();
             CreateMap<Result, ResultDto>();
+
         }   
     }
 }
