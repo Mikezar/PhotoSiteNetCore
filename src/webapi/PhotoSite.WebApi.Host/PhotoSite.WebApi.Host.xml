@@ -36,6 +36,33 @@
             Logout
             </summary>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController">
+            <summary>
+            Photo's tags
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.#ctor(PhotoSite.ApiService.Services.Interfaces.IPhotoToTagService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetByPhotoId(PhotoSite.WebApi.Common.IdDto)">
+            <summary>
+            Get entities by photo's id
+            </summary>
+            <returns>All tags</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetNotExistsInPhoto(PhotoSite.WebApi.Common.IdDto)">
+            <summary>
+            Get tag's ids not in photo
+            </summary>
+            <returns>All tags</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.BindTagsToPhoto(PhotoSite.WebApi.Photo.PhotoTagsDto)">
+            <summary>
+            Bind tags to photo
+            </summary>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.SettingController">
             <summary>
             Settings

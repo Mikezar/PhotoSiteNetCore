@@ -1,4 +1,6 @@
-﻿namespace PhotoSite.WebApi.Album
+﻿using System.Text.Json.Serialization;
+
+namespace PhotoSite.WebApi.Album
 {
     /// <summary>
     /// Album
@@ -8,50 +10,38 @@
         /// <summary>
         /// Identification
         /// </summary>
-        public int Id { get; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
 
         /// <summary>
         /// Identification of parent's album
         /// </summary>
-        public int? ParentId { get; }
+        [JsonPropertyName("parent_id")]
+        public int? ParentId { get; set; }
 
         /// <summary>
         /// Title
         /// </summary>
-        public string? Title { get; }
+        [JsonPropertyName("title")]
+        public string? Title { get; set; }
 
         /// <summary>
         /// Description
         /// </summary>
-        public string? Description { get; }
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
 
         /// <summary>
         /// Path to cover
         /// </summary>
-        public string? CoverPath { get; }
+        [JsonPropertyName("cover_path")]
+        public string? CoverPath { get; set; }
 
         /// <summary>
         /// View of Pattern
         /// </summary>
-        public ushort ViewPattern { get; }
+        [JsonPropertyName("view_pattern")]
+        public ushort ViewPattern { get; set; }
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        public AlbumDto(
-            int id, 
-            int? parentId, 
-            string? title,
-            string? description,
-            string? coverPath, 
-            ushort viewPattern)
-        {
-            Id = id;
-            ParentId = parentId;
-            Title = title;
-            Description = description;
-            CoverPath = coverPath;
-            ViewPattern = viewPattern;
-        }
     }
 }

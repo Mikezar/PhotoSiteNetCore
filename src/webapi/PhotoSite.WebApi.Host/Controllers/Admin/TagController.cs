@@ -36,6 +36,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
+        [HttpGet("getall")]
         public async Task<TagDto[]> GetAll()
         {
             var result = await _tagService.GetAll();
@@ -46,6 +47,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Update tag
         /// </summary>
         /// <param name="tag">Tag</param>
+        [HttpPost("update")]
         public async Task<ResultDto> Update(TagDto tag)
         {
             var t = _mapper.Map<Tag>(tag);
@@ -58,6 +60,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="tagTitle">Tag's title</param>
         /// <returns>Identification new tag</returns>
+        [HttpPost("create")]
         public async Task<IdResultDto> Create(TagTitleDto tagTitle)
         {
             if (tagTitle == null)

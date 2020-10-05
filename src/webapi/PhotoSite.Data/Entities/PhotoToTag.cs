@@ -5,10 +5,9 @@ namespace PhotoSite.Data.Entities
     public class PhotoToTag : Entity
     {
         [Key]
-        public int Id { get; set; }
-
         public int PhotoId { get; set; }
 
+        [Key]
         public int TagId { get; set; }
     }
 }
