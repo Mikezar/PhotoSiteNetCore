@@ -2,7 +2,7 @@
 
 namespace PhotoSite.ApiService.Services.Interfaces
 {
-    public interface IAlbumService : IService
+    public interface IPhotoService : IService
     {
         
     }

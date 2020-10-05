@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Base;
@@ -7,17 +8,14 @@ using PhotoSite.Data.Entities;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class WatermarkService : IWatermarkService
+    public class WatermarkService : DbServiceBase, IWatermarkService
     {
-        private readonly DbFactory _factory;
-
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="factory"></param>
-        public WatermarkService(DbFactory factory)
+        public WatermarkService(DataBaseFactory factory) : base(factory)
         {
-            _factory = factory;
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Watermark?> GetByPhotoId(int photoId)
         {
-            var context = _factory.GetReadContext();
+            var context = DbFactory.GetReadContext();
             return await context.Watermarks.FirstOrDefaultAsync(t => t.PhotoId == photoId);
         }
 
@@ -36,7 +34,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="watermark">Entity</param>
         public async Task<Result> Update(Watermark watermark)
         {
-            await using var context = _factory.GetWriteContext();
+            await using var context = DbFactory.GetWriteContext();
             var value = await context.Watermarks.FirstOrDefaultAsync(t => t.Id == watermark.Id);
             if (value == null)
                 return Result.GetError($"Not found watermark id={watermark.Id}");
@@ -58,7 +56,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new entity</returns>
         public async Task<IdResult> Create(Watermark watermark)
         {
-            await using var context = _factory.GetWriteContext();
+            await using var context = DbFactory.GetWriteContext();
             var ext = await context.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId);
             if (ext)
                 return IdResult.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");

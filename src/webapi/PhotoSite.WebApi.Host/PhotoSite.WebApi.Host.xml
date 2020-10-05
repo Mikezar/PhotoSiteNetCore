@@ -164,6 +164,16 @@
             BaseController
             </summary>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.PhotoController">
+            <summary>
+            Photos
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.PhotoController.#ctor(AutoMapper.IMapper,PhotoSite.ApiService.Services.Interfaces.IPhotoService)">
+            <summary>
+            ctor
+            </summary>
+        </member>
         <member name="T:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler">
             <summary>
             

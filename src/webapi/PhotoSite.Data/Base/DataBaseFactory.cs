@@ -3,13 +3,13 @@ using Microsoft.Extensions.Options;
 
 namespace PhotoSite.Data.Base
 {
-    public class DbFactory
+    public class DataBaseFactory
     {
         private readonly string _connectionString;
         private MainDbContext? _readOnlyContext;
         private static readonly object SyncRoot = new Object();
 
-        public DbFactory(IOptionsSnapshot<DatabaseOptions> config)
+        public DataBaseFactory(IOptionsSnapshot<DatabaseOptions> config)
         {
             _connectionString = config.Value.ConnectionString ?? throw new Exception("Database connection string is not provided");
         }

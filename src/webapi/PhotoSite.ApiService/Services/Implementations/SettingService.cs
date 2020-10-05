@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Base;
@@ -11,23 +12,20 @@ using Serilog;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class SettingService : ISettingService
+    public class SettingService : DbServiceBase, ISettingService
     {
         private static readonly ILogger Logger = new LoggerConfiguration().CreateLogger();
 
-        private readonly DbFactory _factory;
-
         private Settings? _settings;
 
-        private static object _locker = new object();
+        private static readonly object Locker = new object();
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="factory"></param>
-        public SettingService(DbFactory factory)
+        public SettingService(DataBaseFactory factory) : base(factory)
         {
-            _factory = factory;
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace PhotoSite.ApiService.Services.Implementations
             if (_settings is null)
             {
                 var settings = await LoadSettings();
-                lock (_locker)
+                lock (Locker)
                     _settings = settings;
             }
             return _settings;
@@ -61,7 +59,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         private async Task<Settings> LoadSettings()
         {
-            var context = _factory.GetReadContext();
+            var context = DbFactory.GetReadContext();
             var values = await context.SiteSettings.ToArrayAsync();
 
             var settings = new Settings();
@@ -113,7 +111,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         public async Task SaveSettings(Settings settings)
         {
-            await using var context = _factory.GetWriteContext();
+            await using var context = DbFactory.GetWriteContext();
             var properties = typeof(Settings).GetProperties();
             foreach (var property in properties)
             {
@@ -127,7 +125,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             await context.SaveChangesAsync();
 
-            lock (_locker)
+            lock (Locker)
                 _settings = settings;
         }
     }

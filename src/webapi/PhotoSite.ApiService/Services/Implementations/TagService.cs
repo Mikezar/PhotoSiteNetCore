@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Base;
@@ -7,17 +8,14 @@ using PhotoSite.Data.Entities;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class TagService : ITagService
+    public class TagService : DbServiceBase, ITagService
     {
-        private readonly DbFactory _factory;
-
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="factory"></param>
-        public TagService(DbFactory factory)
+        public TagService(DataBaseFactory factory) : base(factory)
         {
-            _factory = factory;
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Tag[]> GetAll()
         {
-            var context = _factory.GetReadContext();
+            var context = DbFactory.GetReadContext();
             return await context.Tags.ToArrayAsync();
         }
 
@@ -36,7 +34,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="tag">Tag</param>
         public async Task<Result> Update(Tag tag)
         {
-            await using var context = _factory.GetWriteContext();
+            await using var context = DbFactory.GetWriteContext();
             var value = await context.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id);
             if (value == null)
                 return Result.GetError($"Not found tag id={tag.Id}");
@@ -58,7 +56,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new tag</returns>
         public async Task<IdResult> Create(string tagTitle)
         {
-            await using var context = _factory.GetWriteContext();
+            await using var context = DbFactory.GetWriteContext();
             var ext = await context.Tags.AnyAsync(t => t.Title == tagTitle);
             if (ext)
                 return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");

@@ -3,7 +3,7 @@
 namespace PhotoSite.Data.Entities
 {
     /// <summary>
-    /// ALbum
+    /// Album
     /// </summary>
     public class Album : Entity
     {
@@ -16,7 +16,7 @@ namespace PhotoSite.Data.Entities
         /// <summary>
         /// Identification of parent's album
         /// </summary>
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         /// <summary>
         /// Title

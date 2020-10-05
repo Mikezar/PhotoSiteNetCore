@@ -7,7 +7,7 @@ namespace PhotoSite.Data
     {
         public static void AddData(this IServiceCollection services)
         {
-            services.AddTransient<DbFactory>();
+            services.AddTransient<DataBaseFactory>();
         }
     }
 }
