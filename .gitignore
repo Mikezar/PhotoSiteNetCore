@@ -340,3 +340,4 @@ ASALocalRun/
 
 
 /src/webapi/PhotoSite.WebApi.Host/Logs
+*.txt
