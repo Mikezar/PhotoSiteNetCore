@@ -1,5 +1,6 @@
 ﻿using PhotoSite.ManagementBoard.Models;
 using PhotoSite.ManagementBoard.Services.Abstract;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -44,23 +45,21 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
         {
             if (!response.IsSuccessStatusCode)
             {
-                return ResultWrapper<TResult>.CreateFailed();
+                return ResultWrapper<TResult>.CreateFailed(response.StatusCode);
             }
 
             var json = await response.Content.ReadAsStringAsync();
+            var payload = JsonSerializer.Deserialize<TResult>(json);
 
-            return new ResultWrapper<TResult>()
-            {
-                IsSuccess = true,
-                Result = JsonSerializer.Deserialize<TResult>(json)
-            };
+            return ResultWrapper<TResult>.CreateSuccess(payload);
         }
 
         private NoResultWrapper HandleResponse(HttpResponseMessage response)
         {
             return new NoResultWrapper
             {
-                IsSuccess = response.IsSuccessStatusCode
+                IsSuccess = response.IsSuccessStatusCode,
+                Code = response.StatusCode
             };
         }
 

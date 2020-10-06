@@ -1,4 +1,7 @@
 ﻿@using PhotoSite.ManagementBoard.Models
+@using System.Net;
+ 
+@inject NavigationManager NavManager
 
 @if (ShowErrorBlock)
 {
@@ -25,6 +28,11 @@
 
         if (!result.IsSuccess)
         {
+            if (result.Code == HttpStatusCode.Unauthorized)
+            {
+                NavManager.NavigateTo("logout", true);
+            }
+
             ShowErrorBlock = true;
         }
         else
@@ -43,6 +51,11 @@
 
         if (!result.IsSuccess)
         {
+            if (result.Code == HttpStatusCode.Unauthorized)
+            {
+                NavManager.NavigateTo("logout", true);
+            }
+
             ShowErrorBlock = true;
         }
         else
