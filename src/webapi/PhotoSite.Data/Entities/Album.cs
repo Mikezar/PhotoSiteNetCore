@@ -1,18 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PhotoSite.Data.Entities
+﻿namespace PhotoSite.Data.Entities
 {
     /// <summary>
     /// Album
     /// </summary>
     public class Album : Entity
     {
-        /// <summary>
-        /// Identification
-        /// </summary>
-        [Key]
-        public int Id { get; set; }
-
         /// <summary>
         /// Identification of parent's album
         /// </summary>

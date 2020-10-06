@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace PhotoSite.Data.Entities
 {
     public class Photo : Entity
     {
-        [Key]
-        public int Id { get; set; }
 
         public int AlbumId { get; set; }
 
@@ -27,5 +25,7 @@ namespace PhotoSite.Data.Entities
         public int Order { get; set; }
 
         public bool IsForBackground { get; set; }
+
+        public ICollection<PhotoToTag>? Tags { get; set; }
     }
 }

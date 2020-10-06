@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PhotoSite.Data.Entities
+﻿namespace PhotoSite.Data.Entities
 {
     public class Watermark : Entity
     {
-        [Key]
-        public int Id { get; set; }
-
         public int PhotoId { get; set; }
 
         public bool IsWatermarkApplied { get; set; }

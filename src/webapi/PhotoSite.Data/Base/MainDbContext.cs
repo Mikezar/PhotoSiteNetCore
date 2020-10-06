@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhotoSite.Data.Entities;
+using System;
 
 namespace PhotoSite.Data.Base
 {
@@ -25,6 +26,26 @@ namespace PhotoSite.Data.Base
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SiteSettings>()
+                .Ignore(x => x.Id)
+                .HasKey(x => new { x.Name });
+
+            modelBuilder.Entity<PhotoToTag>()
+                .Ignore(x => x.Id).HasKey(c => new { c.PhotoId, c.TagId });
+
+            modelBuilder.Entity<PhotoToTag>()
+                .HasOne(t => t.Tag)
+                .WithMany(p => p!.Photos)
+                .HasForeignKey(t => t.TagId);
+
+            modelBuilder.Entity<PhotoToTag>()
+                .HasOne(p => p.Photo)
+                .WithMany(t => t!.Tags)
+                .HasForeignKey(p => p.PhotoId);
         }
     }
 }
