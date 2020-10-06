@@ -11,10 +11,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Settings
     /// </summary>
-    [Produces("application/json")]
     [Route("api/adj")]
-    [ApiController]
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     public class SettingController : BaseController
     {

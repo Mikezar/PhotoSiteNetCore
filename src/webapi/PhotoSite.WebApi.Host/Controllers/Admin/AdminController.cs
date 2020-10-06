@@ -11,10 +11,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Admin
     /// </summary>
-    [Produces("application/json")]
     [Route("api/ad")]
-    [ApiController]
-    [ApiExplorerSettings(IgnoreApi = true)]
     public class AdminController : BaseController
     {
         private readonly IOptionsMonitor<CustomTokenAuthOptions> _options;

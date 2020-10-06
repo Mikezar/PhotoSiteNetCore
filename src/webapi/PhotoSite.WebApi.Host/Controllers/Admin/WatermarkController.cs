@@ -12,10 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Watermarks
     /// </summary>
-    [Produces("application/json")]
     [Route("api/wm")]
-    [ApiController]
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     public class WatermarkController : BaseController
     {
