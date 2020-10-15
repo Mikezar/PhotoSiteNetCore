@@ -13,8 +13,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public TagService(DataBaseFactory factory) : base(factory)
+        public TagService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -24,8 +23,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Tag[]> GetAll()
         {
-            var context = DbFactory.GetReadContext();
-            return await context.Tags.ToArrayAsync();
+            return await DbContext.Tags.ToArrayAsync();
         }
 
         /// <summary>
@@ -34,17 +32,17 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="tag">Tag</param>
         public async Task<Result> Update(Tag tag)
         {
-            await using var context = DbFactory.GetWriteContext();
-            var value = await context.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id);
+            //await using var context = DbFactory.GetWriteContext();
+            var value = await DbContext.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id);
             if (value == null)
                 return Result.GetError($"Not found tag id={tag.Id}");
 
-            var ext = await context.Tags.AnyAsync(t => t.Title == tag.Title && t.Id != tag.Id);
+            var ext = await DbContext.Tags.AnyAsync(t => t.Title == tag.Title && t.Id != tag.Id);
             if (ext)
                 return Result.GetError($"Tag's title '{tag.Title}' exists in other tag");
 
             value.Title = tag.Title;
-            await context.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
             return Result.GetOk();
         }
@@ -56,16 +54,16 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new tag</returns>
         public async Task<IdResult> Create(string tagTitle)
         {
-            await using var context = DbFactory.GetWriteContext();
-            var ext = await context.Tags.AnyAsync(t => t.Title == tagTitle);
+            //await using var context = DbFactory.GetWriteContext();
+            var ext = await DbContext.Tags.AnyAsync(t => t.Title == tagTitle);
             if (ext)
                 return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
 
-            var maxId = await context.Tags.MaxAsync(t => t.Id);
+            var maxId = await DbContext.Tags.MaxAsync(t => t.Id);
             maxId += 1;
 
-            await context.AddAsync(new Tag {Id = maxId, Title = tagTitle});
-            await context.SaveChangesAsync();
+            await DbContext.AddAsync(new Tag {Id = maxId, Title = tagTitle});
+            await DbContext.SaveChangesAsync();
 
             return IdResult.GetOk(maxId);
         }

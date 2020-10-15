@@ -9,9 +9,10 @@ using PhotoSite.WebApi.Infrastructure;
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
-using PhotoSite.Data;
+using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Handlers;
 using PhotoSite.WebApi.Options;
 
@@ -22,13 +23,17 @@ namespace PhotoSite.WebApi
     /// </summary>
     public class Startup
     {
+        private readonly IWebHostEnvironment _currentEnvironment;
+
         /// <summary>
         /// Startup
         /// </summary>
         /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        /// <param name="currentEnvironment"></param>
+        public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
         {
             Configuration = configuration;
+            _currentEnvironment = currentEnvironment;
         }
 
         /// <summary>
@@ -44,7 +49,6 @@ namespace PhotoSite.WebApi
         {
             var path = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}");
 
-            services.Configure<DatabaseOptions>(Configuration.GetSection(nameof(DatabaseOptions)));
             services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
 
             services.AddAuthentication(CustomTokenAuthOptions.DefaultSchemeName)
@@ -55,8 +59,9 @@ namespace PhotoSite.WebApi
                     }
                 );
 
-            services.AddData();
             services.AddApiServices();
+            ConfigureDependencies(services);
+            AddDb(services);
 
             services.AddControllers();
             services.AddHealthChecks();
@@ -67,6 +72,29 @@ namespace PhotoSite.WebApi
                 Title = "Photosite API",
                 Description = "ASP.NET Core Web API"
             }, $"{path}.xml");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        public virtual void ConfigureDependencies(IServiceCollection services)
+        {
+
+        }
+
+        private void AddDb(IServiceCollection services)
+        {
+            if (_currentEnvironment.IsEnvironment("Testing"))
+            {
+                services.AddDbContext<MainDbContext>(options =>
+                    options.UseInMemoryDatabase("TestingDB"));
+            }
+            else
+            {
+                services.AddDbContext<MainDbContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            }
         }
 
         /// <summary>

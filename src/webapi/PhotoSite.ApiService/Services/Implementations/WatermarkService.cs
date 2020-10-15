@@ -13,8 +13,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public WatermarkService(DataBaseFactory factory) : base(factory)
+        public WatermarkService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -24,8 +23,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Watermark?> GetByPhotoId(int photoId)
         {
-            var context = DbFactory.GetReadContext();
-            return await context.Watermarks.FirstOrDefaultAsync(t => t.PhotoId == photoId);
+            return await DbContext.Watermarks.FirstOrDefaultAsync(t => t.PhotoId == photoId);
         }
 
         /// <summary>
@@ -34,17 +32,17 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="watermark">Entity</param>
         public async Task<Result> Update(Watermark watermark)
         {
-            await using var context = DbFactory.GetWriteContext();
-            var value = await context.Watermarks.FirstOrDefaultAsync(t => t.Id == watermark.Id);
+            //await using var context = DbFactory.GetWriteContext();
+            var value = await DbContext.Watermarks.FirstOrDefaultAsync(t => t.Id == watermark.Id);
             if (value == null)
                 return Result.GetError($"Not found watermark id={watermark.Id}");
 
-            var ext = await context.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId && t.Id != watermark.Id);
+            var ext = await DbContext.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId && t.Id != watermark.Id);
             if (ext)
                 return Result.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
-            context.Attach(watermark);
-            await context.SaveChangesAsync();
+            DbContext.Attach(watermark);
+            await DbContext.SaveChangesAsync();
 
             return Result.GetOk();
         }
@@ -56,17 +54,17 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new entity</returns>
         public async Task<IdResult> Create(Watermark watermark)
         {
-            await using var context = DbFactory.GetWriteContext();
-            var ext = await context.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId);
+            //var context = DbFactory.GetWriteContext();
+            var ext = await DbContext.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId);
             if (ext)
                 return IdResult.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
-            var maxId = await context.Watermarks.MaxAsync(t => t.Id);
+            var maxId = await DbContext.Watermarks.MaxAsync(t => t.Id);
             maxId += 1;
 
-            context.Attach(watermark);
+            DbContext.Attach(watermark);
             watermark.Id = maxId;
-            await context.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
             return IdResult.GetOk(maxId);
         }

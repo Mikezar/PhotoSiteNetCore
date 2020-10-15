@@ -23,8 +23,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public SettingService(DataBaseFactory factory) : base(factory)
+        public SettingService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -59,8 +58,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         private async Task<Settings> LoadSettings()
         {
-            var context = DbFactory.GetReadContext();
-            var values = await context.SiteSettings.ToArrayAsync();
+            var values = await DbContext.SiteSettings.ToArrayAsync();
 
             var settings = new Settings();
             var properties = typeof(Settings).GetProperties();
@@ -111,19 +109,19 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         public async Task SaveSettings(Settings settings)
         {
-            await using var context = DbFactory.GetWriteContext();
+            //await using var context = DbFactory.GetWriteContext();
             var properties = typeof(Settings).GetProperties();
             foreach (var property in properties)
             {
-                var setting = await context.SiteSettings.FirstOrDefaultAsync(t => t.Name == property.Name);
+                var setting = await DbContext.SiteSettings.FirstOrDefaultAsync(t => t.Name == property.Name);
                 string? value = property.GetValue(settings)?.ToString();
                 if (setting is null)
-                    await context.AddAsync(new SiteSettings() {Name = property.Name, Value = value});
+                    await DbContext.AddAsync(new SiteSettings() {Name = property.Name, Value = value});
                 else
                     setting.Value = value;
             }
 
-            await context.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
             lock (Locker)
                 _settings = settings;

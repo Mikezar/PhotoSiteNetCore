@@ -13,8 +13,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public AlbumService(DataBaseFactory factory) : base(factory)
+        public AlbumService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -25,8 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Albums</returns>
         public async Task<Album[]> GetChild(int? parentId)
         {
-            var context = DbFactory.GetReadContext();
-            return await context.Albums.Where(t => t.ParentId == parentId).ToArrayAsync();
+            return await DbContext.Albums.Where(t => t.ParentId == parentId).ToArrayAsync();
         }
 
     }

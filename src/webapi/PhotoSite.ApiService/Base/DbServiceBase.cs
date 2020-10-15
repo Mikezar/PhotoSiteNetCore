@@ -4,14 +4,14 @@ namespace PhotoSite.ApiService.Base
 {
     public class DbServiceBase
     {
-        protected readonly DataBaseFactory DbFactory;
+        protected readonly MainDbContext DbContext;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public DbServiceBase(DataBaseFactory dbFactory)
+        public DbServiceBase(MainDbContext dbContext)
         {
-            DbFactory = dbFactory;
+            DbContext = dbContext;
         }
     }
 }

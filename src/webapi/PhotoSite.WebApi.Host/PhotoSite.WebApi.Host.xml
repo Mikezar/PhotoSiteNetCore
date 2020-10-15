@@ -9,6 +9,14 @@
             Host configurator
             </summary>
         </member>
+        <member name="M:PhotoSite.WebApi.Configuration.HostConfigurator.CustomConfigureAppConfiguration(Microsoft.AspNetCore.Hosting.IWebHostBuilder,System.String)">
+            <summary>
+            Custom configure application's configuration
+            </summary>
+            <param name="hostBuilder"></param>
+            <param name="basePath"></param>
+            <returns></returns>
+        </member>
         <member name="M:PhotoSite.WebApi.Configuration.HostConfigurator.SetupExceptionHandlers">
             <summary>
             Setup exception handlers
@@ -232,11 +240,12 @@
             Startup
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:PhotoSite.WebApi.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             Startup
             </summary>
             <param name="configuration"></param>
+            <param name="currentEnvironment"></param>
         </member>
         <member name="P:PhotoSite.WebApi.Startup.Configuration">
             <summary>
@@ -246,6 +255,12 @@
         <member name="M:PhotoSite.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Configure of Services
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Startup.ConfigureDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
             </summary>
             <param name="services"></param>
         </member>

@@ -14,8 +14,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public PhotoToTagService(DataBaseFactory factory) : base(factory)
+        public PhotoToTagService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -25,8 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<PhotoToTag[]> GetByPhotoId(int photoId)
         {
-            var context = DbFactory.GetReadContext();
-            return await context.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
+            return await DbContext.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
         }
 
         /// <summary>
@@ -35,9 +33,8 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<int[]> GetNotExistsInPhoto(int photoId)
         {
-            var context = DbFactory.GetReadContext();
-            var result = from t in context.Tags
-                join pt in context.PhotoToTags on t.Id equals pt.TagId into g
+            var result = from t in DbContext.Tags
+                join pt in DbContext.PhotoToTags on t.Id equals pt.TagId into g
                 from et in g.DefaultIfEmpty() 
                 where et == null
                 select t.Id;
@@ -49,15 +46,15 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// </summary>
         public async Task<Result> BindTagsToPhoto(int photoId, int[] tagIds)
         {
-            await using var context = DbFactory.GetWriteContext();
-            var existsTagIds = await context.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
+            //await using var context = DbFactory.GetWriteContext();
+            var existsTagIds = await DbContext.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
 
             // Remove deleted
             foreach (var value in existsTagIds)
             {
                 var exists = tagIds.Any(t => t == value.TagId);
                 if (!exists)
-                    context.Remove(value);
+                    DbContext.Remove(value);
             }
 
             // Add new
@@ -65,10 +62,10 @@ namespace PhotoSite.ApiService.Services.Implementations
             {
                 var exists = existsTagIds.Any(t => t.TagId == tagId);
                 if (!exists)
-                    await context.AddAsync(new PhotoToTag() {PhotoId = photoId, TagId = tagId});
+                    await DbContext.AddAsync(new PhotoToTag() {PhotoId = photoId, TagId = tagId});
             }
 
-            await context.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
             return Result.GetOk();
         }

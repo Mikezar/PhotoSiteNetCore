@@ -14,9 +14,14 @@
   <PropertyGroup>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Testing.json" />
+  </ItemGroup>
     
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
@@ -31,6 +36,12 @@
 
   <ItemGroup>
     <Folder Include="Store\Db\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.Testing.json">
+      <Generator></Generator>
+    </None>
   </ItemGroup>
 
 

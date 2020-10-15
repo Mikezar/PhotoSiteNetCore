@@ -47,8 +47,8 @@ namespace PhotoSite.WebApi.Controllers.Admin
         [HttpPost("update")]
         public async Task<ResultDto> Update(TagDto tag)
         {
-            var t = _mapper.Map<Tag>(tag);
-            var result = await _tagService.Update(t);
+            var value = _mapper.Map<Tag>(tag);
+            var result = await _tagService.Update(value);
             return _mapper.Map<ResultDto>(result);
         }
 

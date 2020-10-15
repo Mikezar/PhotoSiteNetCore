@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhotoSite.Data.Entities;
-using System;
 
 namespace PhotoSite.Data.Base
 {
@@ -13,20 +12,8 @@ namespace PhotoSite.Data.Base
         public DbSet<SiteSettings>? SiteSettings { get; set; }
         public DbSet<Watermark>? Watermarks { get; set; }
 
-        private readonly string _connectionString;
-
-        /// <summary>
-        /// ctor
-        /// </summary>
-        public MainDbContext(string connectionString)
-        {
-            _connectionString = connectionString;
-            Database.EnsureCreated();
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(_connectionString);
-        }
+        public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

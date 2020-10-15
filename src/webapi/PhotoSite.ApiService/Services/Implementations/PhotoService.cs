@@ -9,8 +9,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="factory"></param>
-        public PhotoService(DataBaseFactory factory) : base(factory)
+        public PhotoService(MainDbContext dbContext) : base(dbContext)
         {
         }
 
