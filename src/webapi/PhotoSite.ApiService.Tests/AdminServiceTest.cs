@@ -1,11 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Moq;
 using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.ApiService.Services.Implementations;
-using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Shared;
 using Xunit;
 

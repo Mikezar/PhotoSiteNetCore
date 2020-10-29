@@ -138,7 +138,7 @@
             ctor
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.GetByPhotoId(PhotoSite.WebApi.Common.IdDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.WatermarkController.GetByPhotoId(System.Int32)">
             <summary>
             Get entity by photo's id
             </summary>

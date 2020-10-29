@@ -12,7 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Tags
     /// </summary>
-    [Route("api/tags")]
+    [Route("api/tag")]
     [Authorize]
     public class TagController : BaseController
     {
@@ -45,6 +45,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="tag">Tag</param>
         [HttpPost("update")]
+        [Authorize]
         public async Task<ResultDto> Update(TagDto tag)
         {
             var value = _mapper.Map<Tag>(tag);
@@ -58,6 +59,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="tagTitle">Tag's title</param>
         /// <returns>Identification new tag</returns>
         [HttpPost("create")]
+        [Authorize]
         public async Task<IdResultDto> Create(TagTitleDto tagTitle)
         {
             if (tagTitle == null)

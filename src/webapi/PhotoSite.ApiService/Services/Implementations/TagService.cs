@@ -59,7 +59,9 @@ namespace PhotoSite.ApiService.Services.Implementations
             if (ext)
                 return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
 
-            var maxId = await DbContext.Tags.MaxAsync(t => t.Id);
+            var maxId = 0;
+            if (await DbContext.Tags.CountAsync() > 0)
+                maxId = await DbContext.Tags.MaxAsync(t => t.Id);
             maxId += 1;
 
             await DbContext.AddAsync(new Tag {Id = maxId, Title = tagTitle});

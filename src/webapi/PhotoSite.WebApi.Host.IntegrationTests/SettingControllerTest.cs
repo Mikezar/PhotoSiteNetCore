@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using PhotoSite.WebApi.Admin;
@@ -21,14 +20,12 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         public async Task GetDefaultSettings()
         {
             using var client = await _fixture.GetAdminClient();
-            var response = await client.GetAsync("/api/adj/default");
-            response.EnsureSuccessStatusCode();
-            var models = JsonSerializer.Deserialize<SettingsDto>(await response.Content.ReadAsStringAsync());
-            Assert.Equal(80, models.Alpha);
+            var model = await _fixture.GetAsync<SettingsDto>(client, "/api/adj/default");
+            Assert.Equal(80, model.Alpha);
         }
 
         [Fact]
-        public async Task GetSettings()
+        public async Task Settings()
         {
             using var client = await _fixture.GetAdminClient();
 
@@ -36,10 +33,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             Assert.Equal(80, model.Alpha);
 
             model.Alpha = 88;
-            var json = JsonSerializer.Serialize(model);
-            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/adj/settings", stringContent);
-            response.EnsureSuccessStatusCode();
+            var response = await client.PostAsync("/api/adj/settings", _fixture.GetStringContent(model));
+            Assert.True(response.IsSuccessStatusCode);
 
             model = await GetSettingDto(client);
             Assert.Equal(88, model.Alpha);
@@ -48,9 +43,27 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         private async Task<SettingsDto> GetSettingDto(HttpClient client)
         {
             var response = await client.GetAsync("/api/adj/settings");
-            response.EnsureSuccessStatusCode();
+            Assert.True(response.IsSuccessStatusCode);
             var models = JsonSerializer.Deserialize<SettingsDto>(await response.Content.ReadAsStringAsync());
             return models;
+        }
+
+        [Fact]
+        public async Task UserUnauthorizedDefaultTest()
+        {
+            await _fixture.UserUnauthorizedPostTest("/api/adj/default");
+        }
+
+        [Fact]
+        public async Task UserUnauthorizedPostTest()
+        {
+            await _fixture.UserUnauthorizedPostTest("/api/adj/settings");
+        }
+
+        [Fact]
+        public async Task UserUnauthorizedGetTest()
+        {
+            await _fixture.UserUnauthorizedGetTest("/api/adj/settings");
         }
 
     }

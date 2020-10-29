@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -12,10 +13,11 @@ using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Admin.Authorize;
 using PhotoSite.WebApi.Configuration;
 using PhotoSite.WebApi.Options;
+using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 {
-    public class BaseTestServerFixture
+    public class BaseTestServerFixture : IDisposable
     {
         public TestServer TestServer { get; }
         public MainDbContext DbContext { get; }
@@ -87,6 +89,43 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             if (models.Status != LoginStatusDto.Success)
                 throw new Exception("Login failed");
             return models.Token!;
+        }
+
+        internal async Task UserUnauthorizedPostTest(string requestUri)
+        {
+            using var client = GetUserClient();
+            var stringContent = new StringContent("{}", Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(requestUri, stringContent);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        internal async Task UserUnauthorizedGetTest(string requestUri)
+        {
+            using var client = GetUserClient();
+            var response = await client.GetAsync(requestUri);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        internal StringContent GetStringContent<T>(T value)
+        {
+            var json = JsonSerializer.Serialize(value);
+            return new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        internal async Task<TResult> GetAsync<TResult>(HttpClient client, string uri) where TResult : class
+        {
+            var response = await client.GetAsync(uri);
+            Assert.True(response.IsSuccessStatusCode);
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TResult>(json);
+        }
+
+        internal async Task<TResult> PostAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
+        {
+            var response = await client.PostAsync(uri, GetStringContent(value));
+            Assert.True(response.IsSuccessStatusCode);
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TResult>(json);
         }
     }
 }

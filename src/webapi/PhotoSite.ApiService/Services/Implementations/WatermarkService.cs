@@ -41,6 +41,7 @@ namespace PhotoSite.ApiService.Services.Implementations
             if (ext)
                 return Result.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
+            DbContext.Update(watermark);
             DbContext.Attach(watermark);
             await DbContext.SaveChangesAsync();
 
@@ -59,11 +60,14 @@ namespace PhotoSite.ApiService.Services.Implementations
             if (ext)
                 return IdResult.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
-            var maxId = await DbContext.Watermarks.MaxAsync(t => t.Id);
+            var maxId = 0;
+            if (await DbContext.Watermarks.CountAsync() > 0)
+                maxId = await DbContext.Watermarks.MaxAsync(t => t.Id);
             maxId += 1;
 
-            DbContext.Attach(watermark);
             watermark.Id = maxId;
+            await DbContext.AddAsync(watermark);
+            //DbContext.Attach(watermark);
             await DbContext.SaveChangesAsync();
 
             return IdResult.GetOk(maxId);

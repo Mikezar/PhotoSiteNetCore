@@ -13,7 +13,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// Watermarks
     /// </summary>
     [Route("api/wm")]
-    [Authorize]
     public class WatermarkController : BaseController
     {
         private readonly IWatermarkService _watermarkService;
@@ -33,9 +32,9 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>All tags</returns>
         [HttpGet("byphoto")]
-        public async Task<WatermarkDto?> GetByPhotoId(IdDto photoId)
+        public async Task<WatermarkDto?> GetByPhotoId([FromQuery] int photoId)
         {
-            var result = await _watermarkService.GetByPhotoId(photoId.Id);
+            var result = await _watermarkService.GetByPhotoId(photoId);
             if (result == null)
                 return null;
             return _mapper.Map<WatermarkDto>(result);
@@ -46,6 +45,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="watermark">Entity</param>
         [HttpPost("update")]
+        [Authorize]
         public async Task<ResultDto> Update(WatermarkDto watermark)
         {
             var value = _mapper.Map<Watermark>(watermark);
@@ -59,6 +59,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="watermark">Entity</param>
         /// <returns>Identification new entity</returns>
         [HttpPost("create")]
+        [Authorize]
         public async Task<IdResultDto> Create(WatermarkDto watermark)
         {
             if (watermark == null)

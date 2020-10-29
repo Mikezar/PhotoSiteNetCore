@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using PhotoSite.WebApi.Host.IntegrationTests.Base;
 using Xunit;
 
@@ -11,6 +12,16 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         public AdminControllerTest(BaseTestServerFixture fixture)
         {
             _fixture = fixture;
+        }
+
+        [Fact]
+        public async Task LogoutTest()
+        {
+            using var client = await _fixture.GetAdminClient();
+            var response = await client.PostAsync("/api/ad/logout", null);
+            Assert.True(response.IsSuccessStatusCode);
+            response = await client.GetAsync("/api/ad/logout");
+            Assert.False(response.IsSuccessStatusCode);
         }
 
         //[Fact]
