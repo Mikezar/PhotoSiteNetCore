@@ -22,6 +22,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
         public TestServer TestServer { get; }
         public MainDbContext DbContext { get; }
         public CustomTokenAuthOptions TokenAuthOptions { get; } = new CustomTokenAuthOptions();
+        protected internal HttpClient AdminClient { get; }
 
         public BaseTestServerFixture()
         {
@@ -35,12 +36,25 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 
             TestServer = new TestServer(builder);
             DbContext = TestServer.Host.Services.GetService<MainDbContext>();
+
+            // Because can one Admin connection
+            AdminClient = Task.Run(async() => await GetAdminClient()).Result;
         }
 
         public void Dispose()
         {
+            //Task.Run(async () => await LogoutAdmin()).Wait();
+            AdminClient.Dispose();
             TestServer.Dispose();
         }
+
+        //public async Task LogoutAdmin()
+        //{
+        //    var response = await AdminClient.PostAsync("/api/ad/logout", null);
+        //    Assert.True(response.IsSuccessStatusCode);
+        //    response = await AdminClient.GetAsync("/api/ad/logout");
+        //    Assert.False(response.IsSuccessStatusCode);
+        //}
 
         private static string GetProjectPath(Assembly startupAssembly)
         {
@@ -61,7 +75,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             throw new Exception($"Can't determine project root directory inside {applicationBasePath}");
         }
 
-        public async Task<HttpClient> GetAdminClient()
+        private async Task<HttpClient> GetAdminClient()
         {
             var client = TestServer.CreateClient();
             var token = await Login(client);

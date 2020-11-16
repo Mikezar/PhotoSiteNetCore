@@ -23,7 +23,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Watermark?> GetByPhotoId(int photoId)
         {
-            return await DbContext.Watermarks.FirstOrDefaultAsync(t => t.PhotoId == photoId);
+            return await DbContext.Watermarks.AsNoTracking().FirstOrDefaultAsync(t => t.PhotoId == photoId);
         }
 
         /// <summary>
@@ -32,17 +32,12 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="watermark">Entity</param>
         public async Task<Result> Update(Watermark watermark)
         {
-            //await using var context = DbFactory.GetWriteContext();
-            var value = await DbContext.Watermarks.FirstOrDefaultAsync(t => t.Id == watermark.Id);
-            if (value == null)
-                return Result.GetError($"Not found watermark id={watermark.Id}");
+            var ext = await DbContext.Watermarks.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
+            if (!ext)
+                return Result.GetError($"Do not this watermark attached to photo (photo's id={watermark.PhotoId})");
 
-            var ext = await DbContext.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId && t.Id != watermark.Id);
-            if (ext)
-                return Result.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
-
-            DbContext.Update(watermark);
             DbContext.Attach(watermark);
+            DbContext.Update(watermark);
             await DbContext.SaveChangesAsync();
 
             return Result.GetOk();
@@ -55,22 +50,14 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new entity</returns>
         public async Task<IdResult> Create(Watermark watermark)
         {
-            //var context = DbFactory.GetWriteContext();
-            var ext = await DbContext.Watermarks.AnyAsync(t => t.PhotoId == watermark.PhotoId);
+            var ext = await DbContext.Watermarks.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
             if (ext)
                 return IdResult.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
-            var maxId = 0;
-            if (await DbContext.Watermarks.CountAsync() > 0)
-                maxId = await DbContext.Watermarks.MaxAsync(t => t.Id);
-            maxId += 1;
-
-            watermark.Id = maxId;
             await DbContext.AddAsync(watermark);
-            //DbContext.Attach(watermark);
             await DbContext.SaveChangesAsync();
 
-            return IdResult.GetOk(maxId);
+            return IdResult.GetOk(watermark.PhotoId);
         }
 
     }

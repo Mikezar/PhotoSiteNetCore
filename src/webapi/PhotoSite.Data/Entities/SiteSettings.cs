@@ -2,7 +2,7 @@
 
 namespace PhotoSite.Data.Entities
 {
-    public class SiteSettings : Entity
+    public class SiteSettings : EntityBase
     {
         [Key]
         public string? Name { get; set; }

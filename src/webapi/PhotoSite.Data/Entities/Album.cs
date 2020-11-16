@@ -3,7 +3,7 @@
     /// <summary>
     /// Album
     /// </summary>
-    public class Album : Entity
+    public class Album : EntityBase
     {
         /// <summary>
         /// Identification of parent's album

@@ -14,15 +14,15 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             _fixture = fixture;
         }
 
-        [Fact]
-        public async Task LogoutTest()
-        {
-            using var client = await _fixture.GetAdminClient();
-            var response = await client.PostAsync("/api/ad/logout", null);
-            Assert.True(response.IsSuccessStatusCode);
-            response = await client.GetAsync("/api/ad/logout");
-            Assert.False(response.IsSuccessStatusCode);
-        }
+        //[Fact]
+        //public async Task LogoutTest()
+        //{
+        //    using var client = await _fixture.GetAdminClient();
+        //    var response = await client.PostAsync("/api/ad/logout", null);
+        //    Assert.True(response.IsSuccessStatusCode);
+        //    response = await client.GetAsync("/api/ad/logout");
+        //    Assert.False(response.IsSuccessStatusCode);
+        //}
 
         //[Fact]
         //public async Task LoginTest()

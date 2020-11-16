@@ -4,9 +4,6 @@ namespace PhotoSite.WebApi.Photo
 {
     public class WatermarkDto
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
         [JsonPropertyName("photo_id")]
         public int PhotoId { get; set; }
 

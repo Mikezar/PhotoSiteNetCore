@@ -21,7 +21,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task ComplexTest()
         {
-            using var client = await _fixture.GetAdminClient();
+            var client = _fixture.AdminClient;
             var model = new TagDto {Title = TestTitle };
             await _fixture.PostAsync<TagDto, IdResultDto>(client,"/api/tag/create", model);
 

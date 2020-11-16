@@ -2,7 +2,7 @@
 
 namespace PhotoSite.Data.Entities
 {
-    public class Tag : Entity
+    public class Tag : EntityBase
     {
         public string? Title { get; set; }
 

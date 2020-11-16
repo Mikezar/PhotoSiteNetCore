@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace PhotoSite.Data.Entities
 {
-    public class Photo : Entity
+    public class Photo : EntityBase
     {
-
         public int AlbumId { get; set; }
 
         public string? Title { get; set; }

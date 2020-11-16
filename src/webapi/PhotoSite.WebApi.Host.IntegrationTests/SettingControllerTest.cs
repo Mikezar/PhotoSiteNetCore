@@ -19,15 +19,15 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task GetDefaultSettings()
         {
-            using var client = await _fixture.GetAdminClient();
+            var client = _fixture.AdminClient;
             var model = await _fixture.GetAsync<SettingsDto>(client, "/api/adj/default");
-            Assert.Equal(80, model.Alpha);
+            Assert.Equal(60, model.WatermarkFontSize);
         }
 
         [Fact]
         public async Task Settings()
-        {
-            using var client = await _fixture.GetAdminClient();
+        { 
+            var client = _fixture.AdminClient;
 
             var model = await GetSettingDto(client);
             Assert.Equal(80, model.Alpha);
@@ -51,7 +51,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedDefaultTest()
         {
-            await _fixture.UserUnauthorizedPostTest("/api/adj/default");
+            await _fixture.UserUnauthorizedGetTest("/api/adj/default");
         }
 
         [Fact]

@@ -10,8 +10,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     {
         private readonly BaseTestServerFixture _fixture;
 
-        private const int TestPhotoId1 = 1;
-        private const int TestPhotoId2 = 2;
+        private const int TestPhotoId = 1;
 
         public WatermarkControllerTest(BaseTestServerFixture fixture)
         {
@@ -21,20 +20,20 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task ComplexTest()
         {
-            using var client = await _fixture.GetAdminClient();
-            var model = new WatermarkDto { PhotoId = TestPhotoId1 };
+            var client = _fixture.AdminClient;
+            var model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = true};
             await _fixture.PostAsync<WatermarkDto, IdResultDto>(client, "api/wm/create", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId1}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId}");
             Assert.NotNull(model);
-            Assert.Equal(TestPhotoId1, model.PhotoId);
+            Assert.True(model.IsRightSide);
 
-            model = new WatermarkDto { Id = model.Id, PhotoId = TestPhotoId1 };
+            model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = false };
             await _fixture.PostAsync<WatermarkDto, IdResultDto>(client, "api/wm/update", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId1}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId}");
             Assert.NotNull(model);
-            Assert.Equal(TestPhotoId2, model.PhotoId);
+            Assert.False(model.IsRightSide);
         }
     }
 }

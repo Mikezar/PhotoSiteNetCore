@@ -2,7 +2,7 @@
 
 namespace PhotoSite.Data.Entities
 {
-    public class Entity
+    public class EntityBase
     {
         [Key]
         public int Id { get; set; }

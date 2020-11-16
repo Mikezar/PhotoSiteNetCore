@@ -1,7 +1,10 @@
-﻿namespace PhotoSite.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PhotoSite.Data.Entities
 {
-    public class Watermark : Entity
+    public class Watermark
     {
+        [Key]
         public int PhotoId { get; set; }
 
         public bool IsWatermarkApplied { get; set; }
