@@ -7,7 +7,8 @@ using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests
 {
-    public class SettingControllerTest : IClassFixture<BaseTestServerFixture>
+    [Collection("Test collection")]
+    public class SettingControllerTest
     {
         private readonly BaseTestServerFixture _fixture;
 

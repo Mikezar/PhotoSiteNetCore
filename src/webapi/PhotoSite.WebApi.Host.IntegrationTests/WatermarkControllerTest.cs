@@ -6,7 +6,8 @@ using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests
 {
-    public class WatermarkControllerTest : IClassFixture<BaseTestServerFixture>
+    [Collection("Test collection")]
+    public class WatermarkControllerTest
     {
         private readonly BaseTestServerFixture _fixture;
 

@@ -44,6 +44,42 @@
             Logout
             </summary>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.BlackIpController">
+            <summary>
+            Black ip
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.#ctor(PhotoSite.ApiService.Services.Interfaces.IBlackIpService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.GetAll">
+            <summary>
+            Get all black IP's
+            </summary>
+            <returns>All IP's</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.Create(PhotoSite.WebApi.Admin.BlackIpDto)">
+            <summary>
+            Add new black IP
+            </summary>
+            <param name="blackIp">Black IP</param>
+            <returns>Identification new black IP</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.Update(PhotoSite.WebApi.Admin.BlackIpDto)">
+            <summary>
+            Update black IP
+            </summary>
+            <param name="blackIp">Black IP</param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.Delete(System.Int32)">
+            <summary>
+            Delete black IP
+            </summary>
+            <param name="id">Black IP identification</param>
+            <returns>Result</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController">
             <summary>
             Photo's tags
@@ -182,6 +218,25 @@
             ctor
             </summary>
         </member>
+        <member name="T:PhotoSite.WebApi.Filters.IpFilter">
+            <summary>
+            IP-filter
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Filters.IpFilter.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,PhotoSite.ApiService.Services.Interfaces.IBlackIpService)">
+            <summary>
+            ctor
+            </summary>
+            <param name="next"></param>
+            <param name="blackListService"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Filters.IpFilter.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler">
             <summary>
             
@@ -201,6 +256,18 @@
             Handle authenticate async
             </summary>
             <returns>Authenticate result</returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Helpers.MiddlewareExtensions">
+            <summary>
+            Middleware extensions
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Helpers.MiddlewareExtensions.UseIpFilter(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            UseIpFilter
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
         </member>
         <member name="T:PhotoSite.WebApi.Options.CustomTokenAuthOptions">
             <summary>
@@ -260,7 +327,7 @@
         </member>
         <member name="M:PhotoSite.WebApi.Startup.ConfigureDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            
+            Configure dependencies
             </summary>
             <param name="services"></param>
         </member>

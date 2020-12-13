@@ -23,16 +23,16 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<Watermark?> GetByPhotoId(int photoId)
         {
-            return await DbContext.Watermarks.AsNoTracking().FirstOrDefaultAsync(t => t.PhotoId == photoId);
+            return await DbContext.Watermarks!.AsNoTracking().FirstOrDefaultAsync(t => t.PhotoId == photoId);
         }
 
         /// <summary>
         /// Update entity
         /// </summary>
         /// <param name="watermark">Entity</param>
-        public async Task<Result> Update(Watermark watermark)
+        public async Task<IResult> Update(Watermark watermark)
         {
-            var ext = await DbContext.Watermarks.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
+            var ext = await DbContext.Watermarks!.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
             if (!ext)
                 return Result.GetError($"Do not this watermark attached to photo (photo's id={watermark.PhotoId})");
 
@@ -48,11 +48,11 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// </summary>
         /// <param name="watermark">Entity</param>
         /// <returns>Identification new entity</returns>
-        public async Task<IdResult> Create(Watermark watermark)
+        public async Task<IIdResult> Create(Watermark watermark)
         {
-            var ext = await DbContext.Watermarks.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
+            var ext = await DbContext.Watermarks!.AsNoTracking().AnyAsync(t => t.PhotoId == watermark.PhotoId);
             if (ext)
-                return IdResult.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
+                return (IIdResult)Result.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
 
             await DbContext.AddAsync(watermark);
             await DbContext.SaveChangesAsync();

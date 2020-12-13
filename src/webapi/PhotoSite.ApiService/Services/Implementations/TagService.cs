@@ -30,9 +30,8 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// Update tag
         /// </summary>
         /// <param name="tag">Tag</param>
-        public async Task<Result> Update(Tag tag)
+        public async Task<IResult> Update(Tag tag)
         {
-            //await using var context = DbFactory.GetWriteContext();
             var value = await DbContext.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id);
             if (value == null)
                 return Result.GetError($"Not found tag id={tag.Id}");
@@ -52,12 +51,11 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// </summary>
         /// <param name="tagTitle">Tag's title</param>
         /// <returns>Identification new tag</returns>
-        public async Task<IdResult> Create(string tagTitle)
+        public async Task<IIdResult> Create(string tagTitle)
         {
-            //await using var context = DbFactory.GetWriteContext();
             var ext = await DbContext.Tags.AnyAsync(t => t.Title == tagTitle);
             if (ext)
-                return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
+                return (IIdResult)IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
 
             var maxId = 0;
             if (await DbContext.Tags.CountAsync() > 0)

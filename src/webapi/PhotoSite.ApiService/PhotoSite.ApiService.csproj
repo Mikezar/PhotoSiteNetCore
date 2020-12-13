@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Filtres\" />
+    <Folder Include="Caches\" />
   </ItemGroup>
 
 </Project>

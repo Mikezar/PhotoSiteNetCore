@@ -11,6 +11,7 @@ namespace PhotoSite.Data.Base
         public DbSet<Tag>? Tags { get; set; }
         public DbSet<SiteSettings>? SiteSettings { get; set; }
         public DbSet<Watermark>? Watermarks { get; set; }
+        public DbSet<BlackIp>? BlackIps { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         { }

@@ -14,6 +14,7 @@ using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Handlers;
+using PhotoSite.WebApi.Helpers;
 using PhotoSite.WebApi.Options;
 
 namespace PhotoSite.WebApi
@@ -59,6 +60,7 @@ namespace PhotoSite.WebApi
                     }
                 );
 
+            services.AddMemoryCache();
             services.AddApiServices();
             ConfigureDependencies(services);
             AddDb(services);
@@ -75,7 +77,7 @@ namespace PhotoSite.WebApi
         }
 
         /// <summary>
-        /// 
+        /// Configure dependencies
         /// </summary>
         /// <param name="services"></param>
         public virtual void ConfigureDependencies(IServiceCollection services)
@@ -100,7 +102,7 @@ namespace PhotoSite.WebApi
         /// <summary>
         /// Configure
         /// </summary>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -115,6 +117,8 @@ namespace PhotoSite.WebApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseIpFilter();
 
             app.UseAuthentication();
             app.UseAuthorization();

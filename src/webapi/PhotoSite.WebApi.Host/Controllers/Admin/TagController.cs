@@ -16,7 +16,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
     [Authorize]
     public class TagController : BaseController
     {
-
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
 
@@ -60,9 +59,9 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <returns>Identification new tag</returns>
         [HttpPost("create")]
         [Authorize]
-        public async Task<IdResultDto> Create(TagTitleDto tagTitle)
+        public async Task<IdResultDto> Create(TagTitleDto? tagTitle)
         {
-            if (tagTitle == null)
+            if (tagTitle is null)
                 return new IdResultDto {ErrorMessage = "Tag cannot be empty"};
             var result = await _tagService.Create(tagTitle.Title!);
             return _mapper.Map<IdResultDto>(result);

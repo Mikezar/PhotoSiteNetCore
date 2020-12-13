@@ -1,10 +1,10 @@
-using System.Threading.Tasks;
 using PhotoSite.WebApi.Host.IntegrationTests.Base;
 using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests
 {
-    public class AdminControllerTest : IClassFixture<BaseTestServerFixture>
+    [Collection("Test collection")]
+    public class AdminControllerTest //: IClassFixture<BaseTestServerFixture>
     {
 
         private readonly BaseTestServerFixture _fixture;

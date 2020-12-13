@@ -17,13 +17,13 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Update tag
         /// </summary>
         /// <param name="tag">Tag</param>
-        Task<Result> Update(Tag tag);
+        Task<IResult> Update(Tag tag);
 
         /// <summary>
         /// Create new tag
         /// </summary>
         /// <param name="tagTitle">Tag's title</param>
         /// <returns>Identification new tag</returns>
-        Task<IdResult> Create(string tagTitle);
+        Task<IIdResult> Create(string tagTitle);
     }
 }

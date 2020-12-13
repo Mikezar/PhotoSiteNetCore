@@ -1,11 +1,11 @@
 ﻿namespace PhotoSite.ApiService.Data.Common
 {
-    public class Result
+    public class Result : IResult
     {
         public string? ErrorMessage { get; set; }
 
-        public static Result GetOk() => new Result();
+        public static IResult GetOk() => new Result();
 
-        public static Result GetError(string errorMessage) => new Result { ErrorMessage = errorMessage };
+        public static IResult GetError(string errorMessage) => new Result { ErrorMessage = errorMessage };
     }
 }

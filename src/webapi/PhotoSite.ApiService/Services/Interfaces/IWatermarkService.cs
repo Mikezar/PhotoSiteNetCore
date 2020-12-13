@@ -17,13 +17,13 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Update entity
         /// </summary>
         /// <param name="watermark">Entity</param>
-        Task<Result> Update(Watermark watermark);
+        Task<IResult> Update(Watermark watermark);
 
         /// <summary>
         /// Create new entity
         /// </summary>
         /// <param name="watermark">Entity</param>
         /// <returns>Identification new entity</returns>
-        Task<IdResult> Create(Watermark watermark);
+        Task<IIdResult> Create(Watermark watermark);
     }
 }

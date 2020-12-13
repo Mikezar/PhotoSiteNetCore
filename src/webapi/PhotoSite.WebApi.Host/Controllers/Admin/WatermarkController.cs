@@ -60,9 +60,9 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <returns>Identification new entity</returns>
         [HttpPost("create")]
         [Authorize]
-        public async Task<IdResultDto> Create(WatermarkDto watermark)
+        public async Task<IdResultDto> Create(WatermarkDto? watermark)
         {
-            if (watermark == null)
+            if (watermark is null)
                 return new IdResultDto { ErrorMessage = "Watermark cannot be empty" };
             var value = _mapper.Map<Watermark>(watermark);
             var result = await _watermarkService.Create(value);

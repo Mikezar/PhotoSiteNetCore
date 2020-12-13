@@ -32,6 +32,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             var builder = new WebHostBuilder()
                 .UseEnvironment("Testing")
                 .CustomConfigureAppConfiguration(contentRoot)
+                .ConfigureServices(
+                    services => services.AddSingleton<IStartupFilter, FakeRemoteIpAddressStartupFilter>())
                 .UseStartup<Startup>();
 
             TestServer = new TestServer(builder);
@@ -48,13 +50,13 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             TestServer.Dispose();
         }
 
-        //public async Task LogoutAdmin()
-        //{
-        //    var response = await AdminClient.PostAsync("/api/ad/logout", null);
-        //    Assert.True(response.IsSuccessStatusCode);
-        //    response = await AdminClient.GetAsync("/api/ad/logout");
-        //    Assert.False(response.IsSuccessStatusCode);
-        //}
+        public async Task LogoutAdmin()
+        {
+            var response = await AdminClient.PostAsync("/api/ad/logout", null);
+            Assert.True(response.IsSuccessStatusCode);
+            response = await AdminClient.GetAsync("/api/ad/logout");
+            Assert.False(response.IsSuccessStatusCode);
+        }
 
         private static string GetProjectPath(Assembly startupAssembly)
         {

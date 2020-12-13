@@ -6,7 +6,8 @@ using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests
 {
-    public class TagControllerTest : IClassFixture<BaseTestServerFixture>
+    [Collection("Test collection")]
+    public class TagControllerTest
     {
         private readonly BaseTestServerFixture _fixture;
 

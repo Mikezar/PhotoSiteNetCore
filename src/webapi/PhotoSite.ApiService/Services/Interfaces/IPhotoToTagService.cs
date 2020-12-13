@@ -22,6 +22,6 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// <summary>
         /// Bind tags to photo
         /// </summary>
-        Task<Result> BindTagsToPhoto(int photoId, int[] tagIds);
+        Task<IResult> BindTagsToPhoto(int photoId, int[] tagIds);
     }
 }

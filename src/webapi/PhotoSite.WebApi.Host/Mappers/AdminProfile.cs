@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Admin;
+using PhotoSite.Data.Entities;
 using PhotoSite.WebApi.Admin;
 using PhotoSite.WebApi.Admin.Authorize;
 
@@ -13,6 +14,7 @@ namespace PhotoSite.WebApi.Mappers
             CreateMap<LoginState, LoginStateDto>();
             CreateMap<LoginStatus, LoginStatusDto>();
             CreateMap<Settings, SettingsDto>().ReverseMap();
+            CreateMap<BlackIp, BlackIpDto>().ReverseMap();
         }
     }
 }
