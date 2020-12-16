@@ -52,7 +52,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 
         public async Task LogoutAdmin()
         {
-            var response = await AdminClient.PostAsync("/api/ad/logout", null);
+            var response = await AdminClient.PostAsync("/api/ad/logout", new StringContent(string.Empty));
             Assert.True(response.IsSuccessStatusCode);
             response = await AdminClient.GetAsync("/api/ad/logout");
             Assert.False(response.IsSuccessStatusCode);
@@ -102,7 +102,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             var response = await client.PostAsync("/api/ad/login", stringContent);
             response.EnsureSuccessStatusCode();
             var models = JsonSerializer.Deserialize<LoginStateDto>(await response.Content.ReadAsStringAsync());
-            if (models.Status != LoginStatusDto.Success)
+            if (models?.Status != LoginStatusDto.Success)
                 throw new Exception("Login failed");
             return models.Token!;
         }
@@ -128,7 +128,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
 
-        internal async Task<TResult> GetAsync<TResult>(HttpClient client, string uri) where TResult : class
+        internal async Task<TResult?> GetAsync<TResult>(HttpClient client, string uri) where TResult : class
         {
             var response = await client.GetAsync(uri);
             Assert.True(response.IsSuccessStatusCode);
@@ -136,7 +136,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             return JsonSerializer.Deserialize<TResult>(json);
         }
 
-        internal async Task<TResult> PostAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
+        internal async Task<TResult?> PostAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
         {
             var response = await client.PostAsync(uri, GetStringContent(value));
             Assert.True(response.IsSuccessStatusCode);

@@ -46,7 +46,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             var response = await client.GetAsync("/api/adj/settings");
             Assert.True(response.IsSuccessStatusCode);
             var models = JsonSerializer.Deserialize<SettingsDto>(await response.Content.ReadAsStringAsync());
-            return models;
+            Assert.NotNull(models);
+            return models!;
         }
 
         [Fact]

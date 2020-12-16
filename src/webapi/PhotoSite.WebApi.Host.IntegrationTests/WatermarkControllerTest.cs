@@ -27,14 +27,14 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
 
             model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId}");
             Assert.NotNull(model);
-            Assert.True(model.IsRightSide);
+            Assert.True(model!.IsRightSide);
 
             model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = false };
             await _fixture.PostAsync<WatermarkDto, IdResultDto>(client, "api/wm/update", model);
 
             model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId}");
             Assert.NotNull(model);
-            Assert.False(model.IsRightSide);
+            Assert.False(model!.IsRightSide);
         }
     }
 }

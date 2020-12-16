@@ -35,6 +35,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             var adminClient = _fixture.AdminClient;
             var model = new BlackIpDto { MaskAddress = maskAddress, SubnetMask = subnetMask, IsInterNetworkV6 = v6 };
             var resultAddIp = await _fixture.PostAsync<BlackIpDto, IdResultDto>(adminClient, "api/blacklist/create", model);
+            Assert.NotNull(resultAddIp);
 
             var client = _fixture.GetUserClient();
             client.DefaultRequestHeaders.Add(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName, ipAddressBlack);
@@ -52,9 +53,9 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
 
-            var result = await _fixture.GetAsync<ResultDto>(adminClient, $"/api/blacklist/delete?id={resultAddIp.Id}");
+            var result = await _fixture.GetAsync<ResultDto>(adminClient, $"/api/blacklist/delete?id={resultAddIp!.Id}");
             Assert.NotNull(result);
-            Assert.True(result.ErrorMessage == null);
+            Assert.True(result!.ErrorMessage == null);
         }
 
         [Fact]

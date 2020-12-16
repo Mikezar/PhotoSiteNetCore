@@ -27,15 +27,17 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             await _fixture.PostAsync<TagDto, IdResultDto>(client,"/api/tag/create", model);
 
             var models = await _fixture.GetAsync<TagDto[]>(client, "/api/tag/getall");
-            Assert.Single(models);
-            Assert.Equal(TestTitle, models[0].Title);
+            Assert.NotNull(models);
+            Assert.Single(models!);
+            Assert.Equal(TestTitle, models![0].Title);
 
             model = new TagDto { Id = models[0].Id, Title = UpdateTestTitle };
             await _fixture.PostAsync<TagDto, ResultDto>(client, "/api/tag/update", model);
 
             models = await _fixture.GetAsync<TagDto[]>(client, "/api/tag/getall");
-            Assert.Single(models);
-            Assert.Equal(UpdateTestTitle, models[0].Title);
+            Assert.NotNull(models);
+            Assert.Single(models!);
+            Assert.Equal(UpdateTestTitle, models![0].Title);
         }
 
         [Fact]

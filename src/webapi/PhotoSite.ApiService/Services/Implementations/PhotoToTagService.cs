@@ -24,7 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>All tags</returns>
         public async Task<PhotoToTag[]> GetByPhotoId(int photoId)
         {
-            return await DbContext.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
+            return await DbContext.PhotoToTags!.Where(t => t.PhotoId == photoId).ToArrayAsync();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         public async Task<int[]> GetNotExistsInPhoto(int photoId)
         {
             var result = from t in DbContext.Tags
-                join pt in DbContext.PhotoToTags on t.Id equals pt.TagId into g
+                join pt in DbContext.PhotoToTags! on t.Id equals pt.TagId into g
                 from et in g.DefaultIfEmpty() 
                 where et == null
                 select t.Id;
@@ -47,7 +47,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         public async Task<IResult> BindTagsToPhoto(int photoId, int[] tagIds)
         {
             //await using var context = DbFactory.GetWriteContext();
-            var existsTagIds = await DbContext.PhotoToTags.Where(t => t.PhotoId == photoId).ToArrayAsync();
+            var existsTagIds = await DbContext.PhotoToTags!.Where(t => t.PhotoId == photoId).ToArrayAsync();
 
             // Remove deleted
             foreach (var value in existsTagIds)

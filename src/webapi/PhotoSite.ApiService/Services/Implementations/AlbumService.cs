@@ -24,7 +24,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Albums</returns>
         public async Task<Album[]> GetChild(int? parentId)
         {
-            return await DbContext.Albums.Where(t => t.ParentId == parentId).ToArrayAsync();
+            return await DbContext.Albums!.Where(t => t.ParentId == parentId).ToArrayAsync();
         }
 
     }
