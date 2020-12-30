@@ -80,6 +80,34 @@
             <param name="id">Black IP identification</param>
             <returns>Result</returns>
         </member>
+        <member name="T:PhotoSite.WebApi.Controllers.Admin.ConfigParamController">
+            <summary>
+            Settings
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.ConfigParamController.#ctor(PhotoSite.ApiService.Services.Interfaces.IConfigParamService,AutoMapper.IMapper)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.ConfigParamController.GetDefaultSettings">
+            <summary>
+            Get default settings
+            </summary>
+            <returns>Default settings</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.ConfigParamController.GetSettings">
+            <summary>
+            Get settings
+            </summary>
+            <returns>Settings</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.ConfigParamController.SetSettings(PhotoSite.WebApi.Admin.ConfigParamDto)">
+            <summary>
+            Set settings
+            </summary>
+            <returns>Settings</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController">
             <summary>
             Photo's tags
@@ -106,34 +134,6 @@
             <summary>
             Bind tags to photo
             </summary>
-        </member>
-        <member name="T:PhotoSite.WebApi.Controllers.Admin.SettingController">
-            <summary>
-            Settings
-            </summary>
-        </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.#ctor(PhotoSite.ApiService.Services.Interfaces.ISettingService,AutoMapper.IMapper)">
-            <summary>
-            ctor
-            </summary>
-        </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.GetDefaultSettings">
-            <summary>
-            Get default settings
-            </summary>
-            <returns>Default settings</returns>
-        </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.GetSettings">
-            <summary>
-            Get settings
-            </summary>
-            <returns>Settings</returns>
-        </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.SettingController.SetSettings(PhotoSite.WebApi.Admin.SettingsDto)">
-            <summary>
-            Set settings
-            </summary>
-            <returns>Settings</returns>
         </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.TagController">
             <summary>
@@ -218,6 +218,12 @@
             ctor
             </summary>
         </member>
+        <member name="M:PhotoSite.WebApi.Controllers.PhotoController.Get(System.Int32)">
+            <summary>
+            Get entity by photo's id
+            </summary>
+            <returns>All tags</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Filters.IpFilter">
             <summary>
             IP-filter
@@ -268,6 +274,23 @@
             </summary>
             <param name="builder"></param>
             <returns></returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Helpers.ServiceProviderExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Helpers.ServiceProviderExtensions.AddCaches(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Register all api caches
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Helpers.ServiceProviderExtensions.AddCacheProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Register all cache providers
+            </summary>
+            <param name="services"></param>
         </member>
         <member name="T:PhotoSite.WebApi.Options.CustomTokenAuthOptions">
             <summary>

@@ -2,7 +2,7 @@
 
 namespace PhotoSite.Data.Entities
 {
-    public class SiteSettings : EntityBase
+    public class ConfigParam
     {
         [Key]
         public string? Name { get; set; }

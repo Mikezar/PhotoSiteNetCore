@@ -13,7 +13,7 @@ namespace PhotoSite.WebApi.Mappers
         {
             CreateMap<LoginState, LoginStateDto>();
             CreateMap<LoginStatus, LoginStatusDto>();
-            CreateMap<Settings, SettingsDto>().ReverseMap();
+            CreateMap<Settings, ConfigParamDto>().ReverseMap();
             CreateMap<BlackIp, BlackIpDto>().ReverseMap();
         }
     }

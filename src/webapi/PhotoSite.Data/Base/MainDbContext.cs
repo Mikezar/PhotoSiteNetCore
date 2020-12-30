@@ -9,7 +9,7 @@ namespace PhotoSite.Data.Base
         public DbSet<Photo>? Photos { get; set; }
         public DbSet<PhotoToTag>? PhotoToTags { get; set; }
         public DbSet<Tag>? Tags { get; set; }
-        public DbSet<SiteSettings>? SiteSettings { get; set; }
+        public DbSet<ConfigParam>? ConfigParam { get; set; }
         public DbSet<Watermark>? Watermarks { get; set; }
         public DbSet<BlackIp>? BlackIps { get; set; }
 
@@ -18,12 +18,13 @@ namespace PhotoSite.Data.Base
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SiteSettings>()
-                .Ignore(x => x.Id)
+            
+            modelBuilder.Entity<ConfigParam>()
                 .HasKey(x => new { x.Name });
 
+
             modelBuilder.Entity<PhotoToTag>()
-                .Ignore(x => x.Id).HasKey(c => new { c.PhotoId, c.TagId });
+                .HasKey(c => new { c.PhotoId, c.TagId });
 
             modelBuilder.Entity<PhotoToTag>()
                 .HasOne(t => t.Tag)
@@ -34,6 +35,31 @@ namespace PhotoSite.Data.Base
                 .HasOne(p => p.Photo)
                 .WithMany(t => t!.Tags)
                 .HasForeignKey(p => p.PhotoId);
+
+
+            modelBuilder.Entity<Watermark>()
+                .HasKey(c => new { c.PhotoId });
+
+
+            modelBuilder.Entity<Album>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+
+            modelBuilder.Entity<BlackIp>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+
+            modelBuilder.Entity<Photo>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
+
+            modelBuilder.Entity<Tag>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+
         }
     }
 }

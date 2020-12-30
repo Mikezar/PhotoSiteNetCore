@@ -1,20 +1,21 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Services.Interfaces;
-using PhotoSite.Data.Base;
 using PhotoSite.Data.Entities;
+using PhotoSite.Data.Repositories.Interfaces;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class AlbumService : DbServiceBase, IAlbumService
+    public class AlbumService : IAlbumService
     {
+        private readonly IAlbumRepository _albumRepository;
+
         /// <summary>
         /// ctor
         /// </summary>
-        public AlbumService(MainDbContext dbContext) : base(dbContext)
+        public AlbumService(IAlbumRepository albumRepository)
         {
+            _albumRepository = albumRepository;
         }
 
         /// <summary>
@@ -22,9 +23,9 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// </summary>
         /// <param name="parentId">Parent album's identification</param>
         /// <returns>Albums</returns>
-        public async Task<Album[]> GetChild(int? parentId)
+        public async Task<ICollection<Album>> GetChild(int? parentId)
         {
-            return await DbContext.Albums!.Where(t => t.ParentId == parentId).ToArrayAsync();
+            return await _albumRepository.GetAsNoTrackingChild(parentId);
         }
 
     }

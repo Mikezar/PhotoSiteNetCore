@@ -4,7 +4,7 @@ using PhotoSite.ApiService.Data;
 
 namespace PhotoSite.ApiService.Services.Interfaces
 {
-    public interface ISettingService : IService
+    public interface IConfigParamService : IService
     {
         /// <summary>
         /// Get default settings

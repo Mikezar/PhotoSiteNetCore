@@ -23,7 +23,6 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Create new entity
         /// </summary>
         /// <param name="watermark">Entity</param>
-        /// <returns>Identification new entity</returns>
-        Task<IIdResult> Create(Watermark watermark);
+        Task<IResult> Create(Watermark watermark);
     }
 }

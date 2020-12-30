@@ -1,6 +1,6 @@
 ﻿namespace PhotoSite.Data.Entities
 {
-    public class PhotoToTag : EntityBase
+    public class PhotoToTag
     {
         public int PhotoId { get; set; }
         public int TagId { get; set; }

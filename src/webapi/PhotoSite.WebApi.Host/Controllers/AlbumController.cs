@@ -7,7 +7,6 @@ namespace PhotoSite.WebApi.Controllers
     /// <summary>
     /// Gallery
     /// </summary>
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class AlbumController : BaseController

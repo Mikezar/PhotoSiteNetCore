@@ -1,29 +1,31 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PhotoSite.ApiService.Base;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
-using PhotoSite.Data.Base;
 using PhotoSite.Data.Entities;
+using PhotoSite.Data.Repositories.Interfaces;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class TagService : DbServiceBase, ITagService
+    public class TagService : ITagService
     {
+        private readonly ITagRepository _tagRepository;
+
         /// <summary>
         /// ctor
         /// </summary>
-        public TagService(MainDbContext dbContext) : base(dbContext)
+        public TagService(ITagRepository tagRepository)
         {
+            _tagRepository = tagRepository;
         }
 
         /// <summary>
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
-        public async Task<Tag[]> GetAll()
+        public async Task<IEnumerable<Tag>> GetAll()
         {
-            return await DbContext.Tags.ToArrayAsync();
+            return await _tagRepository.GetAll();
         }
 
         /// <summary>
@@ -32,16 +34,16 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="tag">Tag</param>
         public async Task<IResult> Update(Tag tag)
         {
-            var value = await DbContext.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id);
+            var value = await _tagRepository.Get(tag.Id);
             if (value == null)
                 return Result.GetError($"Not found tag id={tag.Id}");
 
-            var ext = await DbContext.Tags.AnyAsync(t => t.Title == tag.Title && t.Id != tag.Id);
+            var ext = await _tagRepository.ExistsOtherTagByTagTitle(tag.Id, tag.Title);
             if (ext)
                 return Result.GetError($"Tag's title '{tag.Title}' exists in other tag");
 
             value.Title = tag.Title;
-            await DbContext.SaveChangesAsync();
+            await _tagRepository.Update(value);
 
             return Result.GetOk();
         }
@@ -53,17 +55,12 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <returns>Identification new tag</returns>
         public async Task<IIdResult> Create(string tagTitle)
         {
-            var ext = await DbContext.Tags.AnyAsync(t => t.Title == tagTitle);
+            var ext = await _tagRepository.ExistsByTagTitle(tagTitle);
             if (ext)
-                return (IIdResult)IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
+                return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
 
-            var maxId = 0;
-            if (await DbContext.Tags.CountAsync() > 0)
-                maxId = await DbContext.Tags.MaxAsync(t => t.Id);
-            maxId += 1;
-
-            await DbContext.AddAsync(new Tag {Id = maxId, Title = tagTitle});
-            await DbContext.SaveChangesAsync();
+            var tag = new Tag {Title = tagTitle};
+            var maxId = await _tagRepository.Create(tag);
 
             return IdResult.GetOk(maxId);
         }

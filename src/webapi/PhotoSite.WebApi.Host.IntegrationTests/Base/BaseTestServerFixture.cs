@@ -52,9 +52,9 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 
         public async Task LogoutAdmin()
         {
-            var response = await AdminClient.PostAsync("/api/ad/logout", new StringContent(string.Empty));
+            var response = await AdminClient.PostAsync("/api/admin/logout", new StringContent(string.Empty));
             Assert.True(response.IsSuccessStatusCode);
-            response = await AdminClient.GetAsync("/api/ad/logout");
+            response = await AdminClient.GetAsync("/api/admin/logout");
             Assert.False(response.IsSuccessStatusCode);
         }
 
@@ -99,7 +99,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             };
             var json = JsonSerializer.Serialize(data);
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/ad/login", stringContent);
+            var response = await client.PostAsync("/api/admin/login", stringContent);
             response.EnsureSuccessStatusCode();
             var models = JsonSerializer.Deserialize<LoginStateDto>(await response.Content.ReadAsStringAsync());
             if (models?.Status != LoginStatusDto.Success)

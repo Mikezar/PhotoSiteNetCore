@@ -8,11 +8,13 @@ using Xunit;
 namespace PhotoSite.WebApi.Host.IntegrationTests
 {
     [Collection("Test collection")]
-    public class SettingControllerTest
+    public class ConfigParamControllerTest
     {
+        private const string ApiName = "api/adj/";
+
         private readonly BaseTestServerFixture _fixture;
 
-        public SettingControllerTest(BaseTestServerFixture fixture)
+        public ConfigParamControllerTest(BaseTestServerFixture fixture)
         {
             _fixture = fixture;
         }
@@ -21,8 +23,9 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         public async Task GetDefaultSettings()
         {
             var client = _fixture.AdminClient;
-            var model = await _fixture.GetAsync<SettingsDto>(client, "/api/adj/default");
-            Assert.Equal(60, model.WatermarkFontSize);
+            var model = await _fixture.GetAsync<ConfigParamDto>(client, $"{ApiName}default");
+            Assert.NotNull(model);
+            Assert.Equal(60, model!.WatermarkFontSize);
         }
 
         [Fact]
@@ -34,18 +37,18 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             Assert.Equal(80, model.Alpha);
 
             model.Alpha = 88;
-            var response = await client.PostAsync("/api/adj/settings", _fixture.GetStringContent(model));
+            var response = await client.PostAsync($"{ApiName}settings", _fixture.GetStringContent(model));
             Assert.True(response.IsSuccessStatusCode);
 
             model = await GetSettingDto(client);
             Assert.Equal(88, model.Alpha);
         }
 
-        private async Task<SettingsDto> GetSettingDto(HttpClient client)
+        private async Task<ConfigParamDto> GetSettingDto(HttpClient client)
         {
-            var response = await client.GetAsync("/api/adj/settings");
+            var response = await client.GetAsync($"{ApiName}settings");
             Assert.True(response.IsSuccessStatusCode);
-            var models = JsonSerializer.Deserialize<SettingsDto>(await response.Content.ReadAsStringAsync());
+            var models = JsonSerializer.Deserialize<ConfigParamDto>(await response.Content.ReadAsStringAsync());
             Assert.NotNull(models);
             return models!;
         }
@@ -53,19 +56,19 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedDefaultTest()
         {
-            await _fixture.UserUnauthorizedGetTest("/api/adj/default");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}default");
         }
 
         [Fact]
         public async Task UserUnauthorizedPostTest()
         {
-            await _fixture.UserUnauthorizedPostTest("/api/adj/settings");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}settings");
         }
 
         [Fact]
         public async Task UserUnauthorizedGetTest()
         {
-            await _fixture.UserUnauthorizedGetTest("/api/adj/settings");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}settings");
         }
 
     }

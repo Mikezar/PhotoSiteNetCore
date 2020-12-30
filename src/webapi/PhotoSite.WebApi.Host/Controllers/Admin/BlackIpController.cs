@@ -12,7 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Black ip
     /// </summary>
-    [Route("api/blacklist")]
+    [Route("api/[controller]")]
     [Authorize]
     public class BlackIpController : BaseController
     {

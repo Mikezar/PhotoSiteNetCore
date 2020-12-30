@@ -12,7 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Photo's tags
     /// </summary>
-    [Route("api/phototag")]
+    [Route("api/[controller]")]
     [Authorize]
     public class PhotoToTagController : BaseController
     {

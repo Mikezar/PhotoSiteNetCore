@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhotoSite.Core.Common\PhotoSite.Core.Common.csproj" />
     <ProjectReference Include="..\PhotoSite.Data\PhotoSite.Data.csproj" />
     <ProjectReference Include="..\PhotoSite.Shared\PhotoSite.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Filtres\" />
-    <Folder Include="Caches\" />
   </ItemGroup>
 
 </Project>

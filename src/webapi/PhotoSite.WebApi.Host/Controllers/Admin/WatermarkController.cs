@@ -12,6 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Watermarks
     /// </summary>
+    [Authorize]
     [Route("api/wm")]
     public class WatermarkController : BaseController
     {
@@ -45,7 +46,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="watermark">Entity</param>
         [HttpPost("update")]
-        [Authorize]
         public async Task<ResultDto> Update(WatermarkDto watermark)
         {
             var value = _mapper.Map<Watermark>(watermark);
@@ -59,14 +59,13 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="watermark">Entity</param>
         /// <returns>Identification new entity</returns>
         [HttpPost("create")]
-        [Authorize]
-        public async Task<IdResultDto> Create(WatermarkDto? watermark)
+        public async Task<ResultDto> Create(WatermarkDto? watermark)
         {
             if (watermark is null)
-                return new IdResultDto { ErrorMessage = "Watermark cannot be empty" };
+                return new ResultDto { ErrorMessage = "Watermark cannot be empty" };
             var value = _mapper.Map<Watermark>(watermark);
             var result = await _watermarkService.Create(value);
-            return _mapper.Map<IdResultDto>(result);
+            return _mapper.Map<ResultDto>(result);
         }
     }
 }

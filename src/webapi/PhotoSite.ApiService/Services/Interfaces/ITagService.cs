@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.Data.Entities;
@@ -11,7 +12,7 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
-        Task<Tag[]> GetAll();
+        Task<IEnumerable<Tag>> GetAll();
 
         /// <summary>
         /// Update tag

@@ -12,6 +12,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
+using PhotoSite.Data;
 using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Handlers;
 using PhotoSite.WebApi.Helpers;
@@ -61,6 +62,9 @@ namespace PhotoSite.WebApi
                 );
 
             services.AddMemoryCache();
+            services.AddRepositories();
+            services.AddCacheProvider();
+            services.AddCaches();
             services.AddApiServices();
             ConfigureDependencies(services);
             AddDb(services);

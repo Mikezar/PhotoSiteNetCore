@@ -2,17 +2,16 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PhotoSite.ApiService.Base;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Base;
 using PhotoSite.Data.Entities;
+using PhotoSite.Data.Repositories.Interfaces;
 using Serilog;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
-    public class SettingService : DbServiceBase, ISettingService
+    public class ConfigParamService : IConfigParamService
     {
         private static readonly ILogger Logger = new LoggerConfiguration().CreateLogger();
 
@@ -20,11 +19,14 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         private static readonly object Locker = new object();
 
+        private readonly IConfigParamRepository _configParamRepository;
+
         /// <summary>
         /// ctor
         /// </summary>
-        public SettingService(MainDbContext dbContext) : base(dbContext)
+        public ConfigParamService(IConfigParamRepository configParamRepository)
         {
+            _configParamRepository = configParamRepository;
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         private async Task<Settings> LoadSettings()
         {
-            var values = await DbContext.SiteSettings.ToArrayAsync();
+            var values = await _configParamRepository.GetAsNoTrackingAll();
 
             var settings = new Settings();
             var properties = typeof(Settings).GetProperties();
@@ -109,19 +111,19 @@ namespace PhotoSite.ApiService.Services.Implementations
 
         public async Task SaveSettings(Settings settings)
         {
-            //await using var context = DbFactory.GetWriteContext();
             var properties = typeof(Settings).GetProperties();
             foreach (var property in properties)
             {
-                var setting = await DbContext.SiteSettings.FirstOrDefaultAsync(t => t.Name == property.Name);
+                var setting = await _configParamRepository.Get(property.Name);
                 string? value = property.GetValue(settings)?.ToString();
                 if (setting is null)
-                    await DbContext.AddAsync(new SiteSettings() {Name = property.Name, Value = value});
+                    await _configParamRepository
+                        .Create(new ConfigParam() { Name = property.Name, Value = value });
                 else
                     setting.Value = value;
             }
 
-            await DbContext.SaveChangesAsync();
+            await ((IDbContext) _configParamRepository).SaveChanges();
 
             lock (Locker)
                 _settings = settings;

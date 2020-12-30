@@ -10,6 +10,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class BlackIpControllerTest
     {
+        private const string ApiName = "api/blackip/";
+
         private readonly BaseTestServerFixture _fixture;
 
         public BlackIpControllerTest(BaseTestServerFixture fixture)
@@ -34,26 +36,27 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         {
             var adminClient = _fixture.AdminClient;
             var model = new BlackIpDto { MaskAddress = maskAddress, SubnetMask = subnetMask, IsInterNetworkV6 = v6 };
-            var resultAddIp = await _fixture.PostAsync<BlackIpDto, IdResultDto>(adminClient, "api/blacklist/create", model);
+            var resultAddIp = await _fixture.PostAsync<BlackIpDto, IdResultDto>(adminClient, $"{ApiName}create", model);
             Assert.NotNull(resultAddIp);
 
             var client = _fixture.GetUserClient();
             client.DefaultRequestHeaders.Add(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName, ipAddressBlack);
 
             // Call open metod
-            var response = await client.GetAsync("/api/wm/byphoto?photoId=0");
+            var response = await client.GetAsync($"{PhotoControllerTest.ApiName}get?id=0");
             Assert.True(response.StatusCode == HttpStatusCode.Forbidden);
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
             client.DefaultRequestHeaders.Add(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName, ipAddressWhite);
 
-            // Call open metod
-            response = await client.GetAsync("/api/wm/byphoto?photoId=0");
+            // Call open function
+            response = await client.GetAsync($"{PhotoControllerTest.ApiName}get?id=0");
             Assert.True(response.StatusCode == HttpStatusCode.NoContent);
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
 
-            var result = await _fixture.GetAsync<ResultDto>(adminClient, $"/api/blacklist/delete?id={resultAddIp!.Id}");
+            var id = resultAddIp!.Id;
+            var result = await _fixture.GetAsync<ResultDto>(adminClient, $"{ApiName}delete?id={id}");
             Assert.NotNull(result);
             Assert.True(result!.ErrorMessage == null);
         }
@@ -61,25 +64,25 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedCreateTest()
         {
-            await _fixture.UserUnauthorizedPostTest("/api/blacklist/create");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}create");
         }
 
         [Fact]
         public async Task UserUnauthorizedUpdateTest()
         {
-            await _fixture.UserUnauthorizedPostTest("/api/blacklist/update");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}update");
         }
 
         [Fact]
         public async Task UserUnauthorizedDeleteTest()
         {
-            await _fixture.UserUnauthorizedGetTest("/api/blacklist/delete");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}delete");
         }
 
         [Fact]
         public async Task UserUnauthorizedGetAllTest()
         {
-            await _fixture.UserUnauthorizedGetTest("/api/blacklist/getall");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}getall");
         }
 
     }

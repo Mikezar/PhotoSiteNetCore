@@ -2,7 +2,7 @@
 
 namespace PhotoSite.WebApi.Admin
 {
-    public class SettingsDto
+    public class ConfigParamDto
     {
         [JsonPropertyName("watermark_font")]
         public string? WatermarkFont { get; set; }

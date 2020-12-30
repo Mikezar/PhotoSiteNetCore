@@ -13,15 +13,15 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/adj")]
     [Authorize]
-    public class SettingController : BaseController
+    public class ConfigParamController : BaseController
     {
-        private readonly ISettingService _settingService;
+        private readonly IConfigParamService _settingService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public SettingController(ISettingService settingService, IMapper mapper)
+        public ConfigParamController(IConfigParamService settingService, IMapper mapper)
         {
             _settingService = settingService;
             _mapper = mapper;
@@ -32,10 +32,10 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Default settings</returns>
         [HttpGet("default")]
-        public SettingsDto GetDefaultSettings()
+        public ConfigParamDto GetDefaultSettings()
         {
             var result = _settingService.GetDefaultSettings();
-            return _mapper.Map<SettingsDto>(result);
+            return _mapper.Map<ConfigParamDto>(result);
         }
 
         /// <summary>
@@ -43,10 +43,10 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpGet("settings")]
-        public async Task<SettingsDto> GetSettings()
+        public async Task<ConfigParamDto> GetSettings()
         {
             var result = await _settingService.GetSettings();
-            return _mapper.Map<SettingsDto>(result);
+            return _mapper.Map<ConfigParamDto>(result);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>Settings</returns>
         [HttpPost("settings")]
-        public async Task SetSettings([FromBody] SettingsDto settingsDto)
+        public async Task SetSettings([FromBody] ConfigParamDto settingsDto)
         {
             var settings = _mapper.Map<Settings>(settingsDto);
             await _settingService.SaveSettings(settings);

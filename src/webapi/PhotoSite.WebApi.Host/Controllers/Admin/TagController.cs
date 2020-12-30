@@ -12,8 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// <summary>
     /// Tags
     /// </summary>
-    [Route("api/tag")]
-    [Authorize]
+    [Route("api/[controller]")]
     public class TagController : BaseController
     {
         private readonly ITagService _tagService;
@@ -28,11 +27,14 @@ namespace PhotoSite.WebApi.Controllers.Admin
             _mapper = mapper;
         }
 
+        // TODO: Add metod GetPopular
+
         /// <summary>
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
         [HttpGet("getall")]
+        [Authorize]
         public async Task<TagDto[]> GetAll()
         {
             var result = await _tagService.GetAll();

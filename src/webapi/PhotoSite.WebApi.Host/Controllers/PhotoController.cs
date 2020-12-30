@@ -1,13 +1,14 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.WebApi.Photo;
 
 namespace PhotoSite.WebApi.Controllers
 {
     /// <summary>
     /// Photos
     /// </summary>
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class PhotoController : BaseController
@@ -24,6 +25,17 @@ namespace PhotoSite.WebApi.Controllers
         {
             _mapper = mapper;
             _photoService = photoService;
+        }
+
+        /// <summary>
+        /// Get entity by photo's id
+        /// </summary>
+        /// <returns>All tags</returns>
+        [HttpGet("get")]
+        public async Task<PhotoDto?> Get([FromQuery] int id)
+        {
+            var result = await _photoService.Get(id);
+            return _mapper.Map<PhotoDto?>(result);
         }
     }
 }
