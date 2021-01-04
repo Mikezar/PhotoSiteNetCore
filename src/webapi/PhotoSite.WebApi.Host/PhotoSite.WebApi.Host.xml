@@ -229,12 +229,11 @@
             IP-filter
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Filters.IpFilter.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,PhotoSite.ApiService.Services.Interfaces.IBlackIpService)">
+        <member name="M:PhotoSite.WebApi.Filters.IpFilter.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
             <summary>
             ctor
             </summary>
             <param name="next"></param>
-            <param name="blackListService"></param>
         </member>
         <member name="M:PhotoSite.WebApi.Filters.IpFilter.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>

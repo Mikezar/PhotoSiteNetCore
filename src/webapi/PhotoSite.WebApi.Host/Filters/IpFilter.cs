@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using PhotoSite.ApiService.Services.Interfaces;
 
 namespace PhotoSite.WebApi.Filters
@@ -16,17 +17,13 @@ namespace PhotoSite.WebApi.Filters
     {
         private readonly RequestDelegate _next;
 
-        private readonly IBlackIpService _blackListService;
-
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="next"></param>
-        /// <param name="blackListService"></param>
-        public IpFilter(RequestDelegate next, IBlackIpService blackListService)
+        public IpFilter(RequestDelegate next)
         {
             _next = next;
-            _blackListService = blackListService;
         }
 
         /// <summary>
@@ -40,41 +37,49 @@ namespace PhotoSite.WebApi.Filters
 
             if (ipAddress != null)
             {
-                var isInBlackIpList = false;
-                if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
+                var blackListService = context.RequestServices.GetService<IBlackIpService>();
+                if (blackListService is not null)
                 {
-                    // Convert the IpAddress to an unsigned integer.
-                    var ipAddressBits = BitConverter.ToUInt32(ipAddress.GetAddressBytes().Reverse().ToArray(), 0);
-                    var blackIpListV4 = await _blackListService.GetV4();
-                    foreach (var blackIp in blackIpListV4)
+                    var isInBlackIpList = false;
+                    if (ipAddress.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        // https://stackoverflow.com/a/1499284/3085985
-                        // Bitwise AND mask and MaskAddress, this should be the same as mask and IpAddress
-                        // as the end of the mask is 0000 which leads to both addresses to end with 0000
-                        // and to start with the prefix.
-                        isInBlackIpList = blackIp.MaskAddress == (ipAddressBits & blackIp.Mask);
-                        if (isInBlackIpList)
-                            break;
+                        // Convert the IpAddress to an unsigned integer.
+                        var ipAddressBits = BitConverter.ToUInt32(ipAddress.GetAddressBytes().Reverse().ToArray(), 0);
+                        var blackIpListV4 = await blackListService.GetV4();
+                        foreach (var blackIp in blackIpListV4)
+                        {
+                            // https://stackoverflow.com/a/1499284/3085985
+                            // Bitwise AND mask and MaskAddress, this should be the same as mask and IpAddress
+                            // as the end of the mask is 0000 which leads to both addresses to end with 0000
+                            // and to start with the prefix.
+                            isInBlackIpList = blackIp.MaskAddress == (ipAddressBits & blackIp.Mask);
+                            if (isInBlackIpList)
+                                break;
+                        }
                     }
-                }
-                else if (ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
-                {
-                    // Convert the IpAddress to a BitArray.
-                    var ipAddressBits = new BitArray(ipAddress.GetAddressBytes());
-                    var blackIpListV6 = await _blackListService.GetV6();
-                    foreach (var blackIp in blackIpListV6)
+                    else if (ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
                     {
-                        isInBlackIpList =
-                            CheckInterNetworkV6(ipAddressBits, blackIp.MaskAddressBits!, blackIp.SubnetMask);
-                        if (isInBlackIpList)
-                            break;
+                        // Convert the IpAddress to a BitArray.
+                        var ipAddressBits = new BitArray(ipAddress.GetAddressBytes());
+                        var blackIpListV6 = await blackListService.GetV6();
+                        foreach (var blackIp in blackIpListV6)
+                        {
+                            isInBlackIpList =
+                                CheckInterNetworkV6(ipAddressBits, blackIp.MaskAddressBits!, blackIp.SubnetMask);
+                            if (isInBlackIpList)
+                                break;
+                        }
                     }
-                }
 
-                if (isInBlackIpList)
+                    if (isInBlackIpList)
+                    {
+                        context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
+                        return;
+                    }
+                }
+                else
                 {
-                    context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
-                    return;
+                    // TODO: Log!
                 }
             }
 
