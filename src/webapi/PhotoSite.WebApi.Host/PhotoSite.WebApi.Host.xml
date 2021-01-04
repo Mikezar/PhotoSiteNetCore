@@ -275,23 +275,6 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
-        <member name="T:PhotoSite.WebApi.Helpers.ServiceProviderExtensions">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PhotoSite.WebApi.Helpers.ServiceProviderExtensions.AddCaches(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Register all api caches
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:PhotoSite.WebApi.Helpers.ServiceProviderExtensions.AddCacheProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Register all cache providers
-            </summary>
-            <param name="services"></param>
-        </member>
         <member name="T:PhotoSite.WebApi.Options.CustomTokenAuthOptions">
             <summary>
             Token auth options

@@ -63,7 +63,6 @@ namespace PhotoSite.WebApi
 
             services.AddMemoryCache();
             services.AddRepositories();
-            services.AddCacheProvider();
             services.AddCaches();
             services.AddApiServices();
             ConfigureDependencies(services);

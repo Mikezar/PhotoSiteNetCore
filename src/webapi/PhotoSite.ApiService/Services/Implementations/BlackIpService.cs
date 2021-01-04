@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
+using PhotoSite.ApiService.Caches.Implementations;
 using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;
@@ -79,7 +81,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             await _blackIpRepository.Create(blackIp);
 
-            await _blackIpCache.Remove();
+            _blackIpCache.Remove();
 
             return IdResult.GetOk(blackIp.Id);
         }
@@ -93,7 +95,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             await _blackIpRepository.Delete(value);
 
-            await _blackIpCache.Remove();
+            _blackIpCache.Remove();
 
             return Result.GetOk();
         }
@@ -115,7 +117,7 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             await _blackIpRepository.Update(blackIp);
 
-            await _blackIpCache.Remove();
+            _blackIpCache.Remove();
 
             return Result.GetOk();
         }

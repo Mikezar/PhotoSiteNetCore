@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Services.Implementations;
@@ -10,13 +11,13 @@ using PhotoSite.Data.Repositories.Interfaces;
 
 namespace PhotoSite.ApiService.Caches.Implementations
 {
-    public class BlackIpCache : SimpleCache<string, BlackIpCache.Container>, IBlackIpCache
+    public class BlackIpCache : SimpleCache<BlackIpCache.Container>, IBlackIpCache
     {
         private readonly IBlackIpRepository _blackIpRepository;
 
         public BlackIpCache(
-            MemoryCacheProvider memoryCacheProvider, 
-            IBlackIpRepository blackIpRepository) : base(memoryCacheProvider, "def")
+            IMemoryCache memoryCache, 
+            IBlackIpRepository blackIpRepository) : base(memoryCache)
         {
             _blackIpRepository = blackIpRepository;
         }

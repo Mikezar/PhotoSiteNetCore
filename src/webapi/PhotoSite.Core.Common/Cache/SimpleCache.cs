@@ -1,67 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 
 namespace PhotoSite.Core.Cache
 {
-    public abstract class SimpleCache<TKey, TValue> : ICache, IDisposable
-    where TKey : notnull
+    public abstract class SimpleCache<TValue> : ICache, IDisposable
     {
-        //private const string DefaultKey = "__def__";
-
-        private readonly ICacheProvider _cacheProvider;
+        private readonly IMemoryCache _cache;
         private readonly CacheExpiration _expiration;
-        private readonly TKey _key;
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1,1); // Skip race
         private readonly TimeSpan _lockTimeout = TimeSpan.FromMinutes(1); // just in case
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        protected SimpleCache(ICacheProvider cacheProvider, TKey key, CacheExpiration? expiration = null)
+        protected SimpleCache(IMemoryCache cache, CacheExpiration? expiration = null)
         {
-            _key = key ?? throw new ArgumentNullException(nameof(key));
             _expiration = expiration ?? CacheExpiration.Default;
-            _cacheProvider = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
-        public virtual string CacheName => GetType().FullName!;
+        public virtual string Key => GetType().FullName!;
 
-        private CompositeKey GetKey(TKey key) => new CompositeKey(CacheName, key);
-
-        protected async Task Put(TValue item)
+        protected void Put(TValue item)
         {
-            await _cacheProvider.Set(GetKey(_key), item, _expiration, _cancellationTokenSource.Token);
+            Set(item);
         }
 
-        protected async Task<TValue> Get()
+        protected TValue Get()
         {
-            return await _cacheProvider.Get<CompositeKey, TValue>(GetKey(_key));
+            return _cache.Get<TValue>(Key);
         }
 
         protected async Task<TValue> GetOrAdd(Func<Task<TValue>> addItem)
         {
-            return await GetOrAddInternal(_key, addItem);
+            return await GetOrAddInternal(addItem);
         }
 
-        private async Task<TItem> GetOrAddInternal<TItem>(TKey key, Func<Task<TItem>> addItem)
+        private async Task<TValue> GetOrAddInternal(Func<Task<TValue>> addItem)
         {
-            var comparer = EqualityComparer<TItem>.Default;
-            var compositeKey = GetKey(key);
-            var value = await _cacheProvider.Get<CompositeKey, TItem>(compositeKey);
+            var comparer = EqualityComparer<TValue>.Default;
+            var value = _cache.Get<TValue>(Key);
             if (comparer.Equals(value, default))
             {
                 if (!await _lock.WaitAsync(_lockTimeout))
-                    throw new Exception($"Error get lock of refresh cache {CacheName}");
+                    throw new Exception($"Error get lock of refresh cache {Key}");
                 try
                 {
-                    value = await _cacheProvider.Get<CompositeKey, TItem>(compositeKey);
+                    value = _cache.Get<TValue>(Key);
                     if (comparer.Equals(value, default))
                     {
                         value = await addItem();
-                        await _cacheProvider.Set(compositeKey, value, _expiration, _cancellationTokenSource.Token);
+                        Set(value);
                     }
                 }
                 finally
@@ -73,9 +66,9 @@ namespace PhotoSite.Core.Cache
             return value;
         }
 
-        public async Task Remove()
+        public void Remove()
         {
-            await _cacheProvider.Remove(GetKey(_key));
+            _cache.Remove(Key);
         }
 
         public virtual void TryFlush()
@@ -91,41 +84,26 @@ namespace PhotoSite.Core.Cache
             _cancellationTokenSource.Dispose();
         }
 
-        private readonly struct CompositeKey
+        private void Set(TValue value)
         {
-            private static readonly Lazy<TypeConverter> Converter = new Lazy<TypeConverter>(() => TypeDescriptor.GetConverter(typeof(TKey)));
-
-            public CompositeKey(string cacheName, TKey key)
-            {
-                CacheName = cacheName;
-                Key = key;
-            }
-
-            private string CacheName { get; }
-
-            private TKey Key { get; }
-
-            public override string ToString() => $"{CacheName}.{Converter.Value.ConvertToInvariantString(Key)}";
-
-            public override bool Equals(object? value)
-            {
-                return value is CompositeKey key && this == key;
-            }
-
-            public static bool operator ==(CompositeKey x, CompositeKey y)
-            {
-                return x.CacheName == y.CacheName && x.Key.Equals(y.Key);
-            }
-
-            public static bool operator !=(CompositeKey x, CompositeKey y)
-            {
-                return !(x.CacheName == y.CacheName && x.Key.Equals(y.Key));
-            }
-
-            public override int GetHashCode()
-            {
-                return CacheName.GetHashCode() ^ (397 * Key.GetHashCode());
-            }
+            var options = GetOptions(_expiration);
+            options = options.AddExpirationToken(new CancellationChangeToken(_cancellationTokenSource.Token));
+            _cache.Set(Key, value, options);
         }
+
+        private static MemoryCacheEntryOptions GetOptions(CacheExpiration expiration)
+        {
+            if (expiration is null)
+                throw new ArgumentNullException(nameof(expiration));
+            var options = new MemoryCacheEntryOptions();
+            if (expiration.AbsoluteExpiration.HasValue)
+                options.SetAbsoluteExpiration(expiration.AbsoluteExpiration.Value);
+            if (expiration.RelativeExpiration.HasValue)
+                options.SetAbsoluteExpiration(expiration.RelativeExpiration.Value);
+            if (expiration.SlidingExpiration.HasValue)
+                options.SetSlidingExpiration(expiration.SlidingExpiration.Value);
+            return options;
+        }
+
     }
 }

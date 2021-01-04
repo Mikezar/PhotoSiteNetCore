@@ -46,7 +46,6 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// </summary>
         public async Task<IResult> BindTagsToPhoto(int photoId, int[] tagIds)
         {
-            //await using var context = DbFactory.GetWriteContext();
             var existsTagIds = await DbContext.PhotoToTags!.Where(t => t.PhotoId == photoId).ToArrayAsync();
 
             // Remove deleted

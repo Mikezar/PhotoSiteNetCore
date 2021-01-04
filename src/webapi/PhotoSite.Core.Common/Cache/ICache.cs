@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace PhotoSite.Core.Cache
+﻿namespace PhotoSite.Core.Cache
 {
     public interface ICache
     {
-        Task Remove();
+        void Remove();
     }
 }
