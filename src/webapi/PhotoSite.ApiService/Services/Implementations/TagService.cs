@@ -60,9 +60,9 @@ namespace PhotoSite.ApiService.Services.Implementations
                 return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
 
             var tag = new Tag {Title = tagTitle};
-            var maxId = await _tagRepository.Create(tag);
+            var id = await _tagRepository.Create(tag);
 
-            return IdResult.GetOk(maxId);
+            return IdResult.GetOk(id);
         }
     }
 }

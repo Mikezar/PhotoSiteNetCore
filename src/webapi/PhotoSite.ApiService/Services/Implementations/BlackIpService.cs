@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using PhotoSite.ApiService.Caches.Implementations;
 using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;

@@ -47,7 +47,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         [HttpPost("create")]
         public async Task<IdResultDto> Create(BlackIpDto? blackIp)
         {
-            if (blackIp == null)
+            if (blackIp is null)
                 return new IdResultDto { ErrorMessage = "Black Ip cannot be empty" };
             var value = _mapper.Map<BlackIp>(blackIp);
             var result = await _service.Create(value);
@@ -61,7 +61,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         [HttpPost("update")]
         public async Task<ResultDto> Update(BlackIpDto? blackIp)
         {
-            if (blackIp == null)
+            if (blackIp is null)
                 return new IdResultDto { ErrorMessage = "Black Ip cannot be empty" };
             var value = _mapper.Map<BlackIp>(blackIp);
             var result = await _service.Update(value);

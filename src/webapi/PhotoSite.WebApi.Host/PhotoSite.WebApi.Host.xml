@@ -203,6 +203,32 @@
             ctor
             </summary>
         </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.GetChildren(System.Nullable{System.Int32})">
+            <summary>
+            Get child albums
+            </summary>
+            <param name="id">Parent album's identification (For get root albums sent null)</param>
+            <returns>Albums</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Create(PhotoSite.WebApi.Album.AlbumDto)">
+            <summary>
+            Create new album
+            </summary>
+            <param name="album">Album</param>
+            <returns>Identification of album</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Update(PhotoSite.WebApi.Album.AlbumDto)">
+            <summary>
+            Update album
+            </summary>
+            <param name="album">Album</param>
+            <returns>Result</returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Delete(PhotoSite.WebApi.Common.IdDto)">
+            <summary>
+            Delete album
+            </summary>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.BaseController">
             <summary>
             BaseController

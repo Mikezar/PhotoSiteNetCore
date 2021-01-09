@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.Data.Base;
 using PhotoSite.Data.Entities;
@@ -14,9 +12,15 @@ namespace PhotoSite.Data.Repositories.Implementations
         {
         }
 
-        public async Task<ICollection<Album>> GetAsNoTrackingChild(int? parentId)
+        public async Task<bool> Exists(int id)
         {
-            return await DbContext.Albums!.AsNoTracking().Where(t => t.ParentId == parentId).ToArrayAsync();
+            return await DbContext.Albums!.AsNoTracking().AnyAsync(t => t.Id == id);
+        }
+
+        /// <inheritdoc cref="IAlbumRepository.ChildrenExists"/>
+        public async Task<bool> ChildrenExists(int id)
+        {
+            return await DbContext.Albums!.AsNoTracking().AnyAsync(t => t.ParentId == id);
         }
     }
 }
