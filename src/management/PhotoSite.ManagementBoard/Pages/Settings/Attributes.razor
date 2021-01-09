@@ -96,7 +96,7 @@
 
 @code {
 
-    private SettingsDto Settings { get; set; }
+    private ConfigParamDto Settings { get; set; }
     private ResultBlock ResultBlock { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -121,7 +121,7 @@
         UpdateState(result);
     }
 
-    private void UpdateState(ResultWrapper<SettingsDto> result)
+    private void UpdateState(ResultWrapper<ConfigParamDto> result)
     {
         if (result.IsSuccess)
         {

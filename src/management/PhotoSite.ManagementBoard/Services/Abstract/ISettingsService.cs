@@ -6,8 +6,8 @@ namespace PhotoSite.ManagementBoard.Services.Abstract
 {
     public interface ISettingsService
     {
-        Task<ResultWrapper<SettingsDto>> GetAttributeSettings();
-        Task<ResultWrapper<SettingsDto>> GetDefaultSettings();
-        Task<NoResultWrapper> SaveAttributeSettings(SettingsDto settings);
+        Task<ResultWrapper<ConfigParamDto>> GetAttributeSettings();
+        Task<ResultWrapper<ConfigParamDto>> GetDefaultSettings();
+        Task<NoResultWrapper> SaveAttributeSettings(ConfigParamDto settings);
     }
 }
