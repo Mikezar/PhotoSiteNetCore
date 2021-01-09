@@ -30,6 +30,18 @@ namespace PhotoSite.WebApi.Controllers
         }
 
         /// <summary>
+        /// Get album by identification
+        /// </summary>
+        /// <param name="id">Album's identification</param>
+        /// <returns>Album</returns>
+        [HttpGet("get")]
+        public async Task<AlbumDto?> Get([FromQuery] int id)
+        {
+            var result = await _albumService.GetChildren(id);
+            return result is null ? null : _mapper.Map<AlbumDto>(result);
+        }
+
+        /// <summary>
         /// Get child albums
         /// </summary>
         /// <param name="id">Parent album's identification (For get root albums sent null)</param>

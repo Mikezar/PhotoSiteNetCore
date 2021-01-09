@@ -8,5 +8,7 @@ namespace PhotoSite.ApiService.Caches.Interfaces
     public interface IAlbumCache : ICache
     {
         Task<ICollection<Album>?> GetChildren(int? id);
+
+        Task<Album?> Get(int albumId);
     }
 }

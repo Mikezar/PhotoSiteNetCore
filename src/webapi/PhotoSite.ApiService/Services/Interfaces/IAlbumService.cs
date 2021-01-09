@@ -9,6 +9,13 @@ namespace PhotoSite.ApiService.Services.Interfaces
     public interface IAlbumService : IService
     {
         /// <summary>
+        /// Get album by identification
+        /// </summary>
+        /// <param name="id">Album's identification</param>
+        /// <returns>Album</returns>
+        Task<Album?> Get(int id);
+
+        /// <summary>
         /// Get child albums
         /// </summary>
         /// <param name="id">Parent album's identification</param>

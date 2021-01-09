@@ -337,7 +337,7 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-
+/src/webapi/PhotoSite.WebApi.Host/Store
 
 /src/webapi/PhotoSite.WebApi.Host/Logs
 *.txt

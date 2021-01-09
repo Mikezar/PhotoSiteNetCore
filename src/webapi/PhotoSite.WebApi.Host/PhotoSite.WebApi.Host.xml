@@ -203,6 +203,13 @@
             ctor
             </summary>
         </member>
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Get(System.Int32)">
+            <summary>
+            Get album by identification
+            </summary>
+            <param name="id">Album's identification</param>
+            <returns>Album</returns>
+        </member>
         <member name="M:PhotoSite.WebApi.Controllers.AlbumController.GetChildren(System.Nullable{System.Int32})">
             <summary>
             Get child albums

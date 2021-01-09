@@ -133,6 +133,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             var response = await client.GetAsync(uri);
             Assert.True(response.IsSuccessStatusCode);
             var json = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(json))
+                return null;
             return JsonSerializer.Deserialize<TResult>(json);
         }
 
@@ -141,6 +143,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             var response = await client.PostAsync(uri, GetStringContent(value));
             Assert.True(response.IsSuccessStatusCode);
             var json = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(json))
+                return null;
             return JsonSerializer.Deserialize<TResult>(json);
         }
     }

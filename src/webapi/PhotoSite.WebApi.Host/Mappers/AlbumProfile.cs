@@ -7,7 +7,7 @@ namespace PhotoSite.WebApi.Mappers
     {
         public AlbumProfile()
         {
-            CreateMap<Data.Entities.Album, AlbumDto>();
+            CreateMap<Data.Entities.Album, AlbumDto>().ReverseMap();
             CreateMap<Data.Entities.Album, AlbumSimpleDto>();
         }
     }

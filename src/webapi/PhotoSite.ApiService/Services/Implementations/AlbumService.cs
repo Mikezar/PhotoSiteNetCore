@@ -25,6 +25,12 @@ namespace PhotoSite.ApiService.Services.Implementations
             _albumCache = albumCache;
         }
 
+        /// <inheritdoc cref="IAlbumService.Get"/>
+        public async Task<Album?> Get(int id)
+        {
+            return await _albumCache.Get(id);
+        }
+
         /// <inheritdoc cref="IAlbumService.GetChildren"/>
         public async Task<ICollection<Album>?> GetChildren(int? id)
         {
