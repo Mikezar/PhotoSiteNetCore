@@ -17,17 +17,17 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             _handler = handler;
         }
 
-        public async Task<ResultWrapper<SettingsDto>> GetAttributeSettings()
+        public async Task<ResultWrapper<ConfigParamDto>> GetAttributeSettings()
         {
-            return await _handler.GetAsync<SettingsDto>(SettingsEndpoint);
+            return await _handler.GetAsync<ConfigParamDto>(SettingsEndpoint);
         }
 
-        public async Task<ResultWrapper<SettingsDto>> GetDefaultSettings()
+        public async Task<ResultWrapper<ConfigParamDto>> GetDefaultSettings()
         {
-            return await _handler.GetAsync<SettingsDto>(DefaultSettingsEndpoint);
+            return await _handler.GetAsync<ConfigParamDto>(DefaultSettingsEndpoint);
         }
 
-        public async Task<NoResultWrapper> SaveAttributeSettings(SettingsDto settings)
+        public async Task<NoResultWrapper> SaveAttributeSettings(ConfigParamDto settings)
         {
             return await _handler.PostAsync(SettingsEndpoint, settings);
         }
