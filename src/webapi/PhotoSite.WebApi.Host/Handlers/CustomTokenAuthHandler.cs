@@ -31,11 +31,15 @@ namespace PhotoSite.WebApi.Handlers
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!Request.Headers.ContainsKey(Options.TokenHeaderName))
-                return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
+                return Task.FromResult(AuthenticateResult.NoResult());
+                //return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
 
             var token = Request.Headers[Options.TokenHeaderName];
 
-            if (!AdminHelper.CheckToken(token))
+            if (string.IsNullOrEmpty(token))
+                return Task.FromResult(AuthenticateResult.NoResult());
+
+            if (Request.Path.Value != "/api/ad/login" && !AdminHelper.CheckToken(token))
                 return Task.FromResult(AuthenticateResult.Fail("incorrect UserToken"));
 
             var username = "Admin";

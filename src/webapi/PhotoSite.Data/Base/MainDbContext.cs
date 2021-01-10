@@ -14,7 +14,9 @@ namespace PhotoSite.Data.Base
         public DbSet<BlackIp>? BlackIps { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
-        { }
+        {
+            Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
