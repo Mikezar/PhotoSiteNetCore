@@ -32,7 +32,7 @@ namespace PhotoSite.WebApi.Handlers
         {
             if (!Request.Headers.ContainsKey(Options.TokenHeaderName))
                 return Task.FromResult(AuthenticateResult.NoResult());
-                //return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
+            //return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
 
             var token = Request.Headers[Options.TokenHeaderName];
 

@@ -18,7 +18,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         //public async Task LogoutTest()
         //{
         //    using var client = await _fixture.GetAdminClient();
-        //    var response = await client.PostAsync("/api/admin/logout", null);
+        //    var response = await client.PostAsync("/api/ad/logout", null);
         //    Assert.True(response.IsSuccessStatusCode);
         //    response = await client.GetAsync("/api/ad/logout");
         //    Assert.False(response.IsSuccessStatusCode);
@@ -34,7 +34,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         //    };
         //    var json = JsonSerializer.Serialize(data);
         //    var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
-        //    var response = await _fixture.Client.PostAsync("/api/admin/login", stringContent);
+        //    var response = await _fixture.Client.PostAsync("/api/ad/login", stringContent);
         //    response.EnsureSuccessStatusCode();
         //    var models = JsonSerializer.Deserialize<LoginStateDto>(await response.Content.ReadAsStringAsync());
         //    Assert.Equal(LoginStatusDto.Success, models.Status);
