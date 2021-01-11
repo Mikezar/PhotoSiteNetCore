@@ -54,7 +54,7 @@
             ctor
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.GetAll">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.BlackIpController.All">
             <summary>
             Get all black IP's
             </summary>

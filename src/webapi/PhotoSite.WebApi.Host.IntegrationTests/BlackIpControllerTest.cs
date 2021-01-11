@@ -36,7 +36,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         {
             var adminClient = _fixture.AdminClient;
             var model = new BlackIpDto { MaskAddress = maskAddress, SubnetMask = subnetMask, IsInterNetworkV6 = v6 };
-            var resultAddIp = await _fixture.PostAsync<BlackIpDto, IdResultDto>(adminClient, $"{ApiName}create", model);
+            var resultAddIp = await _fixture.PostAsync<BlackIpDto, IdResultDto>(adminClient, $"{ApiName}", model);
             Assert.NotNull(resultAddIp);
 
             var client = _fixture.GetUserClient();
@@ -55,8 +55,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
 
-            var id = resultAddIp!.Id;
-            var result = await _fixture.GetAsync<ResultDto>(adminClient, $"{ApiName}delete?id={id}");
+            var result = await _fixture.DeleteAsync<ResultDto>(adminClient, $"{ApiName}{resultAddIp!.Id}");
             Assert.NotNull(result);
             Assert.True(result!.ErrorMessage == null);
         }
@@ -64,25 +63,25 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedCreateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}create");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedUpdateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}update");
+            await _fixture.UserUnauthorizedPutTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedDeleteTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}delete");
+            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}0");
         }
 
         [Fact]
         public async Task UserUnauthorizedGetAllTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}getall");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}all");
         }
 
     }

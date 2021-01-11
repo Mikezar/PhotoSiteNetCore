@@ -32,8 +32,8 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get all black IP's
         /// </summary>
         /// <returns>All IP's</returns>
-        [HttpGet("getall")]
-        public async Task<BlackIpDto[]> GetAll()
+        [HttpGet("all")]
+        public async Task<BlackIpDto[]> All()
         {
             var result = await _service.GetAll();
             return _mapper.Map<BlackIpDto[]>(result);
@@ -44,11 +44,12 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="blackIp">Black IP</param>
         /// <returns>Identification new black IP</returns>
-        [HttpPost("create")]
-        public async Task<IdResultDto> Create(BlackIpDto? blackIp)
+        [HttpPost]
+        public async Task<IdResultDto> Create([FromBody] BlackIpDto? blackIp)
         {
-            if (blackIp is null)
-                return new IdResultDto { ErrorMessage = "Black Ip cannot be empty" };
+            var errorMessage = Validate(blackIp);
+            if (errorMessage is not null)
+                return new IdResultDto { ErrorMessage = errorMessage };
             var value = _mapper.Map<BlackIp>(blackIp);
             var result = await _service.Create(value);
             return _mapper.Map<IdResultDto>(result);
@@ -58,11 +59,12 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Update black IP
         /// </summary>
         /// <param name="blackIp">Black IP</param>
-        [HttpPost("update")]
-        public async Task<ResultDto> Update(BlackIpDto? blackIp)
+        [HttpPut]
+        public async Task<ResultDto> Update([FromBody] BlackIpDto? blackIp)
         {
-            if (blackIp is null)
-                return new IdResultDto { ErrorMessage = "Black Ip cannot be empty" };
+            var errorMessage = Validate(blackIp);
+            if (errorMessage is not null)
+                return new IdResultDto { ErrorMessage = errorMessage };
             var value = _mapper.Map<BlackIp>(blackIp);
             var result = await _service.Update(value);
             return _mapper.Map<ResultDto>(result);
@@ -73,12 +75,18 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="id">Black IP identification</param>
         /// <returns>Result</returns>
-        [HttpGet("delete")]
+        [HttpDelete("{id}")]
         public async Task<ResultDto> Delete(int id)
         {
             var result = await _service.Delete(id);
             return _mapper.Map<ResultDto>(result);
         }
 
+        private string? Validate(BlackIpDto? blackIp)
+        {
+            if (blackIp is null)
+                return "Black Ip cannot be empty";
+            return null;
+        }
     }
 }

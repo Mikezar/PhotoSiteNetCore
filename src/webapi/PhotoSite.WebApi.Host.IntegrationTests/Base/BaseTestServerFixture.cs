@@ -115,10 +115,25 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
+        internal async Task UserUnauthorizedPutTest(string requestUri)
+        {
+            using var client = GetUserClient();
+            var stringContent = new StringContent("{}", Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, stringContent);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
         internal async Task UserUnauthorizedGetTest(string requestUri)
         {
             using var client = GetUserClient();
             var response = await client.GetAsync(requestUri);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        internal async Task UserUnauthorizedDeleteTest(string requestUri)
+        {
+            using var client = GetUserClient();
+            var response = await client.DeleteAsync(requestUri);
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -138,9 +153,29 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             return JsonSerializer.Deserialize<TResult>(json);
         }
 
+        internal async Task<TResult?> DeleteAsync<TResult>(HttpClient client, string uri) where TResult : class
+        {
+            var response = await client.DeleteAsync(uri);
+            Assert.True(response.IsSuccessStatusCode);
+            var json = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(json))
+                return null;
+            return JsonSerializer.Deserialize<TResult>(json);
+        }
+
         internal async Task<TResult?> PostAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
         {
             var response = await client.PostAsync(uri, GetStringContent(value));
+            Assert.True(response.IsSuccessStatusCode);
+            var json = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(json))
+                return null;
+            return JsonSerializer.Deserialize<TResult>(json);
+        }
+
+        internal async Task<TResult?> PutAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
+        {
+            var response = await client.PutAsync(uri, GetStringContent(value));
             Assert.True(response.IsSuccessStatusCode);
             var json = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(json))

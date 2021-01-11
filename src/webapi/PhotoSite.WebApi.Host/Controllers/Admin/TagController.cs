@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,19 +34,18 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
-        [HttpGet("getall")]
-        [Authorize]
-        public async Task<TagDto[]> GetAll()
+        [HttpGet("all")]
+        public async Task<List<TagDto>> GetAll()
         {
             var result = await _tagService.GetAll();
-            return _mapper.Map<TagDto[]>(result);
+            return _mapper.Map<List<TagDto>>(result);
         }
 
         /// <summary>
         /// Update tag
         /// </summary>
         /// <param name="tag">Tag</param>
-        [HttpPost("update")]
+        [HttpPut]
         [Authorize]
         public async Task<ResultDto> Update(TagDto tag)
         {
@@ -59,7 +59,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="tagTitle">Tag's title</param>
         /// <returns>Identification new tag</returns>
-        [HttpPost("create")]
+        [HttpPost]
         [Authorize]
         public async Task<IdResultDto> Create(TagTitleDto? tagTitle)
         {

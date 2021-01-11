@@ -26,38 +26,32 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         {
             var client = _fixture.AdminClient;
             var model = new TagDto {Title = TestTitle };
-            await _fixture.PostAsync<TagDto, IdResultDto>(client, $"{ApiName}create", model);
+            await _fixture.PostAsync<TagDto, IdResultDto>(client, $"{ApiName}", model);
 
-            var models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}getall");
+            var models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}all");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(TestTitle, models![0].Title);
 
             model = new TagDto { Id = models[0].Id, Title = UpdateTestTitle };
-            await _fixture.PostAsync<TagDto, ResultDto>(client, $"{ApiName}update", model);
+            await _fixture.PutAsync<TagDto, ResultDto>(client, $"{ApiName}", model);
 
-            models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}getall");
+            models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}all");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(UpdateTestTitle, models![0].Title);
         }
 
         [Fact]
-        public async Task UserUnauthorizedGetAllTest()
-        {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}getall");
-        }
-
-        [Fact]
         public async Task UserUnauthorizedCreateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}create");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedUpdateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}update");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
     }
