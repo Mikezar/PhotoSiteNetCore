@@ -25,42 +25,42 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
 
             var client = _fixture.AdminClient;
             var model = new AlbumDto { Title = testTitle };
-            await _fixture.PostAsync<AlbumDto, IdResultDto>(client, $"{ApiName}create", model);
+            await _fixture.PostAsync<AlbumDto, IdResultDto>(client, $"{ApiName}", model);
 
-            var models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren");
+            var models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(testTitle, models![0].Title);
 
             model = new AlbumDto { Id = models[0].Id, Title = updateTestTitle };
-            await _fixture.PostAsync<AlbumDto, ResultDto>(client, $"{ApiName}update", model);
+            await _fixture.PutAsync<AlbumDto, ResultDto>(client, $"{ApiName}", model);
 
-            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren");
+            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(updateTestTitle, models![0].Title);
 
-            await _fixture.PostAsync<AlbumDto, ResultDto>(client, $"{ApiName}delete", model);
-            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren");
+            await _fixture.DeleteAsync<AlbumDto>(client, $"{ApiName}{model.Id}");
+            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
             Assert.Null(models);
         }
 
         [Fact]
         public async Task UserUnauthorizedDeleteTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}delete");
+            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}0");
         }
 
         [Fact]
         public async Task UserUnauthorizedCreateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}create");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedUpdateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}update");
+            await _fixture.UserUnauthorizedPutTest($"{ApiName}");
         }
     }
 }

@@ -32,9 +32,9 @@ namespace PhotoSite.ApiService.Services.Implementations
         }
 
         /// <inheritdoc cref="IAlbumService.GetChildren"/>
-        public async Task<ICollection<Album>?> GetChildren(int? id)
+        public async Task<ICollection<Album>?> GetChildren(int id)
         {
-            return await _albumCache.GetChildren(id);
+            return await _albumCache.GetChildren(id == 0 ? (int?)null : id);
         }
 
         /// <inheritdoc cref="IAlbumService.Create"/>

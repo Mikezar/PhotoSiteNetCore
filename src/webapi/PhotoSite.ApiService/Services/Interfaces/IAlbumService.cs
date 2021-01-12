@@ -20,7 +20,7 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// </summary>
         /// <param name="id">Parent album's identification</param>
         /// <returns>Albums</returns>
-        Task<ICollection<Album>?> GetChildren(int? id);
+        Task<ICollection<Album>?> GetChildren(int id);
 
         /// <summary>
         /// Create new album

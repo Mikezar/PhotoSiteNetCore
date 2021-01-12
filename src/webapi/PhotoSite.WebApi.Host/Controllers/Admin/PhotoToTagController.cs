@@ -32,10 +32,10 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get entities by photo's id
         /// </summary>
         /// <returns>All tags</returns>
-        [HttpGet("byphoto")]
-        public async Task<PhotoToTagDto[]> GetByPhotoId(IdDto photoId)
+        [HttpGet("byphoto/{photoId:int}")]
+        public async Task<PhotoToTagDto[]> GetByPhotoId(int photoId)
         {
-            var result = await _photoToTagService.GetByPhotoId(photoId.Id);
+            var result = await _photoToTagService.GetByPhotoId(photoId);
             return _mapper.Map<PhotoToTagDto[]>(result);
         }
 
@@ -43,17 +43,17 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get tag's ids not in photo
         /// </summary>
         /// <returns>All tags</returns>
-        [HttpGet("notbyphoto")]
-        public async Task<IdDto[]> GetNotExistsInPhoto(IdDto photoId)
+        [HttpGet("notbyphoto/{photoId:int}")]
+        public async Task<IdDto[]> GetNotExistsInPhoto(int photoId)
         {
-            var result = await _photoToTagService.GetNotExistsInPhoto(photoId.Id);
+            var result = await _photoToTagService.GetNotExistsInPhoto(photoId);
             return result.Select(t => new IdDto() {Id = t}).ToArray();
         }
 
         /// <summary>
         /// Bind tags to photo
         /// </summary>
-        [HttpPost("bindtophoto")]
+        [HttpPost("bindtagphoto")]
         public async Task<ResultDto> BindTagsToPhoto(PhotoTagsDto photoTags)
         {
             var tagIds = photoTags.TagIds is null ? new int[0] : photoTags.TagIds.Select(t => t.Id).ToArray(); 

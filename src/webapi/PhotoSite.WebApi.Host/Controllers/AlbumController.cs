@@ -34,8 +34,8 @@ namespace PhotoSite.WebApi.Controllers
         /// </summary>
         /// <param name="id">Album's identification</param>
         /// <returns>Album</returns>
-        [HttpGet("get")]
-        public async Task<AlbumDto?> Get([FromQuery] int id)
+        [HttpGet("get/{id:int}")]
+        public async Task<AlbumDto?> Get(int id)
         {
             var result = await _albumService.GetChildren(id);
             return result is null ? null : _mapper.Map<AlbumDto>(result);
@@ -44,10 +44,10 @@ namespace PhotoSite.WebApi.Controllers
         /// <summary>
         /// Get child albums
         /// </summary>
-        /// <param name="id">Parent album's identification (For get root albums sent null)</param>
+        /// <param name="id">Parent album's identification (For get root albums sent 0)</param>
         /// <returns>Albums</returns>
-        [HttpGet("getchildren")]
-        public async Task<AlbumDto[]?> GetChildren([FromQuery] int? id)
+        [HttpGet("getchildren/{id:int}")]
+        public async Task<AlbumDto[]?> GetChildren(int id)
         {
             var result = await _albumService.GetChildren(id);
             return result is null ? null : _mapper.Map<AlbumDto[]>(result);
@@ -58,7 +58,7 @@ namespace PhotoSite.WebApi.Controllers
         /// </summary>
         /// <param name="album">Album</param>
         /// <returns>Identification of album</returns>
-        [HttpPost("create")]
+        [HttpPost]
         [Authorize]
         public async Task<IdResultDto> Create(AlbumDto? album)
         {
@@ -74,7 +74,7 @@ namespace PhotoSite.WebApi.Controllers
         /// </summary>
         /// <param name="album">Album</param>
         /// <returns>Result</returns>
-        [HttpPost("update")]
+        [HttpPut]
         [Authorize]
         public async Task<ResultDto> Update(AlbumDto? album)
         {
@@ -88,13 +88,11 @@ namespace PhotoSite.WebApi.Controllers
         /// <summary>
         /// Delete album
         /// </summary>
-        [HttpPost("delete")]
+        [HttpDelete("{id:int}")]
         [Authorize]
-        public async Task<ResultDto> Delete(IdDto? id)
-        {
-            if (id is null)
-                return new IdResultDto { ErrorMessage = "Id of album cannot be empty" };
-            var result = await _albumService.Delete(id.Id);
+        public async Task<ResultDto> Delete(int id)
+        {            
+            var result = await _albumService.Delete(id);
             return _mapper.Map<ResultDto>(result);
         }
     }

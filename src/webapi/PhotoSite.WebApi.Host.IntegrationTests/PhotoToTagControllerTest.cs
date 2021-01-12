@@ -38,19 +38,19 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedGetByPhotoIdTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}byphoto?photoId=0");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}byphoto/0");
         }
 
         [Fact]
         public async Task UserUnauthorizedGetNotExistsInPhotoTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}notbyphoto?photoId=0");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}notbyphoto/0");
         }
 
         [Fact]
         public async Task UserUnauthorizedBindTagsToPhotoTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}bindtophoto");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}bindtagphoto");
         }
     }
 }

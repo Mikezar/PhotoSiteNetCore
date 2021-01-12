@@ -25,16 +25,16 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         {
             var client = _fixture.AdminClient;
             var model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = true};
-            await _fixture.PostAsync<WatermarkDto, ResultDto>(client, $"{ApiName}create", model);
+            await _fixture.PostAsync<WatermarkDto, ResultDto>(client, $"{ApiName}", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto?photoId={TestPhotoId}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto/{TestPhotoId}");
             Assert.NotNull(model);
             Assert.True(model!.IsRightSide);
 
             model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = false };
-            await _fixture.PostAsync<WatermarkDto, ResultDto>(client, $"{ApiName}update", model);
+            await _fixture.PutAsync<WatermarkDto, ResultDto>(client, $"{ApiName}", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto?photoId={TestPhotoId}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto/{TestPhotoId}");
             Assert.NotNull(model);
             Assert.False(model!.IsRightSide);
         }
@@ -42,19 +42,19 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedUpdateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}update");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedCreateTest()
         {
-            await _fixture.UserUnauthorizedPostTest($"{ApiName}create");
+            await _fixture.UserUnauthorizedPostTest($"{ApiName}");
         }
 
         [Fact]
         public async Task UserUnauthorizedByPhotoIdTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}byphoto?photoId=0");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}byphoto/0");
         }
     }
 }

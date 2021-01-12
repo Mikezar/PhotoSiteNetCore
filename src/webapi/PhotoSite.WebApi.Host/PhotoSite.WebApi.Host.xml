@@ -118,13 +118,13 @@
             ctor
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetByPhotoId(PhotoSite.WebApi.Common.IdDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetByPhotoId(System.Int32)">
             <summary>
             Get entities by photo's id
             </summary>
             <returns>All tags</returns>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetNotExistsInPhoto(PhotoSite.WebApi.Common.IdDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.PhotoToTagController.GetNotExistsInPhoto(System.Int32)">
             <summary>
             Get tag's ids not in photo
             </summary>
@@ -216,11 +216,11 @@
             <param name="id">Album's identification</param>
             <returns>Album</returns>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.GetChildren(System.Nullable{System.Int32})">
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.GetChildren(System.Int32)">
             <summary>
             Get child albums
             </summary>
-            <param name="id">Parent album's identification (For get root albums sent null)</param>
+            <param name="id">Parent album's identification (For get root albums sent 0)</param>
             <returns>Albums</returns>
         </member>
         <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Create(PhotoSite.WebApi.Album.AlbumDto)">
@@ -237,7 +237,7 @@
             <param name="album">Album</param>
             <returns>Result</returns>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Delete(PhotoSite.WebApi.Common.IdDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.AlbumController.Delete(System.Int32)">
             <summary>
             Delete album
             </summary>
