@@ -14,7 +14,7 @@ namespace PhotoSite.Data.Base
 
         Task Update(TEntity e, bool save = true);
 
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<ICollection<TEntity>> GetAll();
 
         Task<TEntity?> Get(TKey id);
 

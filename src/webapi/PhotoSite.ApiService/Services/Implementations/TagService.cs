@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using PhotoSite.ApiService.Caches.Interfaces;
+using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Entities;
@@ -10,22 +13,34 @@ namespace PhotoSite.ApiService.Services.Implementations
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
+        private readonly ITagCache _tagCache;
+        private readonly IPhotoToTagCache _photoToTagCache;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public TagService(ITagRepository tagRepository)
+        public TagService(ITagRepository tagRepository, ITagCache tagCache, IPhotoToTagCache photoToTagCache)
         {
             _tagRepository = tagRepository;
+            _tagCache = tagCache;
+            _photoToTagCache = photoToTagCache;
         }
 
-        /// <summary>
-        /// Get all tags
-        /// </summary>
-        /// <returns>All tags</returns>
-        public async Task<IEnumerable<Tag>> GetAll()
+        /// <inheritdoc cref="ITagService.GetExtAll"/>
+        public async Task<ICollection<TagExtension>> GetExtAll()
         {
-            return await _tagRepository.GetAll();
+            var tags = await _tagCache.GetAll();
+            var photoToTag = await _photoToTagCache.GetAll();
+
+            var result = tags.Select(t => new TagExtension(t) {PhotoCount = photoToTag.Count(pt => pt.TagId == t.Id)});
+
+            return result.ToArray();
+        }
+
+        /// <inheritdoc cref="ITagService.GetAll"/>
+        public async Task<ICollection<Tag>> GetAll()
+        {
+            return await _tagCache.GetAll();
         }
 
         /// <summary>
@@ -45,6 +60,8 @@ namespace PhotoSite.ApiService.Services.Implementations
             value.Title = tag.Title;
             await _tagRepository.Update(value);
 
+            _tagCache.Remove();
+            
             return Result.GetOk();
         }
 
@@ -61,6 +78,8 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             var tag = new Tag {Title = tagTitle};
             var id = await _tagRepository.Create(tag);
+
+            _tagCache.Remove();
 
             return IdResult.GetOk(id);
         }

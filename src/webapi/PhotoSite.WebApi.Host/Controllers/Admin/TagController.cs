@@ -33,6 +33,17 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <summary>
         /// Get all tags
         /// </summary>
+        /// <returns>All extension tags</returns>
+        [HttpGet("extall")]
+        public async Task<List<TagExtensionDto>> GetExtAll()
+        {
+            var result = await _tagService.GetExtAll();
+            return _mapper.Map<List<TagExtensionDto>>(result);
+        }
+
+        /// <summary>
+        /// Get all tags
+        /// </summary>
         /// <returns>All tags</returns>
         [HttpGet("all")]
         public async Task<List<TagDto>> GetAll()

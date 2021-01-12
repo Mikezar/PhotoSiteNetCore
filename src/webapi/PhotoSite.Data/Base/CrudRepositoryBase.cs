@@ -52,7 +52,7 @@ namespace PhotoSite.Data.Base
             return await _dbSet.AsNoTracking().FirstOrDefaultAsync(t => Equals(t.Id, id));
         }
 
-        public async Task<IEnumerable<TObject>> GetAll()
+        public async Task<ICollection<TObject>> GetAll()
         {
             return await _dbSet.AsNoTracking().ToArrayAsync();
         }

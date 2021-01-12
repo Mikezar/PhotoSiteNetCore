@@ -145,6 +145,12 @@
             ctor
             </summary>
         </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.GetExtAll">
+            <summary>
+            Get all tags
+            </summary>
+            <returns>All extension tags</returns>
+        </member>
         <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.GetAll">
             <summary>
             Get all tags

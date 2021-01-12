@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PhotoSite.ApiService.Base;
+using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.Data.Entities;
 
@@ -9,10 +10,16 @@ namespace PhotoSite.ApiService.Services.Interfaces
     public interface ITagService : IService
     {
         /// <summary>
+        /// Get all extension tags
+        /// </summary>
+        /// <returns>All tags</returns>
+        Task<ICollection<TagExtension>> GetExtAll();
+
+        /// <summary>
         /// Get all tags
         /// </summary>
         /// <returns>All tags</returns>
-        Task<IEnumerable<Tag>> GetAll();
+        Task<ICollection<Tag>> GetAll();
 
         /// <summary>
         /// Update tag
