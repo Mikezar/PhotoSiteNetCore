@@ -146,41 +146,32 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
         internal async Task<TResult?> GetAsync<TResult>(HttpClient client, string uri) where TResult : class
         {
             var response = await client.GetAsync(uri);
-            Assert.True(response.IsSuccessStatusCode);
-            var json = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(json))
-                return null;
-            return JsonSerializer.Deserialize<TResult>(json);
+            return await ParseResult<TResult>(response);
         }
 
         internal async Task<TResult?> DeleteAsync<TResult>(HttpClient client, string uri) where TResult : class
         {
             var response = await client.DeleteAsync(uri);
-            Assert.True(response.IsSuccessStatusCode);
-            var json = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(json))
-                return null;
-            return JsonSerializer.Deserialize<TResult>(json);
+            return await ParseResult<TResult>(response);
         }
 
         internal async Task<TResult?> PostAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
         {
             var response = await client.PostAsync(uri, GetStringContent(value));
-            Assert.True(response.IsSuccessStatusCode);
-            var json = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(json))
-                return null;
-            return JsonSerializer.Deserialize<TResult>(json);
+            return await ParseResult<TResult>(response);
         }
 
         internal async Task<TResult?> PutAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
         {
             var response = await client.PutAsync(uri, GetStringContent(value));
+            return await ParseResult<TResult>(response);
+        }
+
+        private async Task<TResult?> ParseResult<TResult>(HttpResponseMessage response) where TResult : class
+        {
             Assert.True(response.IsSuccessStatusCode);
             var json = await response.Content.ReadAsStringAsync();
-            if (string.IsNullOrEmpty(json))
-                return null;
-            return JsonSerializer.Deserialize<TResult>(json);
+            return string.IsNullOrEmpty(json) ? null : JsonSerializer.Deserialize<TResult>(json);
         }
     }
 }
