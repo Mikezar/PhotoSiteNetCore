@@ -78,12 +78,6 @@ namespace PhotoSite.Core.Cache
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void Dispose()
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-        }
-
         private void Set(TValue value)
         {
             var options = GetOptions(_expiration);
@@ -105,5 +99,34 @@ namespace PhotoSite.Core.Cache
             return options;
         }
 
+        #region Dispose
+
+        private bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~SimpleCache()
+        {
+            Dispose(false);
+        }
+
+        #endregion Dispose
     }
 }
