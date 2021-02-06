@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace PhotoSite.ManagementBoard.Services.Abstract
 {
-    internal interface IAuthService
+    internal interface IAuthService : IService
     {
         Task<bool> SignIn(LoginModel loginModel);
         Task SignOut();

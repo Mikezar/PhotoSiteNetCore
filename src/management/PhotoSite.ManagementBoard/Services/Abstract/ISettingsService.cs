@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PhotoSite.ManagementBoard.Services.Abstract
 {
-    public interface ISettingsService
+    public interface ISettingsService : IService
     {
         Task<ResultWrapper<ConfigParamDto>> GetAttributeSettings();
         Task<ResultWrapper<ConfigParamDto>> GetDefaultSettings();

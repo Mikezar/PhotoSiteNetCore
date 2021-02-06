@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -23,12 +24,12 @@ namespace PhotoSite.ManagementBoard
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredModal();
 
             services
                 .AddScoped<AuthenticationStateProvider, FormAuthenticationStateProvider>()
-                .AddScoped<IAuthService, AuthService>()
-                .AddScoped<ISettingsService, SettingsService>()
                 .AddSingleton<SessionStorage>()
+                .RegisterServices()
             	.AddHttpClient<IHttpHandler, HttpHandler>(client =>
                  {
                      client.BaseAddress = Configuration.GetValue<Uri>("WebApiConfiguration:Uri");

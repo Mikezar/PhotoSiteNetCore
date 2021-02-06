@@ -1,0 +1,73 @@
+﻿@page "/tags" 
+
+@using PhotoSite.ManagementBoard.Services.Abstract
+@using PhotoSite.WebApi.Photo
+
+@inject ITagService TagService
+
+<ResultBlock @ref="ResultBlock" />
+
+<div class="container">
+    <h2>Tags</h2>
+
+    <button class="btn btn-primary mb-2 mt-1" @onclick="EditTag">Add a new tag</button>
+
+    <table class="table table-hover space">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Photo count</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in TagList)
+            {
+                <tr>
+                    <td>@tag.Id</td>
+                    <td>@tag.Title</td>
+                    <td>@tag.PhotoCount</td>
+                <td style="text-align: right">
+                    <a><span class="glyphicon glyphicon-pencil"></span></a>
+                    <span class="material-icons">delete_forever</span>
+                </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private IList<TagExtensionDto> TagList { get; set; } = new List<TagExtensionDto>();
+
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
+
+    public ResultBlock ResultBlock { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var result = await ResultBlock.LoadAsync(() => TagService.GetAllTagsAsync());
+
+            if (result.IsSuccess)
+            {
+                TagList = result.Result;
+            }
+        }
+    }
+
+    void EditTag()
+    {
+        var parameters = new ModalParameters();
+
+        Modal.Show<EditTag>("Tag edit", new ModalOptions
+        {
+            Animation = ModalAnimation.FadeInOut(0.5)
+        });
+    }
+}

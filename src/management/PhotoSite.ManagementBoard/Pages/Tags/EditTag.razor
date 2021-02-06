@@ -1,0 +1,34 @@
+﻿@using PhotoSite.ManagementBoard.Services.Abstract
+
+@inject ITagService TagService
+
+<form >
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Tag title</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" value="My title">
+        </div>
+    </div>
+
+    <div class="float-right">
+        <button @onclick="SaveAsync" class="btn btn-primary">Save</button>
+        <button @onclick="CancelAsync" class="btn btn-secondary">Cancel</button>
+    </div>
+</form>
+
+@code {
+
+    [CascadingParameter]
+    BlazoredModalInstance ModalInstance { get; set; }
+
+
+    async Task SaveAsync()
+    {
+        await ModalInstance.CloseAsync();
+    }
+
+    async Task CancelAsync()
+    {
+        await ModalInstance.CancelAsync();
+    }
+}
