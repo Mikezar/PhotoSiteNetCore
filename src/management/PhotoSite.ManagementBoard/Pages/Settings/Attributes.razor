@@ -103,7 +103,7 @@
     {
         if (firstRender)
         {
-            var result = await ResultBlock.LoadAsync(() => SettingsService.GetAttributeSettings());
+            var result = await ResultBlock.LoadAsync(() => SettingsService.GetAttributeSettingsAsync());
 
             UpdateState(result);
         }
@@ -111,12 +111,12 @@
 
     private async Task Save()
     {
-        await ResultBlock.LoadAsync(() => SettingsService.SaveAttributeSettings(Settings), showSuccess: true);
+        await ResultBlock.LoadAsync(() => SettingsService.SaveAttributeSettingsAsync(Settings), showSuccess: true);
     }
 
     private async Task Reset()
     {
-        var result = await ResultBlock.LoadAsync(() => SettingsService.GetDefaultSettings());
+        var result = await ResultBlock.LoadAsync(() => SettingsService.GetDefaultSettingsAsync());
 
         UpdateState(result);
     }

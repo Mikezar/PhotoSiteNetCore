@@ -5,7 +5,7 @@ namespace PhotoSite.ManagementBoard.Services.Abstract
 {
     internal interface IAuthService : IService
     {
-        Task<bool> SignIn(LoginModel loginModel);
-        Task SignOut();
+        Task<bool> SignInAsync(LoginModel loginModel);
+        Task SignOutAsync();
     }
 }

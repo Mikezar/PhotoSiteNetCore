@@ -43,7 +43,7 @@
 
     private async Task SignIn()
     {
-        var result = await AuthService.SignIn(login);
+        var result = await AuthService.SignInAsync(login);
 
         if (result)
         {

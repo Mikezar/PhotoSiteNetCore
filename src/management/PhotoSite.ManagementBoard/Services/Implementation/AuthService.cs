@@ -19,7 +19,7 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             _httpHandler = httpHandler;
         }
 
-        public async Task<bool> SignIn(LoginModel loginModel)
+        public async Task<bool> SignInAsync(LoginModel loginModel)
         {
             var response = await _httpHandler.PostAsync<LoginStateDto>(LogInMethod, new LoginDto
             {
@@ -37,7 +37,7 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             return false;
         }
 
-        public async Task SignOut()
+        public async Task SignOutAsync()
         {
             await _httpHandler.PostAsync(LogOutMethod);
             _storage.Clean();
