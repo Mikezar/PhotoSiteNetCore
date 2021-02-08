@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\webapi\PhotoSite.WebApi.Contract\PhotoSite.WebApi.Contract.csproj" />
   </ItemGroup>
 
