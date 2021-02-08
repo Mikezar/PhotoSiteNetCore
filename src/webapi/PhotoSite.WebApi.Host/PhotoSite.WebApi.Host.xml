@@ -163,11 +163,11 @@
             </summary>
             <param name="tag">Tag</param>
         </member>
-        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.Create(PhotoSite.WebApi.Photo.TagTitleDto)">
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.Create(PhotoSite.WebApi.Photo.TagDto)">
             <summary>
             Create new tag
             </summary>
-            <param name="tagTitle">Tag's title</param>
+            <param name="tag">Tag</param>
             <returns>Identification new tag</returns>
         </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.WatermarkController">

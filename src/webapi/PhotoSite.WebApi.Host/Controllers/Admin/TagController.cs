@@ -58,8 +58,10 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="tag">Tag</param>
         [HttpPut]
         [Authorize]
-        public async Task<ResultDto> Update(TagDto tag)
+        public async Task<ResultDto> Update(TagDto? tag)
         {
+            if (tag is null)
+                return new IdResultDto { ErrorMessage = "Tag cannot be empty" };
             var value = _mapper.Map<Tag>(tag);
             var result = await _tagService.Update(value);
             return _mapper.Map<ResultDto>(result);
@@ -68,15 +70,16 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <summary>
         /// Create new tag
         /// </summary>
-        /// <param name="tagTitle">Tag's title</param>
+        /// <param name="tag">Tag</param>
         /// <returns>Identification new tag</returns>
         [HttpPost]
         [Authorize]
-        public async Task<IdResultDto> Create(TagTitleDto? tagTitle)
+        public async Task<IdResultDto> Create(TagDto? tag)
         {
-            if (tagTitle is null)
+            if (tag is null)
                 return new IdResultDto {ErrorMessage = "Tag cannot be empty"};
-            var result = await _tagService.Create(tagTitle.Title!);
+            var value = _mapper.Map<Tag>(tag);
+            var result = await _tagService.Create(value);
             return _mapper.Map<IdResultDto>(result);
         }
     }

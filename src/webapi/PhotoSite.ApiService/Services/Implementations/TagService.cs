@@ -49,6 +49,10 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <param name="tag">Tag</param>
         public async Task<IResult> Update(Tag tag)
         {
+            var errors = Validate(tag);
+            if (errors is not null)
+                return IdResult.GetError(errors);
+
             var value = await _tagRepository.Get(tag.Id);
             if (value == null)
                 return Result.GetError($"Not found tag id={tag.Id}");
@@ -68,20 +72,33 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// Create new tag
         /// </summary>
-        /// <param name="tagTitle">Tag's title</param>
+        /// <param name="tag">Tag</param>
         /// <returns>Identification new tag</returns>
-        public async Task<IIdResult> Create(string tagTitle)
+        public async Task<IIdResult> Create(Tag tag)
         {
-            var ext = await _tagRepository.ExistsByTagTitle(tagTitle);
-            if (ext)
-                return IdResult.GetError($"Tag's title '{tagTitle}' exists in other tag");
+            var errors = Validate(tag);
+            if (errors is not null)
+                return IdResult.GetError(errors);
 
-            var tag = new Tag {Title = tagTitle};
+            var ext = await _tagRepository.ExistsByTagTitle(tag.Title!);
+            if (ext)
+                return IdResult.GetError($"Tag's title '{tag.Title}' exists in other tag");
+
             var id = await _tagRepository.Create(tag);
 
             _tagCache.Remove();
 
             return IdResult.GetOk(id);
+        }
+
+        private string? Validate(Tag tag)
+        {
+            if (string.IsNullOrEmpty(tag.Title))
+                return "Title is empty!";
+
+            // TODO: Add validate equal title in albums has one and the same parent
+
+            return null;
         }
     }
 }

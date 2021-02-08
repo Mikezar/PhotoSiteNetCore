@@ -30,8 +30,8 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// <summary>
         /// Create new tag
         /// </summary>
-        /// <param name="tagTitle">Tag's title</param>
+        /// <param name="tag">Tag</param>
         /// <returns>Identification new tag</returns>
-        Task<IIdResult> Create(string tagTitle);
+        Task<IIdResult> Create(Tag tag);
     }
 }
