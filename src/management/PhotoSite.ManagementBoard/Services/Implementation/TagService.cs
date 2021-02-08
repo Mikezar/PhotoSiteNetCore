@@ -23,9 +23,19 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             return await _httpHandler.GetAsync<IList<TagExtensionDto>>(GetAllTagEndpoint);
         }
 
-        public async Task AddTagAsync(TagTitleDto tagTitleDto)
+        public async Task<NoResultWrapper> AddTagAsync(TagDto tagDto)
         {
-            await _httpHandler.PostAsync(TagEndpoint, tagTitleDto);
+            return await _httpHandler.PostAsync(TagEndpoint, tagDto);
+        }
+
+        public async Task<NoResultWrapper> UpdateTagAsync(TagDto tagDto)
+        {
+            return await _httpHandler.PutAsync(TagEndpoint, tagDto);
+        }
+
+        public Task<NoResultWrapper> DeleteTagAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

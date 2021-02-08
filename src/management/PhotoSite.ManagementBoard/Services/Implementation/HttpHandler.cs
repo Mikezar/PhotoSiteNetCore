@@ -1,6 +1,5 @@
 ﻿using PhotoSite.ManagementBoard.Models;
 using PhotoSite.ManagementBoard.Services.Abstract;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -39,6 +38,12 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
         {
             var response = await _httpClient.PostAsync(method, GetContent(model));
             return await HandleResponse<TResult>(response);
+        }
+
+        public async Task<NoResultWrapper> PutAsync(string method, object model)
+        {
+            var response = await _httpClient.PutAsync(method, GetContent(model));
+            return HandleResponse(response);
         }
 
         private async Task<ResultWrapper<TResult>> HandleResponse<TResult>(HttpResponseMessage response)

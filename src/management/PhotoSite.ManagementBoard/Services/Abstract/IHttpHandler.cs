@@ -9,5 +9,6 @@ namespace PhotoSite.ManagementBoard.Services.Abstract
         Task<NoResultWrapper> PostAsync(string method);
         Task<NoResultWrapper> PostAsync(string method, object model);
         Task<ResultWrapper<TResult>> PostAsync<TResult>(string method, object model);
+        Task<NoResultWrapper> PutAsync(string method, object model);
     }
 }

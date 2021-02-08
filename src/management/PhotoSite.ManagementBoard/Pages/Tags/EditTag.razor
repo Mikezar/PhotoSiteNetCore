@@ -1,29 +1,53 @@
 ﻿@using PhotoSite.ManagementBoard.Services.Abstract
+@using PhotoSite.WebApi.Photo
 
 @inject ITagService TagService
 
-<form >
+<ResultBlock @ref="ResultBlock" />
+
+<EditForm Model="TagModel" OnValidSubmit="SaveAsync">
     <div class="form-group row">
         <label class="col-sm-3 col-form-label">Tag title</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" value="My title">
+            <input type="text" @bind-value="@TagModel.Title" class="form-control" placeholder="My title">
         </div>
     </div>
 
     <div class="float-right">
-        <button @onclick="SaveAsync" class="btn btn-primary">Save</button>
-        <button @onclick="CancelAsync" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" @onclick="CancelAsync" class="btn btn-secondary">Cancel</button>
     </div>
-</form>
+</EditForm>
 
 @code {
 
     [CascadingParameter]
     BlazoredModalInstance ModalInstance { get; set; }
 
+    [Parameter]
+    public TagDto TagModel { get; set; }
+
+    private ResultBlock ResultBlock { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (TagModel == null)
+        {
+            TagModel = new TagDto();
+        }
+    }
 
     async Task SaveAsync()
     {
+        if (TagModel.Id != default)
+        {
+            await ResultBlock.LoadAsync(() => TagService.UpdateTagAsync(TagModel), showSuccess: true);
+        }
+        else
+        {
+            await ResultBlock.LoadAsync(() => TagService.AddTagAsync(TagModel), showSuccess: true);
+        }
+
         await ModalInstance.CloseAsync();
     }
 

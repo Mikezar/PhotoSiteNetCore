@@ -8,6 +8,8 @@ namespace PhotoSite.ManagementBoard.Services.Abstract
     public interface ITagService : IService
     {
         Task<ResultWrapper<IList<TagExtensionDto>>> GetAllTagsAsync();
-        Task AddTagAsync(TagTitleDto tagTitleDto);
+        Task<NoResultWrapper> AddTagAsync(TagDto tagDto);
+        Task<NoResultWrapper> UpdateTagAsync(TagDto tagDto);
+        Task<NoResultWrapper> DeleteTagAsync();
     }
 }
