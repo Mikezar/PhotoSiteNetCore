@@ -170,6 +170,13 @@
             <param name="tag">Tag</param>
             <returns>Identification new tag</returns>
         </member>
+        <member name="M:PhotoSite.WebApi.Controllers.Admin.TagController.Delete(System.Int32)">
+            <summary>
+            Delete tag
+            </summary>
+            <param name="id">Tag identification</param>
+            <returns>Result</returns>
+        </member>
         <member name="T:PhotoSite.WebApi.Controllers.Admin.WatermarkController">
             <summary>
             Watermarks

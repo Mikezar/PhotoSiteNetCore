@@ -8,5 +8,7 @@ namespace PhotoSite.Data.Repositories.Interfaces
     public interface IPhotoToTagRepository : IRepository
     {
         Task<ICollection<PhotoToTag>> GetAll();
+
+        Task UnBindTag(int tagId, bool save = true);
     }
 }

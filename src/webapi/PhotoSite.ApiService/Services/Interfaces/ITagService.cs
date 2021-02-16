@@ -33,5 +33,12 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// <param name="tag">Tag</param>
         /// <returns>Identification new tag</returns>
         Task<IIdResult> Create(Tag tag);
+
+        /// <summary>
+        /// Delete tag
+        /// </summary>
+        /// <param name="id">Tag identification</param>
+        /// <returns>Result</returns>
+        Task<IResult> Delete(int id);
     }
 }

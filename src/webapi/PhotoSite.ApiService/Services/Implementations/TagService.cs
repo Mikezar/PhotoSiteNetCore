@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PhotoSite.ApiService.Caches.Interfaces;
@@ -10,20 +11,27 @@ using PhotoSite.Data.Repositories.Interfaces;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
+    /// <inheritdoc cref="ITagService"/>
     public class TagService : ITagService
     {
         private readonly ITagRepository _tagRepository;
         private readonly ITagCache _tagCache;
         private readonly IPhotoToTagCache _photoToTagCache;
+        private readonly Lazy<IPhotoToTagRepository> _photoToTagRepository;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public TagService(ITagRepository tagRepository, ITagCache tagCache, IPhotoToTagCache photoToTagCache)
+        public TagService(
+            ITagRepository tagRepository, 
+            ITagCache tagCache, 
+            IPhotoToTagCache photoToTagCache,
+            Lazy<IPhotoToTagRepository> photoToTagRepository)
         {
             _tagRepository = tagRepository;
             _tagCache = tagCache;
             _photoToTagCache = photoToTagCache;
+            _photoToTagRepository = photoToTagRepository;
         }
 
         /// <inheritdoc cref="ITagService.GetExtAll"/>
@@ -43,10 +51,7 @@ namespace PhotoSite.ApiService.Services.Implementations
             return await _tagCache.GetAll();
         }
 
-        /// <summary>
-        /// Update tag
-        /// </summary>
-        /// <param name="tag">Tag</param>
+        /// <inheritdoc cref="ITagService.Update"/>
         public async Task<IResult> Update(Tag tag)
         {
             var errors = Validate(tag);
@@ -69,11 +74,7 @@ namespace PhotoSite.ApiService.Services.Implementations
             return Result.GetOk();
         }
 
-        /// <summary>
-        /// Create new tag
-        /// </summary>
-        /// <param name="tag">Tag</param>
-        /// <returns>Identification new tag</returns>
+        /// <inheritdoc cref="ITagService.Create"/>
         public async Task<IIdResult> Create(Tag tag)
         {
             var errors = Validate(tag);
@@ -89,6 +90,21 @@ namespace PhotoSite.ApiService.Services.Implementations
             _tagCache.Remove();
 
             return IdResult.GetOk(id);
+        }
+
+        /// <inheritdoc cref="ITagService.Delete"/>
+        public async Task<IResult> Delete(int id)
+        {
+            var value = await _tagRepository.Get(id);
+            if (value == null)
+                return Result.GetError($"Not found tag id={id}");
+
+            await _photoToTagRepository.Value.UnBindTag(id, false);
+            await _tagRepository.Delete(value);
+
+            _photoToTagCache.Remove();
+            _tagCache.Remove();
+            return Result.GetOk();
         }
 
         private string? Validate(Tag tag)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.Data.Base;
@@ -16,6 +17,14 @@ namespace PhotoSite.Data.Repositories.Implementations
         public async Task<ICollection<PhotoToTag>> GetAll()
         {
             return await DbContext.PhotoToTags!.AsNoTracking().ToArrayAsync();
+        }
+
+        public async Task UnBindTag(int tagId, bool save = true)
+        {
+            var tags = await DbContext.PhotoToTags!.Where(t => t.TagId == tagId).ToArrayAsync();
+            DbContext.PhotoToTags!.RemoveRange(tags);
+            if (save)
+                await DbContext.SaveChangesAsync();
         }
     }
 }

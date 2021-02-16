@@ -82,5 +82,18 @@ namespace PhotoSite.WebApi.Controllers.Admin
             var result = await _tagService.Create(value);
             return _mapper.Map<IdResultDto>(result);
         }
+
+        /// <summary>
+        /// Delete tag
+        /// </summary>
+        /// <param name="id">Tag identification</param>
+        /// <returns>Result</returns>
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ResultDto> Delete(int id)
+        {
+            var result = await _tagService.Delete(id);
+            return _mapper.Map<ResultDto>(result);
+        }
     }
 }
