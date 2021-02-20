@@ -33,9 +33,9 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             return await _httpHandler.PutAsync(TagEndpoint, tagDto);
         }
 
-        public Task<NoResultWrapper> DeleteTagAsync()
+        public async Task<NoResultWrapper> DeleteTagAsync(int tagId)
         {
-            throw new System.NotImplementedException();
+            return await _httpHandler.DeleteAsync($"{TagEndpoint}/{tagId}");
         }
     }
 }

@@ -10,6 +10,6 @@ namespace PhotoSite.ManagementBoard.Services.Abstract
         Task<ResultWrapper<IList<TagExtensionDto>>> GetAllTagsAsync();
         Task<NoResultWrapper> AddTagAsync(TagDto tagDto);
         Task<NoResultWrapper> UpdateTagAsync(TagDto tagDto);
-        Task<NoResultWrapper> DeleteTagAsync();
+        Task<NoResultWrapper> DeleteTagAsync(int tagId);
     }
 }
