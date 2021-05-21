@@ -17,21 +17,18 @@ namespace PhotoSite.ApiService.Services.Implementations
         private readonly ITagRepository _tagRepository;
         private readonly ITagCache _tagCache;
         private readonly IPhotoToTagCache _photoToTagCache;
-        private readonly Lazy<IPhotoToTagRepository> _photoToTagRepository;
-
+     
         /// <summary>
         /// ctor
         /// </summary>
         public TagService(
             ITagRepository tagRepository, 
-            ITagCache tagCache, 
-            IPhotoToTagCache photoToTagCache,
-            Lazy<IPhotoToTagRepository> photoToTagRepository)
+            ITagCache tagCache,
+            IPhotoToTagCache photoToTagCache)
         {
             _tagRepository = tagRepository;
             _tagCache = tagCache;
             _photoToTagCache = photoToTagCache;
-            _photoToTagRepository = photoToTagRepository;
         }
 
         /// <inheritdoc cref="ITagService.GetExtAll"/>
@@ -96,10 +93,11 @@ namespace PhotoSite.ApiService.Services.Implementations
         public async Task<IResult> Delete(int id)
         {
             var value = await _tagRepository.Get(id);
-            if (value == null)
+            if (value is null)
                 return Result.GetError($"Not found tag id={id}");
 
-            await _photoToTagRepository.Value.UnBindTag(id, false);
+            // TODO: Должны удалиться привязки тега к фото - проверить!
+            //await _photoToTagRepository.Value.UnBindTag(id, false);
             await _tagRepository.Delete(value);
 
             _photoToTagCache.Remove();

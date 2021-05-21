@@ -19,10 +19,13 @@ namespace PhotoSite.Data
             foreach (var repositoryType in repositoryTypes)
             {
                 var repositoryInterface = repositoryType.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(t => t != typeof(IRepository) && t != typeof(IDbContext) && !t.IsGenericType);
-                if (repositoryInterface == null)
+                if (repositoryInterface is null)
                     throw new Exception($"Repository '{repositoryType.FullName}' not implemented specific interface");
                 services.TryAddScoped(repositoryInterface, repositoryType);
             }
+            
+            //services.TryAddScoped(typeof(Lazy<IPhotoToTagRepository>), typeof(Lazy<IPhotoToTagRepository>));
         }
+
     }
 }

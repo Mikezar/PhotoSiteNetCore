@@ -48,6 +48,6 @@ namespace PhotoSite.ApiService
                 services.TryAddScoped(cacheInterface, cacheType);
             }
         }
-
+        
     }
 }
