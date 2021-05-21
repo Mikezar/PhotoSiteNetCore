@@ -46,6 +46,12 @@ namespace PhotoSite.ManagementBoard.Services.Implementation
             return HandleResponse(response);
         }
 
+        public async Task<NoResultWrapper> DeleteAsync(string method)
+        {
+            var response = await _httpClient.DeleteAsync(method);
+            return HandleResponse(response);
+        }
+
         private async Task<ResultWrapper<TResult>> HandleResponse<TResult>(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)

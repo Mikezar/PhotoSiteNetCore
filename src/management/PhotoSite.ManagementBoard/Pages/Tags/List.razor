@@ -8,8 +8,6 @@
 <ResultBlock @ref="ResultBlock" />
 
 <div class="container">
-    <h2>Tags</h2>
-
     <button class="btn btn-primary mb-2 mt-1" @onclick="(() => EditTagAsync(null))">Add a new tag</button>
 
     <table class="table table-hover space">
@@ -30,7 +28,7 @@
                     <td>@tag.PhotoCount</td>
                     <td style="text-align: right">
                         <span class="material-icons" style="color:green; cursor: pointer" @onclick="(() => EditTagAsync(tag))">create</span>
-                        <span class="material-icons" style="color:red; cursor: pointer">delete_forever</span>
+                        <span class="material-icons" style="color:red; cursor: pointer" @onclick="(() => DeleteTagAsync(tag.Id))">delete_forever</span>
                     </td>
                 </tr>
             }
@@ -84,5 +82,11 @@
         {
             await LoadDataAsync();
         }
+    }
+
+    async Task DeleteTagAsync(int tagId)
+    {
+        await ResultBlock.LoadAsync(() => TagService.DeleteTagAsync(tagId));
+        StateHasChanged();
     }
 }
