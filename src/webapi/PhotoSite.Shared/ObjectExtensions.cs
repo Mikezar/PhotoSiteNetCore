@@ -37,7 +37,7 @@ namespace PhotoSite.Shared
         /// <param name="action">Action for target</param>
         public static void ForEach<T>(this IEnumerable<T> target, Action<T> action)
         {
-            if (action == null)
+            if (action is null)
                 throw new ArgumentNullException(nameof(action));
             foreach(var item in target)
                 action.Invoke(item);
@@ -51,7 +51,7 @@ namespace PhotoSite.Shared
         /// <param name="action">Action for target (second parameter is index of element)</param>
         public static void ForEach<T>(this IEnumerable<T> target, Action<T, int> action)
         {
-            if (action == null)
+            if (action is null)
                 throw new ArgumentNullException(nameof(action));
             var index = 0;
             foreach (var item in target)

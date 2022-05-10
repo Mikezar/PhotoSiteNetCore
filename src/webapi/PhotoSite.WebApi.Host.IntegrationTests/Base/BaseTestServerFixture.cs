@@ -37,7 +37,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
                 .UseStartup<Startup>();
 
             TestServer = new TestServer(builder);
-            DbContext = TestServer.Host.Services.GetService<MainDbContext>();
+            DbContext = TestServer.Host.Services.GetService<MainDbContext>() ?? throw new Exception("DbContext is null");
 
             // Because can one Admin connection
             AdminClient = Task.Run(async() => await GetAdminClient()).Result;

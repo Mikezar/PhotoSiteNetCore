@@ -270,6 +270,24 @@
             </summary>
             <returns>All tags</returns>
         </member>
+        <member name="T:PhotoSite.WebApi.Filters.ExceptionFilter">
+            <summary>
+            Exception's filter
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Filters.ExceptionFilter.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.AspNetCore.Mvc.ModelBinding.IModelMetadataProvider)">
+            <summary>
+            ctor
+            </summary>
+            <param name="hostingEnvironment"></param>
+            <param name="modelMetadataProvider"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Filters.ExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            OnException
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:PhotoSite.WebApi.Filters.IpFilter">
             <summary>
             IP-filter

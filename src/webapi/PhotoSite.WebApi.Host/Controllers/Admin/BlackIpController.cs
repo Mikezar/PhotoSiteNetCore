@@ -33,11 +33,11 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get all black IP's
         /// </summary>
         /// <returns>All IP's</returns>
-        [HttpGet]
-        public async Task<IList<BlackIpDto>> All()
+        [HttpGet("all")]
+        public async Task<BlackIpDto[]> All()
         {
             var result = await _service.GetAll();
-            return _mapper.Map<IList<BlackIpDto>>(result);
+            return _mapper.Map<BlackIpDto[]>(result);
         }
 
         /// <summary>
