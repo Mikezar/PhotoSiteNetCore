@@ -65,12 +65,17 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <remarks>Not for api!</remarks>
         public string GetPasswordHash(string login, string password)
         {
-            var bts = Encoding.ASCII.GetBytes(String.Concat(login, Salt, password));
-            var tmpHash = new SHA512Managed().ComputeHash(bts);
+            var bts = Encoding.UTF8.GetBytes(String.Concat(login, Salt, password));
+            using var alg = SHA512.Create();
+            var tmpHash = alg.ComputeHash(bts);
             return Convert.ToBase64String(tmpHash);
+
+            //string hex = "";
+            //var hashValue = alg.ComputeHash(bts);
+            //foreach (byte x in hashValue)
+            //    hex += String.Format("{0:x2}", x);
+            //return hex;
         }
-
-
 
         //private static string ByteArrayToString(byte[] arrInput)
         //{

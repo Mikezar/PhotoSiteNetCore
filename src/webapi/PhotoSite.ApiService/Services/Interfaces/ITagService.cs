@@ -25,7 +25,7 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Update tag
         /// </summary>
         /// <param name="tag">Tag</param>
-        Task<IResult> Update(Tag tag);
+        Task Update(Tag tag);
 
         /// <summary>
         /// Create new tag
@@ -39,6 +39,6 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// </summary>
         /// <param name="id">Tag identification</param>
         /// <returns>Result</returns>
-        Task<IResult> Delete(int id);
+        Task Delete(int id);
     }
 }

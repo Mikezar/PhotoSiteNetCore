@@ -39,8 +39,14 @@ namespace PhotoSite.ApiService.Services.Implementations
             var properties = typeof(Settings).GetProperties();
             foreach (var property in properties)
             {
-                AttributeCollection attributes = TypeDescriptor.GetProperties(settings)[property.Name].Attributes;
-                DefaultValueAttribute defAttribute = (DefaultValueAttribute)attributes[typeof(DefaultValueAttribute)];
+                var pdc = TypeDescriptor.GetProperties(settings)[property.Name];
+                if (pdc is null)
+                    continue;
+                AttributeCollection attributes = pdc.Attributes;
+                var attr = attributes[typeof(DefaultValueAttribute)];
+                if (attr is null)
+                    continue;
+                DefaultValueAttribute defAttribute = (DefaultValueAttribute)attr;
                 property.SetValue(settings, defAttribute.Value);
             }
             return settings;
@@ -67,11 +73,11 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             foreach (var value in values)
             {
-                if (value == null)
+                if (value is null)
                     continue;
                 
                 var property = properties.FirstOrDefault(t => t.Name == value.Name);
-                if (property == null)
+                if (property is null)
                     continue;
                 
                 object? val = null;
@@ -97,12 +103,18 @@ namespace PhotoSite.ApiService.Services.Implementations
             foreach (var property in properties)
             {
                 var value = property.GetValue(settings);
-                if (property.PropertyType == typeof(string) && value != null
+                if (property.PropertyType == typeof(string) && value is not null
                     ||
                     property.PropertyType == typeof(int) && (int?)value != 0)
                     continue;
-                AttributeCollection attributes = TypeDescriptor.GetProperties(settings)[property.Name].Attributes;
-                DefaultValueAttribute defAttribute = (DefaultValueAttribute)attributes[typeof(DefaultValueAttribute)];
+                var pdc = TypeDescriptor.GetProperties(settings)[property.Name];
+                if (pdc is null)
+                    continue;
+                AttributeCollection attributes = pdc.Attributes;
+                var aatr = attributes[typeof(DefaultValueAttribute)];
+                if (aatr is null)
+                    continue;
+                DefaultValueAttribute defAttribute = (DefaultValueAttribute)aatr;
                 property.SetValue(settings, defAttribute.Value);
             }
 

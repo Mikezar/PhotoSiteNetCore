@@ -33,7 +33,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             Assert.Equal(testTitle, models![0].Title);
 
             model = new AlbumDto { Id = models[0].Id, Title = updateTestTitle };
-            await _fixture.PutAsync<AlbumDto, ResultDto>(client, $"{ApiName}", model);
+            await _fixture.PutAsync(client, $"{ApiName}", model);
 
             models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
             Assert.NotNull(models);

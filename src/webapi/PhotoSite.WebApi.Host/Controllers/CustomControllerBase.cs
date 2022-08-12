@@ -8,7 +8,7 @@ namespace PhotoSite.WebApi.Controllers
     [Produces("application/json")]
     [ApiController]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class BaseController : Controller
+    public abstract class CustomControllerBase : ControllerBase
     {
     }
 }

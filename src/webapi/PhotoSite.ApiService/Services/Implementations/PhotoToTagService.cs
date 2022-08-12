@@ -44,7 +44,7 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <summary>
         /// Bind tags to photo
         /// </summary>
-        public async Task<IResult> BindTagsToPhoto(int photoId, int[] tagIds)
+        public async Task BindTagsToPhoto(int photoId, int[] tagIds)
         {
             var existsTagIds = await DbContext.PhotoToTags!.Where(t => t.PhotoId == photoId).ToArrayAsync();
 
@@ -65,8 +65,6 @@ namespace PhotoSite.ApiService.Services.Implementations
             }
 
             await DbContext.SaveChangesAsync();
-
-            return Result.GetOk();
         }
     }
 }

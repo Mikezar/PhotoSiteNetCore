@@ -14,7 +14,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [Authorize]
-    public class PhotoToTagController : BaseController
+    public class PhotoToTagController : CustomControllerBase
     {
         private readonly IPhotoToTagService _photoToTagService;
         private readonly IMapper _mapper;
@@ -44,21 +44,20 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <returns>All tags</returns>
         [HttpGet("notbyphoto/{photoId:int}")]
-        public async Task<IdDto[]> GetNotExistsInPhoto(int photoId)
+        public async Task<IdResultDto[]> GetNotExistsInPhoto(int photoId)
         {
             var result = await _photoToTagService.GetNotExistsInPhoto(photoId);
-            return result.Select(t => new IdDto() {Id = t}).ToArray();
+            return result.Select(t => new IdResultDto() {Id = t}).ToArray();
         }
 
         /// <summary>
         /// Bind tags to photo
         /// </summary>
         [HttpPost("bindtagphoto")]
-        public async Task<ResultDto> BindTagsToPhoto(PhotoTagsDto photoTags)
+        public async Task BindTagsToPhoto(PhotoTagsDto photoTags)
         {
             var tagIds = photoTags.TagIds is null ? new int[0] : photoTags.TagIds.Select(t => t.Id).ToArray(); 
-            var result = await _photoToTagService.BindTagsToPhoto(photoTags.PhotoId, tagIds);
-            return _mapper.Map<ResultDto>(result);
+            await _photoToTagService.BindTagsToPhoto(photoTags.PhotoId, tagIds);
         }
 
     }

@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.WebApi.Album;
 using PhotoSite.WebApi.Common;
 
@@ -13,7 +14,7 @@ namespace PhotoSite.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumController : BaseController
+    public class AlbumController : CustomControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IAlbumService _albumService;
@@ -63,7 +64,7 @@ namespace PhotoSite.WebApi.Controllers
         public async Task<IdResultDto> Create(AlbumDto? album)
         {
             if (album is null)
-                return new IdResultDto { ErrorMessage = "Album cannot be empty" };
+                throw new UserException("Album cannot be empty");
             var value = _mapper.Map<Data.Entities.Album>(album);
             var result = await _albumService.Create(value);
             return _mapper.Map<IdResultDto>(result);
@@ -76,13 +77,12 @@ namespace PhotoSite.WebApi.Controllers
         /// <returns>Result</returns>
         [HttpPut]
         [Authorize]
-        public async Task<ResultDto> Update(AlbumDto? album)
+        public async Task Update(AlbumDto? album)
         {
             if (album is null)
-                return new IdResultDto { ErrorMessage = "Album cannot be empty" };
+                throw new UserException("Album cannot be empty");
             var value = _mapper.Map<Data.Entities.Album>(album);
-            var result = await _albumService.Update(value);
-            return _mapper.Map<ResultDto>(result);
+            await _albumService.Update(value);
         }
 
         /// <summary>
@@ -90,10 +90,9 @@ namespace PhotoSite.WebApi.Controllers
         /// </summary>
         [HttpDelete("{id:int}")]
         [Authorize]
-        public async Task<ResultDto> Delete(int id)
+        public async Task Delete(int id)
         {            
-            var result = await _albumService.Delete(id);
-            return _mapper.Map<ResultDto>(result);
+            await _albumService.Delete(id);
         }
     }
 }

@@ -249,7 +249,7 @@
             Delete album
             </summary>
         </member>
-        <member name="T:PhotoSite.WebApi.Controllers.BaseController">
+        <member name="T:PhotoSite.WebApi.Controllers.CustomControllerBase">
             <summary>
             BaseController
             </summary>
@@ -270,41 +270,21 @@
             </summary>
             <returns>All tags</returns>
         </member>
-        <member name="T:PhotoSite.WebApi.Filters.ExceptionFilter">
+        <member name="T:PhotoSite.WebApi.Filters.CustomExceptionFilterAttribute">
             <summary>
-            Exception's filter
+            CustomExceptionFilter
             </summary>
         </member>
-        <member name="M:PhotoSite.WebApi.Filters.ExceptionFilter.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.AspNetCore.Mvc.ModelBinding.IModelMetadataProvider)">
+        <member name="M:PhotoSite.WebApi.Filters.CustomExceptionFilterAttribute.#ctor">
             <summary>
             ctor
             </summary>
-            <param name="hostingEnvironment"></param>
-            <param name="modelMetadataProvider"></param>
         </member>
-        <member name="M:PhotoSite.WebApi.Filters.ExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+        <member name="M:PhotoSite.WebApi.Filters.CustomExceptionFilterAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
             <summary>
             OnException
             </summary>
             <param name="context"></param>
-        </member>
-        <member name="T:PhotoSite.WebApi.Filters.IpFilter">
-            <summary>
-            IP-filter
-            </summary>
-        </member>
-        <member name="M:PhotoSite.WebApi.Filters.IpFilter.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
-            <summary>
-            ctor
-            </summary>
-            <param name="next"></param>
-        </member>
-        <member name="M:PhotoSite.WebApi.Filters.IpFilter.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            Invoke
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
         </member>
         <member name="T:PhotoSite.WebApi.Handlers.CustomTokenAuthHandler">
             <summary>
@@ -333,9 +313,52 @@
         </member>
         <member name="M:PhotoSite.WebApi.Helpers.MiddlewareExtensions.UseIpFilter(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            UseIpFilter
+            Use IpFilter
             </summary>
             <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PhotoSite.WebApi.Helpers.MiddlewareExtensions.UseCustomExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Use ExceptionHandler
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Middlewares.CustomExceptionHandler">
+            <summary>
+            Exception Handler Middleware
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Middlewares.CustomExceptionHandler.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            ctor
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Middlewares.CustomExceptionHandler.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PhotoSite.WebApi.Middlewares.IpFilter">
+            <summary>
+            IP-filter
+            </summary>
+        </member>
+        <member name="M:PhotoSite.WebApi.Middlewares.IpFilter.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            ctor
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:PhotoSite.WebApi.Middlewares.IpFilter.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke
+            </summary>
+            <param name="context"></param>
             <returns></returns>
         </member>
         <member name="T:PhotoSite.WebApi.Options.CustomTokenAuthOptions">

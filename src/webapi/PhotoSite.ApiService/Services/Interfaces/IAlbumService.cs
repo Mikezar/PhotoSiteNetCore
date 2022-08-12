@@ -34,11 +34,11 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// </summary>
         /// <param name="album">Album</param>
         /// <returns>Result</returns>
-        Task<IResult> Update(Album album);
+        Task Update(Album album);
 
         /// <summary>
         /// Delete album
         /// </summary>
-        Task<IResult> Delete(int id);
+        Task Delete(int id);
     }
 }

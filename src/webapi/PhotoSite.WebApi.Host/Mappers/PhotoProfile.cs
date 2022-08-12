@@ -15,7 +15,6 @@ namespace PhotoSite.WebApi.Mappers
             CreateMap<Data.Entities.Tag, TagDto>().ReverseMap();
             CreateMap<TagExtension, TagExtensionDto>();
             CreateMap<IdResult, IdResultDto>();
-            CreateMap<Result, ResultDto>();
 
         }   
     }

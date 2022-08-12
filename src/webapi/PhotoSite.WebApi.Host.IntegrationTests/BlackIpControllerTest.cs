@@ -55,9 +55,8 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
 
-            var result = await _fixture.DeleteAsync<ResultDto>(adminClient, $"{ApiName}{resultAddIp!.Id}");
-            Assert.NotNull(result);
-            Assert.True(result!.ErrorMessage == null);
+            response = await adminClient.DeleteAsync($"{ApiName}{resultAddIp!.Id}");
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]

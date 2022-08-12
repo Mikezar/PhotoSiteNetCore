@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using PhotoSite.WebApi.Filters;
+using PhotoSite.WebApi.Middlewares;
 
 namespace PhotoSite.WebApi.Helpers
 {
@@ -9,7 +9,7 @@ namespace PhotoSite.WebApi.Helpers
     public static class MiddlewareExtensions
     {
         /// <summary>
-        /// UseIpFilter
+        /// Use IpFilter
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
@@ -17,5 +17,16 @@ namespace PhotoSite.WebApi.Helpers
         {
             return builder.UseMiddleware<IpFilter>();
         }
+
+        /// <summary>
+        /// Use ExceptionHandler
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<CustomExceptionHandler>();
+        }
+        
     }
 }

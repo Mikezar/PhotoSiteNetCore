@@ -8,6 +8,7 @@ using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.Data.Repositories.Interfaces;
 
@@ -69,63 +70,53 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <inheritdoc cref="IBlackIpService.Create"/>
         public async Task<IIdResult> Create(BlackIp blackIp)
         {
-            var errors = Validate(blackIp);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(blackIp);
 
             var exist = await _blackIpRepository.Exists(blackIp.MaskAddress!);
             if (exist)
-                return IdResult.GetError($"Mask-address '{blackIp.MaskAddress}' exists in blacklist");
+                throw new UserException($"Mask-address '{blackIp.MaskAddress}' exists in blacklist");
 
             await _blackIpRepository.Create(blackIp);
 
             _blackIpCache.Remove();
 
-            return IdResult.GetOk(blackIp.Id);
+            return new IdResult(blackIp.Id);
         }
 
         /// <inheritdoc cref="IBlackIpService.Delete"/>
-        public async Task<IResult> Delete(int id)
+        public async Task Delete(int id)
         {
             var value = await _blackIpRepository.Get(id);
-            if (value == null)
-                return Result.GetError($"Not found blacklist id={id}");
+            if (value is null)
+                throw new UserException($"Not found blacklist id={id}");
 
             await _blackIpRepository.Delete(value);
 
             _blackIpCache.Remove();
-
-            return Result.GetOk();
         }
 
         /// <inheritdoc cref="IBlackIpService.Update"/>
-        public async Task<IResult> Update(BlackIp blackIp)
+        public async Task Update(BlackIp blackIp)
         {
-            var errors = Validate(blackIp);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(blackIp);
 
             var exist = await _blackIpRepository.GetAsNoTracking(blackIp.Id);
             if (exist is null)
-                return Result.GetError($"Not found blacklist id={blackIp.Id}");
+                throw new UserException($"Not found blacklist id={blackIp.Id}");
 
             var ext = await _blackIpRepository.ExistsOtherBlackIpByMaskAddress(blackIp.Id, blackIp.MaskAddress!);
             if (ext)
-                return Result.GetError($"Mask-address '{blackIp.MaskAddress}' exists in other blacklist");
+                throw new UserException($"Mask-address '{blackIp.MaskAddress}' exists in other blacklist");
 
             await _blackIpRepository.Update(blackIp);
 
             _blackIpCache.Remove();
-
-            return Result.GetOk();
         }
 
-        private string? Validate(BlackIp blackIp)
+        private void Validate(BlackIp blackIp)
         {
             if (blackIp.MaskAddress is null || blackIp.MaskAddress.Length == 0)
-                return "MaskAddress is empty!";
-
-            return null;
+                throw new UserException("MaskAddress is empty!");
         }
     }
 }

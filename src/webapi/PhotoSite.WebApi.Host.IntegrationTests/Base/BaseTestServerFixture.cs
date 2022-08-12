@@ -161,11 +161,21 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
             return await ParseResult<TResult>(response);
         }
 
+        internal async Task PostAsync<TModel>(HttpClient client, string uri, TModel value)
+        {
+            await client.PostAsync(uri, GetStringContent(value));
+        }
+
         internal async Task<TResult?> PutAsync<TModel, TResult>(HttpClient client, string uri, TModel value) where TResult : class
         {
             var response = await client.PutAsync(uri, GetStringContent(value));
             return await ParseResult<TResult>(response);
         }
+
+        internal async Task PutAsync<TModel>(HttpClient client, string uri, TModel value)
+        {
+            await client.PutAsync(uri, GetStringContent(value));
+         }
 
         private async Task<TResult?> ParseResult<TResult>(HttpResponseMessage response) where TResult : class
         {

@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using PhotoSite.ApiService.Base;
-using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
-using PhotoSite.Data.Base;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.Data.Repositories.Interfaces;
 
@@ -28,23 +26,19 @@ namespace PhotoSite.ApiService.Services.Implementations
         }
 
         /// <inheritdoc cref="IWatermarkService.Update"/>
-        public async Task<IResult> Update(Watermark watermark)
+        public async Task Update(Watermark watermark)
         {
-            var ext = await _watermarkRepository.Exists(watermark.PhotoId);
-            if (!ext)
-                return Result.GetError($"Do not this watermark attached to photo (photo's id={watermark.PhotoId})");
+            if (!await _watermarkRepository.Exists(watermark.PhotoId))
+                throw new UserException($"Do not this watermark attached to photo (photo's id={watermark.PhotoId})");
             await _watermarkRepository.Update(watermark);
-            return Result.GetOk();
         }
 
         /// <inheritdoc cref="IWatermarkService.Create"/>
-        public async Task<IResult> Create(Watermark watermark)
+        public async Task Create(Watermark watermark)
         {
-            var ext = await _watermarkRepository.Exists(watermark.PhotoId);
-            if (ext)
-                return (IIdResult)Result.GetError($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
+            if (await _watermarkRepository.Exists(watermark.PhotoId))
+                throw new UserException($"Other watermark attached to photo (photo's id={watermark.PhotoId})");
             await _watermarkRepository.Create(watermark);
-            return Result.GetOk();
         }
 
     }

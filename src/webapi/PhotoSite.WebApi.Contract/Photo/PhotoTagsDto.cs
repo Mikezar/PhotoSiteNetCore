@@ -9,6 +9,6 @@ namespace PhotoSite.WebApi.Photo
         public int PhotoId { get; set; }
 
         [JsonPropertyName("tags")]
-        public IdDto[]? TagIds { get; set; }
+        public IdResultDto[]? TagIds { get; set; }
     }
 }

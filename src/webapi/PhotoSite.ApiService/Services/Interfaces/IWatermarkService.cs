@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using PhotoSite.ApiService.Base;
-using PhotoSite.ApiService.Data.Common;
 using PhotoSite.Data.Entities;
 
 namespace PhotoSite.ApiService.Services.Interfaces
@@ -17,12 +16,12 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Update entity
         /// </summary>
         /// <param name="watermark">Entity</param>
-        Task<IResult> Update(Watermark watermark);
+        Task Update(Watermark watermark);
 
         /// <summary>
         /// Create new entity
         /// </summary>
         /// <param name="watermark">Entity</param>
-        Task<IResult> Create(Watermark watermark);
+        Task Create(Watermark watermark);
     }
 }

@@ -11,7 +11,7 @@ namespace PhotoSite.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class PhotoController : BaseController
+    public class PhotoController : CustomControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;

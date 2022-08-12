@@ -3,8 +3,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
-using PhotoSite.WebApi.Common;
 using PhotoSite.WebApi.Photo;
 
 namespace PhotoSite.WebApi.Controllers.Admin
@@ -14,7 +14,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Authorize]
     [Route("api/wm")]
-    public class WatermarkController : BaseController
+    public class WatermarkController : CustomControllerBase
     {
         private readonly IWatermarkService _watermarkService;
         private readonly IMapper _mapper;
@@ -36,9 +36,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         public async Task<WatermarkDto?> GetByPhotoId(int photoId)
         {
             var result = await _watermarkService.GetByPhotoId(photoId);
-            if (result == null)
-                return null;
-            return _mapper.Map<WatermarkDto>(result);
+            return _mapper.Map<WatermarkDto?>(result);
         }
 
         /// <summary>
@@ -46,11 +44,10 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="watermark">Entity</param>
         [HttpPut]
-        public async Task<ResultDto> Update(WatermarkDto watermark)
+        public async Task Update(WatermarkDto watermark)
         {
             var value = _mapper.Map<Watermark>(watermark);
-            var result = await _watermarkService.Update(value);
-            return _mapper.Map<ResultDto>(result);
+            await _watermarkService.Update(value);
         }
 
         /// <summary>
@@ -59,13 +56,12 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="watermark">Entity</param>
         /// <returns>Identification new entity</returns>
         [HttpPost]
-        public async Task<ResultDto> Create(WatermarkDto? watermark)
+        public async Task Create(WatermarkDto? watermark)
         {
             if (watermark is null)
-                return new ResultDto { ErrorMessage = "Watermark cannot be empty" };
+                throw new UserException("Watermark cannot be empty");
             var value = _mapper.Map<Watermark>(watermark);
-            var result = await _watermarkService.Create(value);
-            return _mapper.Map<ResultDto>(result);
+            await _watermarkService.Create(value);
         }
     }
 }

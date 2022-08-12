@@ -12,7 +12,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// Admin
     /// </summary>
     [Route("api/ad")]
-    public class AdminController : BaseController
+    public class AdminController : CustomControllerBase
     {
         private readonly IOptionsMonitor<CustomTokenAuthOptions> _options;
         private readonly IAdminService _adminService;

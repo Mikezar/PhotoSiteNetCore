@@ -38,13 +38,13 @@ namespace PhotoSite.ApiService.Services.Interfaces
         /// Delete IP
         /// </summary>
         /// <param name="id">Key</param>
-        Task<IResult> Delete(int id);
+        Task Delete(int id);
 
         /// <summary>
         /// Update IP
         /// </summary>
         /// <param name="blackIp"></param>
         /// <returns></returns>
-        Task<IResult> Update(BlackIp blackIp);
+        Task Update(BlackIp blackIp);
     }
 }

@@ -34,7 +34,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             Assert.Equal(TestTitle, models![0].Title);
 
             model = new TagDto { Id = models[0].Id, Title = UpdateTestTitle };
-            await _fixture.PutAsync<TagDto, ResultDto>(client, $"{ApiName}", model);
+            await _fixture.PutAsync(client, $"{ApiName}", model);
 
             models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}all");
             Assert.NotNull(models);

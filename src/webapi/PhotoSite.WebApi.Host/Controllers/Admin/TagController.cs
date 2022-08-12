@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.WebApi.Common;
 using PhotoSite.WebApi.Photo;
@@ -14,7 +15,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// Tags
     /// </summary>
     [Route("api/[controller]")]
-    public class TagController : BaseController
+    public class TagController : CustomControllerBase
     {
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// Get all tags
         /// </summary>
         /// <returns>All extension tags</returns>
-        [HttpGet("extall")]
+        [HttpGet("ext-all")]
         public async Task<List<TagExtensionDto>> GetExtAll()
         {
             var result = await _tagService.GetExtAll();
@@ -58,13 +59,12 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="tag">Tag</param>
         [HttpPut]
         [Authorize]
-        public async Task<ResultDto> Update(TagDto? tag)
+        public async Task Update(TagDto? tag)
         {
             if (tag is null)
-                return new IdResultDto { ErrorMessage = "Tag cannot be empty" };
+                throw new UserException("Tag cannot be empty");
             var value = _mapper.Map<Tag>(tag);
-            var result = await _tagService.Update(value);
-            return _mapper.Map<ResultDto>(result);
+            await _tagService.Update(value);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         public async Task<IdResultDto> Create(TagDto? tag)
         {
             if (tag is null)
-                return new IdResultDto {ErrorMessage = "Tag cannot be empty"};
+                throw new UserException("Tag cannot be empty");
             var value = _mapper.Map<Tag>(tag);
             var result = await _tagService.Create(value);
             return _mapper.Map<IdResultDto>(result);
@@ -90,10 +90,9 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <returns>Result</returns>
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ResultDto> Delete(int id)
+        public async Task Delete(int id)
         {
-            var result = await _tagService.Delete(id);
-            return _mapper.Map<ResultDto>(result);
+            await _tagService.Delete(id);
         }
     }
 }

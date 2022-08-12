@@ -5,6 +5,7 @@ using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.Data.Repositories.Interfaces;
 
@@ -48,52 +49,46 @@ namespace PhotoSite.ApiService.Services.Implementations
         }
 
         /// <inheritdoc cref="ITagService.Update"/>
-        public async Task<IResult> Update(Tag tag)
+        public async Task Update(Tag tag)
         {
-            var errors = Validate(tag);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(tag);
 
             var value = await _tagRepository.Get(tag.Id);
-            if (value == null)
-                return Result.GetError($"Not found tag id={tag.Id}");
+            if (value is null)
+                throw new UserException($"Not found tag id={tag.Id}");
 
             var ext = await _tagRepository.ExistsOtherTagByTagTitle(tag.Id, tag.Title);
             if (ext)
-                return Result.GetError($"Tag's title '{tag.Title}' exists in other tag");
+                throw new UserException($"Tag's title '{tag.Title}' exists in other tag");
 
             value.Title = tag.Title;
             await _tagRepository.Update(value);
 
             _tagCache.Remove();
-            
-            return Result.GetOk();
         }
 
         /// <inheritdoc cref="ITagService.Create"/>
         public async Task<IIdResult> Create(Tag tag)
         {
-            var errors = Validate(tag);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(tag);
 
             var ext = await _tagRepository.ExistsByTagTitle(tag.Title!);
             if (ext)
-                return IdResult.GetError($"Tag's title '{tag.Title}' exists in other tag");
+                throw new UserException($"Tag's title '{tag.Title}' exists in other tag");
 
             var id = await _tagRepository.Create(tag);
 
             _tagCache.Remove();
 
-            return IdResult.GetOk(id);
+            return new IdResult(id);
         }
 
         /// <inheritdoc cref="ITagService.Delete"/>
-        public async Task<IResult> Delete(int id)
+        public async Task Delete(int id)
         {
             var value = await _tagRepository.Get(id);
             if (value is null)
-                return Result.GetError($"Not found tag id={id}");
+                throw new UserException($"Not found tag id={id}");
 
             // TODO: Должны удалиться привязки тега к фото - проверить!
             //await _photoToTagRepository.Value.UnBindTag(id, false);
@@ -101,17 +96,15 @@ namespace PhotoSite.ApiService.Services.Implementations
 
             _photoToTagCache.Remove();
             _tagCache.Remove();
-            return Result.GetOk();
         }
 
-        private string? Validate(Tag tag)
+        private void Validate(Tag tag)
         {
             if (string.IsNullOrEmpty(tag.Title))
-                return "Title is empty!";
+                throw new UserException("Title is empty!");
 
             // TODO: Add validate equal title in albums has one and the same parent
 
-            return null;
         }
     }
 }

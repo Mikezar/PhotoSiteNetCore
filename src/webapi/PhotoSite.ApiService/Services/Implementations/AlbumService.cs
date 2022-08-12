@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PhotoSite.ApiService.Caches.Interfaces;
 using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.Data.Repositories.Interfaces;
 
@@ -40,58 +41,48 @@ namespace PhotoSite.ApiService.Services.Implementations
         /// <inheritdoc cref="IAlbumService.Create"/>
         public async Task<IIdResult> Create(Album album)
         {
-            var errors = Validate(album);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(album);
 
             var id = await _albumRepository.Create(album);
             _albumCache.Remove();
-            return IdResult.GetOk(id);
+            return new IdResult(id);
         }
 
         /// <inheritdoc cref="IAlbumService.Update"/>
-        public async Task<IResult> Update(Album album)
+        public async Task Update(Album album)
         {
-            var ext = await _albumRepository.Exists(album.Id);
-            if (!ext)
-                return Result.GetError($"Album (id={album.Id}) doesn't exists");
+            if (!await _albumRepository.Exists(album.Id))
+                throw new UserException($"Album (id={album.Id}) doesn't exists");
 
-            var errors = Validate(album);
-            if (errors is not null)
-                return IdResult.GetError(errors);
+            Validate(album);
 
             await _albumRepository.Update(album);
             _albumCache.Remove();
-            return Result.GetOk();
         }
 
         /// <inheritdoc cref="IAlbumService.Delete"/>
-        public async Task<IResult> Delete(int id)
+        public async Task Delete(int id)
         {
-            var ext = await _albumRepository.Exists(id);
-            if (!ext)
-                return Result.GetError($"Album (id={id}) doesn't exists");
+            if (!await _albumRepository.Exists(id))
+                throw new UserException($"Album (id={id}) doesn't exists");
 
             if (await _albumRepository.ChildrenExists(id))
-                return Result.GetError($"Album (id={id}) has children albums");
+                throw new UserException($"Album (id={id}) has children albums");
 
             var childPhotos = await _photoCache.GetByAlbum(id);
             if (childPhotos is not null && childPhotos.Any())
-                return Result.GetError($"Album (id={id}) has children photos");
+                throw new UserException($"Album (id={id}) has children photos");
 
             await _albumRepository.Delete(id);
             _albumCache.Remove();
-            return Result.GetOk();
         }
 
-        private string? Validate(Album album)
+        private void Validate(Album album)
         {
             if (string.IsNullOrEmpty(album.Title))
-                return "Title is empty!";
+                throw new UserException("Title is empty!");
 
             // TODO: Add validate equal title in albums has one and the same parent
-
-            return null;
         }
 
     }

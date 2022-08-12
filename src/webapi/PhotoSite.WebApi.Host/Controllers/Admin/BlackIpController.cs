@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
+using PhotoSite.Core.ExtException;
 using PhotoSite.Data.Entities;
 using PhotoSite.WebApi.Admin;
 using PhotoSite.WebApi.Common;
@@ -15,7 +15,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [Authorize]
-    public class BlackIpController : BaseController
+    public class BlackIpController : CustomControllerBase
     {
         private readonly IBlackIpService _service;
         private readonly IMapper _mapper;
@@ -48,9 +48,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         [HttpPost]
         public async Task<IdResultDto> Create([FromBody] BlackIpDto? blackIp)
         {
-            var errorMessage = Validate(blackIp);
-            if (errorMessage is not null)
-                return new IdResultDto { ErrorMessage = errorMessage };
+            Validate(blackIp);
             var value = _mapper.Map<BlackIp>(blackIp);
             var result = await _service.Create(value);
             return _mapper.Map<IdResultDto>(result);
@@ -61,14 +59,11 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// </summary>
         /// <param name="blackIp">Black IP</param>
         [HttpPut]
-        public async Task<ResultDto> Update([FromBody] BlackIpDto? blackIp)
+        public async Task Update([FromBody] BlackIpDto? blackIp)
         {
-            var errorMessage = Validate(blackIp);
-            if (errorMessage is not null)
-                return new IdResultDto { ErrorMessage = errorMessage };
+            Validate(blackIp);
             var value = _mapper.Map<BlackIp>(blackIp);
-            var result = await _service.Update(value);
-            return _mapper.Map<ResultDto>(result);
+            await _service.Update(value);
         }
 
         /// <summary>
@@ -77,17 +72,15 @@ namespace PhotoSite.WebApi.Controllers.Admin
         /// <param name="id">Black IP identification</param>
         /// <returns>Result</returns>
         [HttpDelete("{id}")]
-        public async Task<ResultDto> Delete(int id)
+        public async Task Delete(int id)
         {
-            var result = await _service.Delete(id);
-            return _mapper.Map<ResultDto>(result);
+            await _service.Delete(id);
         }
 
-        private string? Validate(BlackIpDto? blackIp)
+        private void Validate(BlackIpDto? blackIp)
         {
             if (blackIp is null)
-                return "Black Ip cannot be empty";
-            return null;
+                throw new UserException("Black Ip cannot be empty");
         }
     }
 }

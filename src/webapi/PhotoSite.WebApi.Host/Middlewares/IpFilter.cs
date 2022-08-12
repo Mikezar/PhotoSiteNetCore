@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoSite.ApiService.Services.Interfaces;
 
-namespace PhotoSite.WebApi.Filters
+namespace PhotoSite.WebApi.Middlewares
 {
     /// <summary>
     /// IP-filter

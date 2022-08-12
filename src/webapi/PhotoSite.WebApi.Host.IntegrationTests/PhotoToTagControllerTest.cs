@@ -16,10 +16,10 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             _fixture = fixture;
         }
 
-        [Fact]
-        public async Task ComplexTest() // TODO: Do
-        {
-            var client = _fixture.AdminClient;
+        //[Fact]
+        //public async Task ComplexTest() // TODO: Do
+        //{
+            //var client = _fixture.AdminClient;
             //var model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = true };
             //await _fixture.PostAsync<WatermarkDto, IdResultDto>(client, "api/wm/create", model);
 
@@ -33,7 +33,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             //model = await _fixture.GetAsync<WatermarkDto>(client, $"/api/wm/byphoto?photoId={TestPhotoId}");
             //Assert.NotNull(model);
             //Assert.False(model!.IsRightSide);
-        }
+        //}
 
         [Fact]
         public async Task UserUnauthorizedGetByPhotoIdTest()

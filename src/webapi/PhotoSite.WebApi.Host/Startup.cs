@@ -61,6 +61,11 @@ namespace PhotoSite.WebApi
                     }
                 );
 
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add<CustomExceptionFilterAttribute>();
+            //});
+
             services.AddMemoryCache();
             services.AddRepositories();
             services.AddCaches();
@@ -110,7 +115,12 @@ namespace PhotoSite.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseExceptionHandler("/error-development");
             }
+            //else
+            //{
+            //    app.UseExceptionHandler("/error");
+            //}
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -121,6 +131,7 @@ namespace PhotoSite.WebApi
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseCustomExceptionHandler();
             app.UseIpFilter();
 
             app.UseAuthentication();
