@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.WebApi.Admin.Authorize;
-using PhotoSite.WebApi.Options;
+using PhotoSite.WebApi.Infrastructure.Authorization;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {

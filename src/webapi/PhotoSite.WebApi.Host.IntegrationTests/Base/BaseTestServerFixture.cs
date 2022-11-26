@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Admin.Authorize;
-using PhotoSite.WebApi.Configuration;
-using PhotoSite.WebApi.Options;
+using PhotoSite.WebApi.Infrastructure;
+using PhotoSite.WebApi.Infrastructure.Authorization;
 using Xunit;
 
 namespace PhotoSite.WebApi.Host.IntegrationTests.Base

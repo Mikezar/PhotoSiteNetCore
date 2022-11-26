@@ -5,34 +5,18 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PhotoSite.ApiService.Helpers;
-using PhotoSite.WebApi.Options;
 
-namespace PhotoSite.WebApi.Handlers
+namespace PhotoSite.WebApi.Infrastructure.Authorization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class CustomTokenAuthHandler : AuthenticationHandler<CustomTokenAuthOptions>
     {
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="logger"></param>
-        /// <param name="encoder"></param>
-        /// <param name="clock"></param>
         public CustomTokenAuthHandler(IOptionsMonitor<CustomTokenAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
             : base(options, logger, encoder, clock) { }
 
-        /// <summary>
-        /// Handle authenticate async
-        /// </summary>
-        /// <returns>Authenticate result</returns>
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!Request.Headers.ContainsKey(Options.TokenHeaderName))
                 return Task.FromResult(AuthenticateResult.NoResult());
-            //return Task.FromResult(AuthenticateResult.Fail($"Missing Header For Token: {Options.TokenHeaderName}"));
 
             var token = Request.Headers[Options.TokenHeaderName];
 

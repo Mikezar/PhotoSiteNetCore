@@ -14,40 +14,23 @@ using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data;
 using PhotoSite.Data.Base;
-using PhotoSite.WebApi.Handlers;
-using PhotoSite.WebApi.Helpers;
-using PhotoSite.WebApi.Options;
-using Microsoft.Extensions.Options;
+using PhotoSite.WebApi.Infrastructure.Authorization;
+using PhotoSite.WebApi.Infrastructure.Middlewares;
 
 namespace PhotoSite.WebApi
 {
-    /// <summary>
-    /// Startup
-    /// </summary>
     public class Startup
     {
         private readonly IWebHostEnvironment _currentEnvironment;
 
-        /// <summary>
-        /// Startup
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="currentEnvironment"></param>
         public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
         {
             Configuration = configuration;
             _currentEnvironment = currentEnvironment;
         }
 
-        /// <summary>
-        /// Configuration
-        /// </summary>
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// Configure of Services
-        /// </summary>
-        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
@@ -85,10 +68,6 @@ namespace PhotoSite.WebApi
             });
         }
 
-        /// <summary>
-        /// Configure dependencies
-        /// </summary>
-        /// <param name="services"></param>
         public virtual void ConfigureDependencies(IServiceCollection services)
         {
 
@@ -108,9 +87,6 @@ namespace PhotoSite.WebApi
             }
         }
 
-        /// <summary>
-        /// Configure
-        /// </summary>
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

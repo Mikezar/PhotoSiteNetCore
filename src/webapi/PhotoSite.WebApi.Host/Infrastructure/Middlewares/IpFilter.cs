@@ -10,27 +10,15 @@ using PhotoSite.ApiService.Services.Interfaces;
 
 namespace PhotoSite.WebApi.Middlewares
 {
-    /// <summary>
-    /// IP-filter
-    /// </summary>
     public class IpFilter
     {
         private readonly RequestDelegate _next;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="next"></param>
         public IpFilter(RequestDelegate next)
         {
             _next = next;
         }
 
-        /// <summary>
-        /// Invoke
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
             var ipAddress = context.Connection.RemoteIpAddress;
@@ -59,7 +47,6 @@ namespace PhotoSite.WebApi.Middlewares
                     }
                     else if (ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
                     {
-                        // Convert the IpAddress to a BitArray.
                         var ipAddressBits = new BitArray(ipAddress.GetAddressBytes());
                         var blackIpListV6 = await blackListService.GetV6();
                         foreach (var blackIp in blackIpListV6)
@@ -86,7 +73,7 @@ namespace PhotoSite.WebApi.Middlewares
             await _next.Invoke(context);
         }
 
-        private bool CheckInterNetworkV6(BitArray ipAddressBits, BitArray maskAddressBits, int subnetMask)
+        private static bool CheckInterNetworkV6(BitArray ipAddressBits, BitArray maskAddressBits, int subnetMask)
         {
             // Convert the mask address to a BitArray.
             //var maskAddressBits = new BitArray(maskAddress.GetAddressBytes());

@@ -3,25 +3,15 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using PhotoSite.Core.ExtException;
 using System.Net;
 
-namespace PhotoSite.WebApi.Filters
+namespace PhotoSite.WebApi.Infrastructure.Middlewares
 {
-    /// <summary>
-    /// CustomExceptionFilter
-    /// </summary>
     public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
     {
-        /// <summary>
-        /// ctor
-        /// </summary>
         public CustomExceptionFilterAttribute()
         {
             Order = int.MaxValue - 10;
         }
 
-        /// <summary>
-        /// OnException
-        /// </summary>
-        /// <param name="context"></param>
         public override void OnException(ExceptionContext context)
         {
             var statusCode = HttpStatusCode.InternalServerError;

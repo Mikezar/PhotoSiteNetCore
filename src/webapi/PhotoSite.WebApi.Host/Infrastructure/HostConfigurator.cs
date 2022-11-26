@@ -5,21 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using ILogger = Serilog.ILogger;
 
-namespace PhotoSite.WebApi.Configuration
+namespace PhotoSite.WebApi.Infrastructure
 {
-    /// <summary>
-    /// Host configurator
-    /// </summary>
     public static class HostConfigurator
     {
         private static readonly ILogger Logger = new LoggerConfiguration().CreateLogger();
 
-        /// <summary>
-        /// Custom configure application's configuration
-        /// </summary>
-        /// <param name="hostBuilder"></param>
-        /// <param name="basePath"></param>
-        /// <returns></returns>
         public static IWebHostBuilder CustomConfigureAppConfiguration(this IWebHostBuilder hostBuilder, string basePath)
         {
             hostBuilder.ConfigureAppConfiguration((context, config) =>
@@ -33,9 +24,6 @@ namespace PhotoSite.WebApi.Configuration
             return hostBuilder;
         }
 
-        /// <summary>
-        /// Setup exception handlers
-        /// </summary>
         public static void SetupExceptionHandlers()
         {
             // Unhandled exception

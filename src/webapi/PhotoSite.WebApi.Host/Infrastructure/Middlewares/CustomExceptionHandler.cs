@@ -6,27 +6,15 @@ using System.Threading.Tasks;
 
 namespace PhotoSite.WebApi.Middlewares
 {
-    /// <summary>
-    /// Exception Handler Middleware
-    /// </summary>
     public class CustomExceptionHandler
     {
         private readonly RequestDelegate _next;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="next"></param>
         public CustomExceptionHandler(RequestDelegate next)
         {
             _next = next;
         }
 
-        /// <summary>
-        /// Invoke
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
             try
@@ -53,5 +41,4 @@ namespace PhotoSite.WebApi.Middlewares
             return context.Response.WriteAsync(result);
         }
     }
-
 }
