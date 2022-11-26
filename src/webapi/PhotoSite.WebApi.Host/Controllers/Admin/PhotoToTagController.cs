@@ -14,7 +14,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [Authorize]
-    public class PhotoToTagController : CustomControllerBase
+    public class PhotoToTagController : ControllerBase
     {
         private readonly IPhotoToTagService _photoToTagService;
         private readonly IMapper _mapper;

@@ -17,6 +17,7 @@ using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Handlers;
 using PhotoSite.WebApi.Helpers;
 using PhotoSite.WebApi.Options;
+using Microsoft.Extensions.Options;
 
 namespace PhotoSite.WebApi
 {
@@ -49,8 +50,6 @@ namespace PhotoSite.WebApi
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var path = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}");
-
             services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
 
             services.AddAuthentication(CustomTokenAuthOptions.DefaultSchemeName)
@@ -76,12 +75,14 @@ namespace PhotoSite.WebApi
             services.AddControllers();
             services.AddHealthChecks();
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddSwaggerGen();
             services.ConfigureSwagger(() => new OpenApiInfo
             {
                 Version = "v1",
                 Title = "Photosite API",
                 Description = "ASP.NET Core Web API"
-            }, $"{path}.xml");
+            });
         }
 
         /// <summary>

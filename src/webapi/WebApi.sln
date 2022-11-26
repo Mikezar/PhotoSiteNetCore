@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30104.148
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoSite.WebApi.Host", "PhotoSite.WebApi.Host\PhotoSite.WebApi.Host.csproj", "{4CAB884D-71BA-4817-AC3D-C83D2F080B83}"
 EndProject
@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoSite.Shared", "PhotoSi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoSite.WebApi.Host.IntegrationTests", "PhotoSite.WebApi.Host.IntegrationTests\PhotoSite.WebApi.Host.IntegrationTests.csproj", "{5FB54B17-F669-468C-A257-68878B90B823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSite.Core.Common", "PhotoSite.Core.Common\PhotoSite.Core.Common.csproj", "{59F4780E-FB06-4B16-99E9-C1A480C52BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoSite.Core.Common", "PhotoSite.Core.Common\PhotoSite.Core.Common.csproj", "{59F4780E-FB06-4B16-99E9-C1A480C52BCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72E7AEAE-F2F5-43F7-8F15-932291932311}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

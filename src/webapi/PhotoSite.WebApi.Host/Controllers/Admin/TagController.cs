@@ -15,7 +15,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// Tags
     /// </summary>
     [Route("api/[controller]")]
-    public class TagController : CustomControllerBase
+    public class TagController : ControllerBase
     {
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;

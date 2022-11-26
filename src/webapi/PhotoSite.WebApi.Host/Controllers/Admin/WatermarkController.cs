@@ -14,7 +14,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Authorize]
     [Route("api/wm")]
-    public class WatermarkController : CustomControllerBase
+    public class WatermarkController : ControllerBase
     {
         private readonly IWatermarkService _watermarkService;
         private readonly IMapper _mapper;

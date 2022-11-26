@@ -6,7 +6,7 @@ namespace PhotoSite.WebApi.Infrastructure
 {
     internal static class SwaggerExtensions
     {
-        public static IServiceCollection ConfigureSwagger(this IServiceCollection services, Func<OpenApiInfo> openFunc, string xmlPath)
+        public static IServiceCollection ConfigureSwagger(this IServiceCollection services, Func<OpenApiInfo> openFunc)
         {
             services.AddSwaggerGen(c =>
             {
@@ -29,11 +29,10 @@ namespace PhotoSite.WebApi.Infrastructure
                     { securityScheme, new[] { "Bearer" } }
                 };
 
-                //c.DescribeAllEnumsAsStrings(); // TODO: Obsolete! Change to actually
                 c.SwaggerDoc("v1", openFunc());
                 c.AddSecurityDefinition("Bearer", securityScheme);
                 c.AddSecurityRequirement(securityRequirement);
-                c.IncludeXmlComments(xmlPath);
+                c.EnableAnnotations();
             });
 
             return services;

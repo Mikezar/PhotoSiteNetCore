@@ -9,12 +9,10 @@ using PhotoSite.WebApi.Common;
 
 namespace PhotoSite.WebApi.Controllers
 {
-    /// <summary>
-    /// Gallery
-    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumController : CustomControllerBase
+    public class AlbumController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IAlbumService _albumService;

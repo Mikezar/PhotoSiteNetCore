@@ -15,7 +15,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/[controller]")]
     [Authorize]
-    public class BlackIpController : CustomControllerBase
+    public class BlackIpController : ControllerBase
     {
         private readonly IBlackIpService _service;
         private readonly IMapper _mapper;

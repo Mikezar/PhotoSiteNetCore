@@ -6,12 +6,10 @@ using PhotoSite.WebApi.Photo;
 
 namespace PhotoSite.WebApi.Controllers
 {
-    /// <summary>
-    /// Photos
-    /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PhotoController : CustomControllerBase
+    public class PhotoController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;

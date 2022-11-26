@@ -13,7 +13,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
     /// </summary>
     [Route("api/adj")]
     [Authorize]
-    public class ConfigParamController : CustomControllerBase
+    public class ConfigParamController : ControllerBase
     {
         private readonly IConfigParamService _settingService;
         private readonly IMapper _mapper;
