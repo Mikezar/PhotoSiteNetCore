@@ -9,10 +9,5 @@ namespace PhotoSite.WebApi.Infrastructure.Middlewares
         {
             return builder.UseMiddleware<IpFilter>();
         }
-
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<CustomExceptionHandler>();
-        }
     }
 }

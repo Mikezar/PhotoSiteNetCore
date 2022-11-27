@@ -8,29 +8,21 @@ using PhotoSite.WebApi.Admin;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// Settings
-    /// </summary>
+    [Produces("application/json")]
     [Route("api/adj")]
+    [ApiController]
     [Authorize]
     public class ConfigParamController : ControllerBase
     {
         private readonly IConfigParamService _settingService;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public ConfigParamController(IConfigParamService settingService, IMapper mapper)
         {
             _settingService = settingService;
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Get default settings
-        /// </summary>
-        /// <returns>Default settings</returns>
         [HttpGet("default")]
         public ConfigParamDto GetDefaultSettings()
         {
@@ -38,10 +30,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<ConfigParamDto>(result);
         }
 
-        /// <summary>
-        /// Get settings
-        /// </summary>
-        /// <returns>Settings</returns>
         [HttpGet("settings")]
         public async Task<ConfigParamDto> GetSettings()
         {
@@ -49,10 +37,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<ConfigParamDto>(result);
         }
 
-        /// <summary>
-        /// Set settings
-        /// </summary>
-        /// <returns>Settings</returns>
         [HttpPost("settings")]
         public async Task SetSettings([FromBody] ConfigParamDto settingsDto)
         {

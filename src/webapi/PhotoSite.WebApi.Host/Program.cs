@@ -4,15 +4,15 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System.IO;
 using PhotoSite.WebApi.Infrastructure;
+using System.Threading.Tasks;
 
 namespace PhotoSite.WebApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            HostConfigurator.SetupExceptionHandlers();
-            CreateHostBuilder(args).Build().Run();
+            await CreateHostBuilder(args).Build().RunAsync();
         }
 
         public static IWebHostBuilder CreateHostBuilder(string[] args) =>

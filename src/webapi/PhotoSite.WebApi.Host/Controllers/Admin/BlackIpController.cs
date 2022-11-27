@@ -10,41 +10,28 @@ using PhotoSite.WebApi.Common;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// Black ip
-    /// </summary>
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/blackIps")]
+    [ApiController]
     [Authorize]
     public class BlackIpController : ControllerBase
     {
         private readonly IBlackIpService _service;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public BlackIpController(IBlackIpService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
         }
         
-        /// <summary>
-        /// Get all black IP's
-        /// </summary>
-        /// <returns>All IP's</returns>
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<BlackIpDto[]> All()
         {
             var result = await _service.GetAll();
             return _mapper.Map<BlackIpDto[]>(result);
         }
 
-        /// <summary>
-        /// Add new black IP
-        /// </summary>
-        /// <param name="blackIp">Black IP</param>
-        /// <returns>Identification new black IP</returns>
         [HttpPost]
         public async Task<IdResultDto> Create([FromBody] BlackIpDto? blackIp)
         {
@@ -54,10 +41,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<IdResultDto>(result);
         }
 
-        /// <summary>
-        /// Update black IP
-        /// </summary>
-        /// <param name="blackIp">Black IP</param>
         [HttpPut]
         public async Task Update([FromBody] BlackIpDto? blackIp)
         {
@@ -66,11 +49,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             await _service.Update(value);
         }
 
-        /// <summary>
-        /// Delete black IP
-        /// </summary>
-        /// <param name="id">Black IP identification</param>
-        /// <returns>Result</returns>
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

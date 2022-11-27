@@ -7,16 +7,13 @@ using PhotoSite.WebApi.Photo;
 namespace PhotoSite.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/photos")]
     [ApiController]
     public class PhotoController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public PhotoController(
             IMapper mapper,
             IPhotoService photoService)
@@ -25,12 +22,8 @@ namespace PhotoSite.WebApi.Controllers
             _photoService = photoService;
         }
 
-        /// <summary>
-        /// Get entity by photo's id
-        /// </summary>
-        /// <returns>All tags</returns>
-        [HttpGet("get")]
-        public async Task<PhotoDto?> Get([FromQuery] int id)
+        [HttpGet("{id:int}")]
+        public async Task<PhotoDto?> Get(int id)
         {
             var result = await _photoService.Get(id);
             return _mapper.Map<PhotoDto?>(result);

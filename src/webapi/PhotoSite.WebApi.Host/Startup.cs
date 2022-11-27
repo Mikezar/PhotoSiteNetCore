@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,9 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PhotoSite.WebApi.Infrastructure;
-using System;
-using System.IO;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.ApiService;
 using PhotoSite.ApiService.Data.Admin;
@@ -43,16 +39,15 @@ namespace PhotoSite.WebApi
                     }
                 );
 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add<CustomExceptionFilterAttribute>();
-            //});
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<CustomExceptionFilterAttribute>();
+            });
 
             services.AddMemoryCache();
             services.AddRepositories();
             services.AddCaches();
             services.AddApiServices();
-            ConfigureDependencies(services);
             AddDb(services);
 
             services.AddControllers();
@@ -66,11 +61,6 @@ namespace PhotoSite.WebApi
                 Title = "Photosite API",
                 Description = "ASP.NET Core Web API"
             });
-        }
-
-        public virtual void ConfigureDependencies(IServiceCollection services)
-        {
-
         }
 
         private void AddDb(IServiceCollection services)
@@ -92,12 +82,7 @@ namespace PhotoSite.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseExceptionHandler("/error-development");
             }
-            //else
-            //{
-            //    app.UseExceptionHandler("/error");
-            //}
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -107,8 +92,6 @@ namespace PhotoSite.WebApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseCustomExceptionHandler();
             app.UseIpFilter();
 
             app.UseAuthentication();

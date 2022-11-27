@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using PhotoSite.Core.ExtException;
 using System.Net;
 
@@ -7,15 +8,17 @@ namespace PhotoSite.WebApi.Infrastructure.Middlewares
 {
     public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
     {
-        public CustomExceptionFilterAttribute()
+        private readonly ILogger<CustomExceptionFilterAttribute> _logger;
+
+        public CustomExceptionFilterAttribute(ILogger<CustomExceptionFilterAttribute> logger)
         {
-            Order = int.MaxValue - 10;
+            _logger = logger;
         }
 
         public override void OnException(ExceptionContext context)
         {
             var statusCode = HttpStatusCode.InternalServerError;
-            var message = "";
+            var message = string.Empty;
 
             if (context.Exception is UserException userException)
             {
@@ -23,10 +26,19 @@ namespace PhotoSite.WebApi.Infrastructure.Middlewares
                 statusCode = HttpStatusCode.BadRequest;
             }
 
-            context.Result = new ObjectResult(message)
+            var problemDetails = new ValidationProblemDetails()
             {
-                StatusCode = (int)statusCode
+                Status = (int)statusCode,
+                Title = statusCode.ToString(),
+                Detail = message
             };
+
+            context.Result = new ObjectResult(problemDetails)
+            {
+                StatusCode = (int)statusCode,
+            };
+
+            _logger.LogError(context.Exception, context.Exception.Message);
             context.ExceptionHandled = true;
         }
     }

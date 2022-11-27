@@ -8,19 +8,15 @@ using PhotoSite.WebApi.Infrastructure.Authorization;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// Admin
-    /// </summary>
+    [Produces("application/json")]
     [Route("api/ad")]
+    [ApiController]
     public class AdminController : ControllerBase
     {
         private readonly IOptionsMonitor<CustomTokenAuthOptions> _options;
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public AdminController(IOptionsMonitor<CustomTokenAuthOptions> options, IAdminService adminService, IMapper mapper)
         {
             _options = options;
@@ -28,11 +24,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Login
-        /// </summary>
-        /// <param name="dto"><see cref="LoginDto"/></param>
-        /// <returns>Login state</returns>
         [HttpPost("login")]
         public LoginStateDto Login([FromBody]LoginDto dto)
         {
@@ -40,9 +31,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<LoginStateDto>(result);
         }
 
-        /// <summary>
-        /// Logout
-        /// </summary>
         [HttpPost("logout")]
         [Authorize]
         public void Logout()

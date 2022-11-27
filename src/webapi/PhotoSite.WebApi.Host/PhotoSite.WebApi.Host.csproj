@@ -8,21 +8,16 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-
   </PropertyGroup>
+	
   <PropertyGroup>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
-
-
-
     <EmbeddedResource Remove="Logs\**" />
-
     <None Remove="Logs\**" />
-
   </ItemGroup>
 
   <ItemGroup>

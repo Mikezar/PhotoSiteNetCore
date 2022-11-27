@@ -9,29 +9,21 @@ using PhotoSite.WebApi.Photo;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// Photo's tags
-    /// </summary>
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/photoToTag")]
+    [ApiController]
     [Authorize]
     public class PhotoToTagController : ControllerBase
     {
         private readonly IPhotoToTagService _photoToTagService;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public PhotoToTagController(IPhotoToTagService photoToTagService, IMapper mapper)
         {
             _photoToTagService = photoToTagService;
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Get entities by photo's id
-        /// </summary>
-        /// <returns>All tags</returns>
         [HttpGet("byphoto/{photoId:int}")]
         public async Task<PhotoToTagDto[]> GetByPhotoId(int photoId)
         {
@@ -39,10 +31,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<PhotoToTagDto[]>(result);
         }
 
-        /// <summary>
-        /// Get tag's ids not in photo
-        /// </summary>
-        /// <returns>All tags</returns>
         [HttpGet("notbyphoto/{photoId:int}")]
         public async Task<IdResultDto[]> GetNotExistsInPhoto(int photoId)
         {
@@ -50,9 +38,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return result.Select(t => new IdResultDto() {Id = t}).ToArray();
         }
 
-        /// <summary>
-        /// Bind tags to photo
-        /// </summary>
         [HttpPost("bindtagphoto")]
         public async Task BindTagsToPhoto(PhotoTagsDto photoTags)
         {

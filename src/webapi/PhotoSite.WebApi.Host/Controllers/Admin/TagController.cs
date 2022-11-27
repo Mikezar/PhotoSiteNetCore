@@ -11,30 +11,21 @@ using PhotoSite.WebApi.Photo;
 
 namespace PhotoSite.WebApi.Controllers.Admin
 {
-    /// <summary>
-    /// Tags
-    /// </summary>
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/tags")]
+    [ApiController]
     public class TagController : ControllerBase
     {
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
         public TagController(ITagService tagService, IMapper mapper)
         {
             _tagService = tagService;
             _mapper = mapper;
         }
 
-        // TODO: Add metod GetPopular
 
-        /// <summary>
-        /// Get all tags
-        /// </summary>
-        /// <returns>All extension tags</returns>
         [HttpGet("ext-all")]
         public async Task<List<TagExtensionDto>> GetExtAll()
         {
@@ -42,10 +33,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<List<TagExtensionDto>>(result);
         }
 
-        /// <summary>
-        /// Get all tags
-        /// </summary>
-        /// <returns>All tags</returns>
         [HttpGet("all")]
         public async Task<List<TagDto>> GetAll()
         {
@@ -53,10 +40,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<List<TagDto>>(result);
         }
 
-        /// <summary>
-        /// Update tag
-        /// </summary>
-        /// <param name="tag">Tag</param>
         [HttpPut]
         [Authorize]
         public async Task Update(TagDto? tag)
@@ -67,11 +50,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             await _tagService.Update(value);
         }
 
-        /// <summary>
-        /// Create new tag
-        /// </summary>
-        /// <param name="tag">Tag</param>
-        /// <returns>Identification new tag</returns>
         [HttpPost]
         [Authorize]
         public async Task<IdResultDto> Create(TagDto? tag)
@@ -83,11 +61,6 @@ namespace PhotoSite.WebApi.Controllers.Admin
             return _mapper.Map<IdResultDto>(result);
         }
 
-        /// <summary>
-        /// Delete tag
-        /// </summary>
-        /// <param name="id">Tag identification</param>
-        /// <returns>Result</returns>
         [HttpDelete("{id}")]
         [Authorize]
         public async Task Delete(int id)

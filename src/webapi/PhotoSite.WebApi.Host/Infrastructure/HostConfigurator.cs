@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using ILogger = Serilog.ILogger;
@@ -23,26 +21,5 @@ namespace PhotoSite.WebApi.Infrastructure
 
             return hostBuilder;
         }
-
-        public static void SetupExceptionHandlers()
-        {
-            // Unhandled exception
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-            {
-                Logger.Error(args.ExceptionObject as Exception, "UnhandledException");
-            };
-
-            // Work only by compile to Release
-            TaskScheduler.UnobservedTaskException += (sender, args) =>
-            {
-                args.SetObserved();
-                args.Exception?.Handle(ex =>
-                {
-                    Logger.Error(ex, "UnobservedTaskException");
-                    return true;
-                });
-            };
-        }
-
     }
 }
