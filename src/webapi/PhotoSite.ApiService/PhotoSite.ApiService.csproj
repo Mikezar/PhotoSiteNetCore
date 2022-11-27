@@ -1,18 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <ProjectReference Include="..\PhotoSite.Core.Common\PhotoSite.Core.Common.csproj" />
     <ProjectReference Include="..\PhotoSite.Data\PhotoSite.Data.csproj" />
     <ProjectReference Include="..\PhotoSite.Shared\PhotoSite.Shared.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Filtres\" />
-  </ItemGroup>
-
 </Project>
