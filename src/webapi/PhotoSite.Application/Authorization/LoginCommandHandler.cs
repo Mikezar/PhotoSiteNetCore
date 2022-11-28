@@ -1,22 +1,20 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Options;
 using PhotoSite.Domain.Admin;
 
 namespace PhotoSite.Application.Authorization;
 
 internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, LoginState>
 {
-    private readonly LoginOptions _loginOptions;
+    private readonly IUserAuthentication _userAuthentication;
 
-    public LoginCommandHandler(IOptionsSnapshot<LoginOptions> loginOptions)
+    public LoginCommandHandler(IUserAuthentication userAuthentication)
     {
-        _loginOptions = loginOptions.Value;
+        _userAuthentication = userAuthentication;
     }
 
     public Task<LoginState> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var loginAttempt = new LoginAttempt(request.Login, request.Password);
-        var result = loginAttempt.Login(_loginOptions);
+        var result = _userAuthentication.Login(request.Login, request.Password);
         return Task.FromResult(result);
     }
 }

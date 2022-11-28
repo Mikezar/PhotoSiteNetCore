@@ -12,8 +12,6 @@ using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Infrastructure.Authorization;
 using PhotoSite.WebApi.Infrastructure.Middlewares;
 using PhotoSite.Domain.Admin;
-using MediatR;
-using PhotoSite.Application.Authorization;
 using PhotoSite.Application;
 
 namespace PhotoSite.WebApi

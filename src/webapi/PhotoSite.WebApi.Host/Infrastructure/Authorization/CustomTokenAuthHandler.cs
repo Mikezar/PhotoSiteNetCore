@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -11,8 +10,17 @@ namespace PhotoSite.WebApi.Infrastructure.Authorization
 {
     public class CustomTokenAuthHandler : AuthenticationHandler<CustomTokenAuthOptions>
     {
-        public CustomTokenAuthHandler(IOptionsMonitor<CustomTokenAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
-            : base(options, logger, encoder, clock) { }
+        private readonly ITokenManager _tokenManager;
+
+        public CustomTokenAuthHandler(
+            ITokenManager tokenManager,
+            IOptionsMonitor<CustomTokenAuthOptions> options,
+            ILoggerFactory logger, 
+            UrlEncoder encoder,
+            ISystemClock clock) : base(options, logger, encoder, clock) 
+        {
+            _tokenManager = tokenManager;
+        }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -24,18 +32,9 @@ namespace PhotoSite.WebApi.Infrastructure.Authorization
             if (string.IsNullOrEmpty(token))
                 return Task.FromResult(AuthenticateResult.NoResult());
 
-            var result = false;
-            try
-            {
-                TokenManager.Check(token);
-                result = true;
-            }
-            catch(Exception e)
-            {
-                Logger.LogError(e, e.Message);
-            }
+            var validationResult = _tokenManager.TryValidate(token);
 
-            if (Request.Path.Value != "/api/ad/login" && !result)
+            if (Request.Path.Value != "/api/ad/login" && !validationResult)
                 return Task.FromResult(AuthenticateResult.Fail("Incorrect UserToken"));
 
             var username = "Admin";
