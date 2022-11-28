@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PhotoSite.ApiService.Data;
-using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data.Entities;
+using PhotoSite.Domain.Admin;
 using PhotoSite.WebApi.Admin;
 using PhotoSite.WebApi.Admin.Authorize;
 

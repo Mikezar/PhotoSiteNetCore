@@ -1,4 +1,4 @@
-﻿namespace PhotoSite.ApiService.Data.Admin
+﻿namespace PhotoSite.Domain.Admin
 {
     public enum LoginStatus
     {

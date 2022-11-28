@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSite.Application", "PhotoSite.Application\PhotoSite.Application.csproj", "{638DDA26-16C0-4880-94D0-FE54679DFB6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoSite.Domain", "PhotoSite.Domain\PhotoSite.Domain.csproj", "{F0AFE243-66AD-43DB-ACEC-641CC5332745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{59F4780E-FB06-4B16-99E9-C1A480C52BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59F4780E-FB06-4B16-99E9-C1A480C52BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59F4780E-FB06-4B16-99E9-C1A480C52BCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{638DDA26-16C0-4880-94D0-FE54679DFB6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{638DDA26-16C0-4880-94D0-FE54679DFB6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{638DDA26-16C0-4880-94D0-FE54679DFB6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{638DDA26-16C0-4880-94D0-FE54679DFB6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0AFE243-66AD-43DB-ACEC-641CC5332745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0AFE243-66AD-43DB-ACEC-641CC5332745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0AFE243-66AD-43DB-ACEC-641CC5332745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0AFE243-66AD-43DB-ACEC-641CC5332745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

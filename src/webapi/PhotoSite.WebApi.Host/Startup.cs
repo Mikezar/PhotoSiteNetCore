@@ -7,11 +7,14 @@ using Microsoft.OpenApi.Models;
 using PhotoSite.WebApi.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.ApiService;
-using PhotoSite.ApiService.Data.Admin;
 using PhotoSite.Data;
 using PhotoSite.Data.Base;
 using PhotoSite.WebApi.Infrastructure.Authorization;
 using PhotoSite.WebApi.Infrastructure.Middlewares;
+using PhotoSite.Domain.Admin;
+using MediatR;
+using PhotoSite.Application.Authorization;
+using PhotoSite.Application;
 
 namespace PhotoSite.WebApi
 {
@@ -53,6 +56,7 @@ namespace PhotoSite.WebApi
             services.AddControllers();
             services.AddHealthChecks();
             services.AddAutoMapper(typeof(Startup));
+            services.AddApplicationServices();
 
             services.AddSwaggerGen();
             services.ConfigureSwagger(() => new OpenApiInfo

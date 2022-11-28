@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhotoSite.Application\PhotoSite.Application.csproj" />
+    <ProjectReference Include="..\PhotoSite.Domain\PhotoSite.Domain.csproj" />
     <ProjectReference Include="..\PhotoSite.Shared\PhotoSite.Shared.csproj" />
     <ProjectReference Include="..\PhotoSite.WebApi.Host\PhotoSite.WebApi.Host.csproj" />
   </ItemGroup>

@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using PhotoSite.ApiService.Helpers;
+using PhotoSite.Domain.Admin;
 
 namespace PhotoSite.WebApi.Infrastructure.Authorization
 {
@@ -23,8 +24,19 @@ namespace PhotoSite.WebApi.Infrastructure.Authorization
             if (string.IsNullOrEmpty(token))
                 return Task.FromResult(AuthenticateResult.NoResult());
 
-            if (Request.Path.Value != "/api/ad/login" && !AdminHelper.CheckToken(token))
-                return Task.FromResult(AuthenticateResult.Fail("incorrect UserToken"));
+            var result = false;
+            try
+            {
+                TokenManager.Check(token);
+                result = true;
+            }
+            catch(Exception e)
+            {
+                Logger.LogError(e, e.Message);
+            }
+
+            if (Request.Path.Value != "/api/ad/login" && !result)
+                return Task.FromResult(AuthenticateResult.Fail("Incorrect UserToken"));
 
             var username = "Admin";
             var claims = new[] {
