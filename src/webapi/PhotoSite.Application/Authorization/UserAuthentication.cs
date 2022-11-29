@@ -16,8 +16,8 @@ internal sealed class UserAuthentication : IUserAuthentication
         IOptions<LoginOptions> loginOptions,
         ITokenManager tokenManager)
 	{
-        _login = loginOptions.Value.Login;
-        _password = loginOptions.Value.Password;
+        _login = loginOptions.Value.Login ?? throw new ArgumentNullException(nameof(loginOptions.Value.Login));
+        _password = loginOptions.Value.Password ?? throw new ArgumentNullException(nameof(loginOptions.Value.Password));
         _tokenManager = tokenManager;
     }
 
