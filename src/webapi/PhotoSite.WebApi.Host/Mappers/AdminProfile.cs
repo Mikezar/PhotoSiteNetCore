@@ -11,10 +11,16 @@ namespace PhotoSite.WebApi.Mappers
     {
         public AdminProfile()
         {
-            CreateMap<LoginState, LoginStateDto>();
+            CreateMap<LoginState, LoginStateDto>()
+                .ForMember(m => m.Token,src => src.MapFrom(m => GetToken(m.Token)));
             CreateMap<LoginStatus, LoginStatusDto>();
             CreateMap<Settings, ConfigParamDto>().ReverseMap();
             CreateMap<BlackIp, BlackIpDto>().ReverseMap();
+        }
+
+        private static string? GetToken(Token? token)
+        {
+            return token?.Value;
         }
     }
 }

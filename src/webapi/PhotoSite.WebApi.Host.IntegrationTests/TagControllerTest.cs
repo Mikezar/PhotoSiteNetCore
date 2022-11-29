@@ -9,7 +9,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class TagControllerTest
     {
-        private const string ApiName = "api/tag/";
+        private const string ApiName = "api/tags";
 
         private readonly BaseTestServerFixture _fixture;
 
@@ -28,7 +28,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             var model = new TagDto {Title = TestTitle };
             await _fixture.PostAsync<TagDto, IdResultDto>(client, $"{ApiName}", model);
 
-            var models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}all");
+            var models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}/all");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(TestTitle, models![0].Title);
@@ -36,7 +36,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             model = new TagDto { Id = models[0].Id, Title = UpdateTestTitle };
             await _fixture.PutAsync(client, $"{ApiName}", model);
 
-            models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}all");
+            models = await _fixture.GetAsync<TagDto[]>(client, $"{ApiName}/all");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(UpdateTestTitle, models![0].Title);

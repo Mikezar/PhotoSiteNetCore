@@ -11,7 +11,7 @@ using PhotoSite.WebApi.Common;
 namespace PhotoSite.WebApi.Controllers.Admin
 {
     [Produces("application/json")]
-    [Route("api/blackIps")]
+    [Route("api/blackips")]
     [ApiController]
     [Authorize]
     public class BlackIpController : ControllerBase

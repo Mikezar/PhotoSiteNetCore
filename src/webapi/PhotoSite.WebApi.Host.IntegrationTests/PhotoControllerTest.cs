@@ -6,7 +6,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class PhotoControllerTest
     {
-        internal const string ApiName = "api/photo/";
+        internal const string ApiName = "api/photos";
 
         private readonly BaseTestServerFixture _fixture;
 

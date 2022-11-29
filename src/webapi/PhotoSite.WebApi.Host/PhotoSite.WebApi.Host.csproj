@@ -19,10 +19,6 @@
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="appsettings.Testing.json" />
-  </ItemGroup>
     
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -47,8 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="appsettings.Testing.json">
+    <Content Update="appsettings.Testing.json">
       <Generator></Generator>
-    </None>
+    </Content>
   </ItemGroup>
 </Project>

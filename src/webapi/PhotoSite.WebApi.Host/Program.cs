@@ -5,6 +5,10 @@ using Serilog;
 using System.IO;
 using PhotoSite.WebApi.Infrastructure;
 using System.Threading.Tasks;
+using PhotoSite.ApiService.Base;
+using PhotoSite.Domain.Admin;
+using System.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PhotoSite.WebApi
 {

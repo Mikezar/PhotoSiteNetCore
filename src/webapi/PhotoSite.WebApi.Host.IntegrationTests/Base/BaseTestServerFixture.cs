@@ -45,7 +45,6 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 
         public void Dispose()
         {
-            //Task.Run(async () => await LogoutAdmin()).Wait();
             AdminClient.Dispose();
             TestServer.Dispose();
         }

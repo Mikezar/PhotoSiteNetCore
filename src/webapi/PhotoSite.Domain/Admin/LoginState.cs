@@ -1,6 +1,4 @@
-﻿using static PhotoSite.Domain.Admin.TokenManager;
-
-namespace PhotoSite.Domain.Admin
+﻿namespace PhotoSite.Domain.Admin
 {
     public sealed class LoginState
     {

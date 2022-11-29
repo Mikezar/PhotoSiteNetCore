@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using PhotoSite.WebApi.Common;
 using PhotoSite.WebApi.Host.IntegrationTests.Base;
 using PhotoSite.WebApi.Photo;
 using Xunit;
@@ -9,7 +8,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class WatermarkControllerTest
     {
-        private const string ApiName = "api/wm/";
+        private const string ApiName = "api/watermark";
 
         private readonly BaseTestServerFixture _fixture;
 
@@ -27,14 +26,14 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             var model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = true};
             await _fixture.PostAsync(client, $"{ApiName}", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto/{TestPhotoId}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}/{TestPhotoId}");
             Assert.NotNull(model);
             Assert.True(model!.IsRightSide);
 
             model = new WatermarkDto { PhotoId = TestPhotoId, IsRightSide = false };
             await _fixture.PutAsync(client, $"{ApiName}", model);
 
-            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}byphoto/{TestPhotoId}");
+            model = await _fixture.GetAsync<WatermarkDto>(client, $"{ApiName}/{TestPhotoId}");
             Assert.NotNull(model);
             Assert.False(model!.IsRightSide);
         }
@@ -54,7 +53,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedByPhotoIdTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}byphoto/0");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}/0");
         }
     }
 }

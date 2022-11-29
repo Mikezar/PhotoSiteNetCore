@@ -10,7 +10,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class BlackIpControllerTest
     {
-        private const string ApiName = "api/blackip/";
+        private const string ApiName = "api/blackips";
 
         private readonly BaseTestServerFixture _fixture;
 
@@ -43,19 +43,19 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             client.DefaultRequestHeaders.Add(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName, ipAddressBlack);
 
             // Call open metod
-            var response = await client.GetAsync($"{PhotoControllerTest.ApiName}get?id=0");
+            var response = await client.GetAsync($"{PhotoControllerTest.ApiName}/0");
             Assert.True(response.StatusCode == HttpStatusCode.Forbidden);
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
             client.DefaultRequestHeaders.Add(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName, ipAddressWhite);
 
             // Call open function
-            response = await client.GetAsync($"{PhotoControllerTest.ApiName}get?id=0");
+            response = await client.GetAsync($"{PhotoControllerTest.ApiName}/0");
             Assert.True(response.StatusCode == HttpStatusCode.NoContent);
 
             client.DefaultRequestHeaders.Remove(FakeRemoteIpAddressMiddleware.FakeIpAddressHeaderName);
 
-            response = await adminClient.DeleteAsync($"{ApiName}{resultAddIp!.Id}");
+            response = await adminClient.DeleteAsync($"{ApiName}/{resultAddIp!.Id}");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -74,13 +74,13 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
         [Fact]
         public async Task UserUnauthorizedDeleteTest()
         {
-            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}0");
+            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}/0");
         }
 
         [Fact]
         public async Task UserUnauthorizedGetAllTest()
         {
-            await _fixture.UserUnauthorizedGetTest($"{ApiName}all");
+            await _fixture.UserUnauthorizedGetTest($"{ApiName}");
         }
 
     }

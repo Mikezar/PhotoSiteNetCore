@@ -22,7 +22,7 @@ public class Token
             throw new ObsoleteTokenException();
         }
 
-        if (string.Equals(Value, token, StringComparison.CurrentCultureIgnoreCase))
+        if (!string.Equals(Value, token, StringComparison.CurrentCultureIgnoreCase))
         {
             throw new InvalidTokenException();
         }

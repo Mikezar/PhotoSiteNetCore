@@ -31,7 +31,6 @@ namespace PhotoSite.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<LoginOptions>(Configuration.GetSection(nameof(LoginOptions)));
-
             services.AddAuthentication(CustomTokenAuthOptions.DefaultSchemeName)
                 .AddScheme<CustomTokenAuthOptions, CustomTokenAuthHandler>(
                     CustomTokenAuthOptions.DefaultSchemeName,

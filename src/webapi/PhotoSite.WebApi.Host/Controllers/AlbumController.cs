@@ -32,7 +32,7 @@ namespace PhotoSite.WebApi.Controllers
             return result is null ? null : _mapper.Map<AlbumDto>(result);
         }
 
-        [HttpGet("{id:int}/chidlren")]
+        [HttpGet("{id:int}/children")]
         public async Task<AlbumDto[]?> GetChildren(int id)
         {
             var result = await _albumService.GetChildren(id);

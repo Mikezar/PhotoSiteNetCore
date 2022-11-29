@@ -31,6 +31,7 @@ namespace PhotoSite.WebApi.Controllers.Admin
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<LoginStateDto> Login([FromBody]LoginDto dto, CancellationToken cancellationToken)
         {
             var command = new LoginCommand(dto.Login, dto.Password);

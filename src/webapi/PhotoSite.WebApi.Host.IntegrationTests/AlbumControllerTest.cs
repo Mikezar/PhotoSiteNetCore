@@ -9,7 +9,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
     [Collection("Test collection")]
     public class AlbumControllerTest
     {
-        internal const string ApiName = "api/album/";
+        internal const string ApiName = "api/albums";
 
         private readonly BaseTestServerFixture _fixture;
 
@@ -27,7 +27,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             var model = new AlbumDto { Title = testTitle };
             await _fixture.PostAsync<AlbumDto, IdResultDto>(client, $"{ApiName}", model);
 
-            var models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
+            var models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}/0/children");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(testTitle, models![0].Title);
@@ -35,20 +35,20 @@ namespace PhotoSite.WebApi.Host.IntegrationTests
             model = new AlbumDto { Id = models[0].Id, Title = updateTestTitle };
             await _fixture.PutAsync(client, $"{ApiName}", model);
 
-            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
+            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}/0/children");
             Assert.NotNull(models);
             Assert.Single(models!);
             Assert.Equal(updateTestTitle, models![0].Title);
 
-            await _fixture.DeleteAsync<AlbumDto>(client, $"{ApiName}{model.Id}");
-            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}getchildren/0");
+            await _fixture.DeleteAsync<AlbumDto>(client, $"{ApiName}/{model.Id}");
+            models = await _fixture.GetAsync<AlbumDto[]>(client, $"{ApiName}/0/children");
             Assert.Null(models);
         }
 
         [Fact]
         public async Task UserUnauthorizedDeleteTest()
         {
-            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}0");
+            await _fixture.UserUnauthorizedDeleteTest($"{ApiName}/0");
         }
 
         [Fact]

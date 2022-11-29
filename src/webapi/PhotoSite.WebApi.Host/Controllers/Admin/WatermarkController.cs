@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Core.ExtException;
@@ -9,8 +10,9 @@ using PhotoSite.WebApi.Photo;
 namespace PhotoSite.WebApi.Controllers.Admin
 {
     [Produces("application/json")]
-    [Route("api/watermarks")]
+    [Route("api/watermark")]
     [ApiController]
+    [Authorize]
     public class WatermarkController : ControllerBase
     {
         private readonly IWatermarkService _watermarkService;

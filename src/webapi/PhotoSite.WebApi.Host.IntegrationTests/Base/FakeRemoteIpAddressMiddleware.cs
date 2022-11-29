@@ -11,7 +11,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
 
         public FakeRemoteIpAddressMiddleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -23,7 +23,7 @@ namespace PhotoSite.WebApi.Host.IntegrationTests.Base
                 httpContext.Connection.RemoteIpAddress = fakeIpAddress;
             }
 
-            await this._next(httpContext);
+            await _next(httpContext);
         }
     }
 }
