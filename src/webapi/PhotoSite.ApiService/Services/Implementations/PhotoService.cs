@@ -5,6 +5,7 @@ using PhotoSite.Data.Repositories.Interfaces;
 
 namespace PhotoSite.ApiService.Services.Implementations
 {
+    /// <inheritdoc cref="IPhotoService"/>
     public class PhotoService : IPhotoService
     {
         private readonly IPhotoRepository _photoRepository;
@@ -17,7 +18,7 @@ namespace PhotoSite.ApiService.Services.Implementations
             _photoRepository = photoRepository;
         }
 
-        /// <inheritdoc cref="IPhotoService.Get"/>
+
         public async Task<Photo?> Get(int id)
         {
             return await _photoRepository.Get(id);
