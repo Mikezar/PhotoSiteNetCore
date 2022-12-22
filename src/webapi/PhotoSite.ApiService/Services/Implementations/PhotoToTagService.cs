@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PhotoSite.ApiService.Base;
-using PhotoSite.ApiService.Data.Common;
 using PhotoSite.ApiService.Services.Interfaces;
 using PhotoSite.Data.Base;
 using PhotoSite.Data.Entities;
